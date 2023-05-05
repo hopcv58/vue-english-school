@@ -73,13 +73,35 @@
               <div class="form-group col-md-12">
                 <label for="tags">Tags</label>
                 <b-form-tags
+                  v-if="tagNameList.length > 0"
+                  id="tags-component-select"
                   v-model="selectedTags"
-                  :tags="tags"
                   class="mb-2"
-                  placeholder="Nhập tag, cách nhau bởi dấu phẩy, chấm phẩy hoặc dấu cách"
-                  remove-on-delete
-                  separator=" ,;"
+                  add-on-change
+                  no-outer-focus
                 >
+                  <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
+                    <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
+                      <li v-for="tag in tags" :key="tag" class="list-inline-item">
+                        <b-form-tag
+                          @remove="removeTag(tag)"
+                          :title="tag"
+                          :disabled="disabled"
+                        >{{ tag }}</b-form-tag>
+                      </li>
+                    </ul>
+                    <b-form-select
+                      v-bind="inputAttrs"
+                      v-on="inputHandlers"
+                      :disabled="disabled || availableTags.length === 0"
+                      :options="availableTags"
+                    >
+                      <template #first>
+                        <!-- This is required to prevent bugs with Safari -->
+                        <option disabled value="">Chọn tag</option>
+                      </template>
+                    </b-form-select>
+                  </template>
                 </b-form-tags>
               </div>
             </div>
@@ -94,11 +116,13 @@
 
 <script>
 import axios from 'axios'
-import { BFormTags } from 'bootstrap-vue'
+import { BFormSelect, BFormTag, BFormTags } from 'bootstrap-vue'
 
 export default {
   name: 'questions',
   components: {
+    BFormTag,
+    BFormSelect,
     BFormTags
   },
   data () {
@@ -110,10 +134,19 @@ export default {
       answer4: '',
       correctAnswer: '',
       selectedTags: [],
-      tags: [],
+      tagList: [],
     }
   },
+  computed: {
+    tagNameList () {
+      return this.tagList.map(tag => tag.name)
+    },
+    availableTags () {
+      return this.tagNameList.filter(tag => !this.selectedTags.includes(tag))
+    },
+  },
   async created () {
+    await this.getTags()
     await axios.get('http://localhost:8080/quiz/questions/' + this.$route.params.id)
       .then(res => {
         this.content = res.data.data.content
@@ -122,7 +155,7 @@ export default {
         this.answer3 = res.data.data.answer3
         this.answer4 = res.data.data.answer4
         this.correctAnswer = res.data.data.correctAnswer
-        this.selectedTags = res.data.data.tagList.map(tag => tag.name)
+        this.selectedTags = res.data.data.tagList ? res.data.data.tagList.map(tag => tag.name) : []
       })
       .catch(err => {
         console.log(err)
@@ -130,30 +163,11 @@ export default {
   },
   methods: {
     async storeQuestion() {
-      await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
-        .then(res => {
-          this.tags = res.data.data.items
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      let tagIds = []
 
-      for (let selectedTag of this.selectedTags) {
-        let tag = this.tags.find(tag => tag.name === selectedTag)
-        if (tag) {
-          tagIds.push({ id: tag.id })
-        } else {
-          await axios.post('http://localhost:8080/quiz/tags', {
-            name: selectedTag
-          })
-            .then(res => {
-              tagIds.push({ id: res.data.data.id })
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
+      const tagIds = []
+      for (let tagName of this.selectedTags) {
+        const tag = this.tagList.find(tag => tag.name === tagName)
+        tagIds.push({ id: tag.id })
       }
 
       await axios.put('http://localhost:8080/quiz/questions/' + this.$route.params.id, {
@@ -167,12 +181,24 @@ export default {
         tagList: tagIds
       })
         .then(res => {
-          this.$router.push('/questions')
+          alert('Cập nhật thành công')
         })
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    async getTags () {
+      await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
+        .then(res => {
+          if (res.data.data.items.length === 0) {
+            return
+          }
+          this.tagList = res.data.data.items
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
   }
 }
 </script>

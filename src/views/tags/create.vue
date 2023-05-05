@@ -19,7 +19,7 @@
             <div class="row">
               <div class="col-lg-6">
                 <h1 class="display-3  text-white">
-                  Thêm câu hỏi
+                  Thêm tag
                 </h1>
               </div>
             </div>
@@ -31,56 +31,17 @@
     <section class="section section-lg pt-lg-0 mt--300">
       <div class="py-5 bg-secondary">
         <div class="container">
-          <form @submit.prevent="storeQuestion">
+          <form @submit.prevent="storeTag">
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label for="content">Nội dung câu hỏi</label>
-                <textarea v-model="content" required class="form-control" rows="5"></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="answer1">Đáp án A</label>
-                <textarea v-model="answer1" required class="form-control" rows="2"></textarea>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="answer2">Đáp án B</label>
-                <textarea v-model="answer2" required class="form-control" rows="2"></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="answer3">Đáp án C</label>
-                <textarea v-model="answer3" required class="form-control" rows="2"></textarea>
-              </div>
-              <div class="form-group col-md-6">
-                <label for="answer4">Đáp án D</label>
-                <textarea v-model="answer4" required class="form-control" rows="2"></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="correctAnswer">Đáp án đúng</label>
-                <select v-model="correctAnswer" required class="form-control">
-                  <option value="1">A</option>
-                  <option value="2">B</option>
-                  <option value="3">C</option>
-                  <option value="4">D</option>
-                </select>
+                <label for="content">Nội dung tag</label>
+                <textarea v-model="name" required class="form-control" rows="5"></textarea>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label for="tags">Tags</label>
-                <b-form-tags
-                  v-model="selectedTags"
-                  :tags="tags"
-                  class="mb-2"
-                  placeholder="Nhập tag, cách nhau bởi dấu phẩy, chấm phẩy hoặc dấu cách"
-                  remove-on-delete
-                  separator=" ,;"
-                >
-                </b-form-tags>
+                <label for="content">Mô tả (tuỳ chọn)</label>
+                <textarea v-model="description" class="form-control" rows="5"></textarea>
               </div>
             </div>
             <button type="submit" class="btn btn-success">Thêm</button>
@@ -97,26 +58,21 @@ import axios from 'axios'
 import { BFormTags } from 'bootstrap-vue'
 
 export default {
-  name: 'questions',
+  name: 'tags',
   components: {
     BFormTags
   },
   data () {
     return {
-      content: '',
-      answer1: '',
-      answer2: '',
-      answer3: '',
-      answer4: '',
-      correctAnswer: '',
-      selectedTags: [],
+      name: '',
+      description: '',
       tags: [],
     }
   },
   async created () {
   },
   methods: {
-    async storeQuestion() {
+    async storeTag() {
       await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
         .then(res => {
           this.tags = res.data.data.items
@@ -124,36 +80,20 @@ export default {
         .catch(err => {
           console.log(err)
         })
-      let tagIds = []
 
-      for (let selectedTag of this.selectedTags) {
-        let tag = this.tags.find(tag => tag.name === selectedTag)
-        if (tag) {
-          tagIds.push({ id: tag.id })
-        } else {
-          await axios.post('http://localhost:8080/quiz/tags', {
-            name: selectedTag
-          })
-            .then(res => {
-              tagIds.push({ id: res.data.data.id })
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
+      const existed = this.tags.find(tag => tag.name === this.name)
+
+      if (existed) {
+        alert('Tag đã tồn tại')
+        return
       }
 
-      await axios.post('http://localhost:8080/quiz/questions', {
-        content: this.content,
-        answer1: this.answer1,
-        answer2: this.answer2,
-        answer3: this.answer3,
-        answer4: this.answer4,
-        correctAnswer: this.correctAnswer,
-        tagList: tagIds
+      await axios.post('http://localhost:8080/quiz/tags', {
+        name: this.name,
+        description: this.description
       })
         .then(res => {
-          this.$router.push('/questions')
+          this.$router.push('/tags')
         })
         .catch(err => {
           console.log(err)

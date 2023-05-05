@@ -29,22 +29,22 @@
       <!-- 1st Hero Variation -->
     </div>
     <section class="section section-lg pt-lg-0 mt--300">
-      <div class="container">
+      <div class="col-10 offset-1">
         <div class="row mb-3" style="justify-content: end">
           <router-link to="/questions/create" class="btn btn-success">Thêm câu hỏi</router-link>
         </div>
         <div class="row justify-content-center bg-white">
-          <table v-if="questions" class="table table-striped">
+          <table v-if="questions.length" class="table table-striped">
             <thead>
             <tr>
               <th scope="col">Nội dung</th>
-              <th scope="col">Đáp án A</th>
-              <th scope="col">Đáp án B</th>
-              <th scope="col">Đáp án C</th>
-              <th scope="col">Đáp án D</th>
-              <th scope="col">Đáp án đúng</th>
-              <th scope="col">Tags</th>
-              <th scope="col" style="min-width: 130px">Thao tác</th>
+              <th scope="col" style="width: 120px">A</th>
+              <th scope="col" style="width: 120px">B</th>
+              <th scope="col" style="width: 120px">C</th>
+              <th scope="col" style="width: 120px">D</th>
+              <th scope="col" style="width: 60px">Answer</th>
+              <th scope="col" style="width: 130px">Tags</th>
+              <th scope="col" style="width: 130px">Thao tác</th>
             </tr>
             </thead>
             <tbody>

@@ -36,6 +36,24 @@ export default new Router({
       }
     },
     {
+      path: '/tests/create',
+      name: 'tests.create',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tests/create.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/tests/:id/edit',
+      name: 'tests.edit',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tests/edit.vue'),
+        footer: AppFooter
+      }
+    },
+    {
       path: '/questions',
       name: 'questions',
       components: {
@@ -68,6 +86,24 @@ export default new Router({
       components: {
         header: AppHeader,
         default: TagIndex,
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/tags/create',
+      name: 'tags.create',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tags/create.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/tags/:id/edit',
+      name: 'tags.edit',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tags/edit.vue'),
         footer: AppFooter
       }
     },
