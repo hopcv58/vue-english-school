@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="position-relative">
             <!-- shape Hero -->
             <section class="section-shaped my-0">
@@ -19,28 +18,9 @@
                     <div class="col px-0">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h1 class="display-3  text-white">A beautiful Design System
-                                    <span>completed with examples</span>
+                                <h1 class="display-3  text-white">
+                                  Danh sách đề thi
                                 </h1>
-                                <p class="lead  text-white">The design system comes with four pre-built pages to help
-                                    you get started faster. You can change the text and images and you're good to
-                                    go.</p>
-                                <div class="btn-wrapper">
-                                    <base-button tag="a"
-                                                 href="https://demos.creative-tim.com/argon-design-system/docs/components/alerts.html"
-                                                 class="mb-3 mb-sm-0"
-                                                 type="info"
-                                                 icon="fa fa-code">
-                                        Components
-                                    </base-button>
-                                    <base-button tag="a"
-                                                 href="https://www.creative-tim.com/product/argon-design-system"
-                                                 class="mb-3 mb-sm-0"
-                                                 type="white"
-                                                 icon="ni ni-cloud-download-95">
-                                        Download HTML
-                                    </base-button>
-                                </div>
                             </div>
                         </div>
                     </div>

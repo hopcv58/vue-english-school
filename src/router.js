@@ -2,11 +2,15 @@ import Vue from "vue";
 import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
-import Components from "./views/Components.vue";
-import Landing from "./views/Landing.vue";
+import Home from "./views/Home.vue";
+import Tests from "./views/Tests.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
+import Questions from "@/views/Questions.vue";
+import Tags from "@/views/Tags.vue";
+import EmptyHeader from "@/layout/empty/EmptyHeader.vue";
+import EmptyFooter from "@/layout/empty/EmptyFooter.vue";
 
 Vue.use(Router);
 
@@ -18,16 +22,34 @@ export default new Router({
       name: "components",
       components: {
         header: AppHeader,
-        default: Components,
+        default: Home,
         footer: AppFooter
       }
     },
     {
-      path: "/landing",
-      name: "landing",
+      path: "/tests",
+      name: "tests",
       components: {
         header: AppHeader,
-        default: Landing,
+        default: Tests,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/questions",
+      name: "questions",
+      components: {
+        header: AppHeader,
+        default: Questions,
+        footer: AppFooter
+      }
+    },
+    {
+      path: "/tags",
+      name: "tags",
+      components: {
+        header: AppHeader,
+        default: Tags,
         footer: AppFooter
       }
     },
@@ -35,18 +57,18 @@ export default new Router({
       path: "/login",
       name: "login",
       components: {
-        header: AppHeader,
+        header: EmptyHeader,
         default: Login,
-        footer: AppFooter
+        footer: EmptyFooter
       }
     },
     {
       path: "/register",
       name: "register",
       components: {
-        header: AppHeader,
+        header: EmptyHeader,
         default: Register,
-        footer: AppFooter
+        footer: EmptyFooter
       }
     },
     {
