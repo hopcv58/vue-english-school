@@ -1,15 +1,15 @@
 <template>
   <header class="header-global">
     <base-nav class="navbar-main" transparent type="" effect="light" expand>
-      <router-link slot="brand" class="navbar-brand mr-lg-5" to="/">
-        <img src="img/brand/white.png" alt="logo">
+      <router-link slot="brand" class="navbar-brand mr-lg-5" to="/" style="font-size: 2rem">
+        Quiz Center
       </router-link>
 
       <div class="row" slot="content-header" slot-scope="{closeMenu}">
         <div class="col-6 collapse-brand">
-          <a href="https://demos.creative-tim.com/vue-argon-design-system/documentation/">
-            <img src="img/brand/blue.png">
-          </a>
+          <router-link to="/" style="font-size: 1.4rem">
+              Quiz Center
+          </router-link>
         </div>
         <div class="col-6 collapse-close">
           <close-button @click="closeMenu"></close-button>

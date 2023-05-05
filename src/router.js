@@ -1,25 +1,25 @@
-import Vue from "vue";
-import Router from "vue-router";
-import AppHeader from "./layout/AppHeader";
-import AppFooter from "./layout/AppFooter";
-import Home from "./views/Home.vue";
-import Tests from "./views/Tests.vue";
-import Login from "./views/Login.vue";
-import Register from "./views/Register.vue";
-import Profile from "./views/Profile.vue";
-import Questions from "@/views/Questions.vue";
-import Tags from "@/views/Tags.vue";
-import EmptyHeader from "@/layout/empty/EmptyHeader.vue";
-import EmptyFooter from "@/layout/empty/EmptyFooter.vue";
+import Vue from 'vue'
+import Router from 'vue-router'
+import AppHeader from './layout/AppHeader'
+import AppFooter from './layout/AppFooter'
+import Home from './views/Home.vue'
+import Login from './views/Login.vue'
+import Register from './views/Register.vue'
+import Profile from './views/Profile.vue'
+import QuestionIndex from '@/views/questions/index.vue'
+import TagIndex from '@/views/tags/index.vue'
+import TestIndex from './views/tests/index.vue'
+import EmptyHeader from '@/layout/empty/EmptyHeader.vue'
+import EmptyFooter from '@/layout/empty/EmptyFooter.vue'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
-  linkExactActiveClass: "active",
+  linkExactActiveClass: 'active',
   routes: [
     {
-      path: "/",
-      name: "components",
+      path: '/',
+      name: 'components',
       components: {
         header: AppHeader,
         default: Home,
@@ -27,35 +27,53 @@ export default new Router({
       }
     },
     {
-      path: "/tests",
-      name: "tests",
+      path: '/tests',
+      name: 'tests',
       components: {
         header: AppHeader,
-        default: Tests,
+        default: TestIndex,
         footer: AppFooter
       }
     },
     {
-      path: "/questions",
-      name: "questions",
+      path: '/questions',
+      name: 'questions',
       components: {
         header: AppHeader,
-        default: Questions,
+        default: QuestionIndex,
         footer: AppFooter
       }
     },
     {
-      path: "/tags",
-      name: "tags",
+      path: '/questions/create',
+      name: 'questions.create',
       components: {
         header: AppHeader,
-        default: Tags,
+        default: () => import('@/views/questions/create.vue'),
         footer: AppFooter
       }
     },
     {
-      path: "/login",
-      name: "login",
+      path: '/questions/:id/edit',
+      name: 'questions.edit',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/questions/edit.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/tags',
+      name: 'tags',
+      components: {
+        header: AppHeader,
+        default: TagIndex,
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/login',
+      name: 'login',
       components: {
         header: EmptyHeader,
         default: Login,
@@ -63,8 +81,8 @@ export default new Router({
       }
     },
     {
-      path: "/register",
-      name: "register",
+      path: '/register',
+      name: 'register',
       components: {
         header: EmptyHeader,
         default: Register,
@@ -72,8 +90,8 @@ export default new Router({
       }
     },
     {
-      path: "/profile",
-      name: "profile",
+      path: '/profile',
+      name: 'profile',
       components: {
         header: AppHeader,
         default: Profile,
@@ -83,9 +101,9 @@ export default new Router({
   ],
   scrollBehavior: to => {
     if (to.hash) {
-      return { selector: to.hash };
+      return { selector: to.hash }
     } else {
-      return { x: 0, y: 0 };
+      return { x: 0, y: 0 }
     }
   }
-});
+})

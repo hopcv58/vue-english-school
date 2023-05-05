@@ -1,7 +1,7 @@
 <template>
   <div>
     <hero>
-      Danh sách đề thi
+      Hệ thống quản lý <br> câu hỏi và đề thi
     </hero>
     <section class="section section-lg pt-lg-0 mt--300">
       <div class="container">

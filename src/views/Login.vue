@@ -23,27 +23,27 @@
               </div>
               <form role="form">
                 <base-input
-                    v-model="username"
-                    addon-left-icon="ni ni-email-83"
-                    alternative
-                    class="mb-3"
-                    placeholder="Username">
+                  v-model="username"
+                  addon-left-icon="ni ni-email-83"
+                  alternative
+                  class="mb-3"
+                  placeholder="Username">
                 </base-input>
                 <base-input
-                    v-model="password"
-                    alternative
-                    type="password"
-                    placeholder="Password"
-                    addon-left-icon="ni ni-lock-circle-open">
+                  v-model="password"
+                  alternative
+                  type="password"
+                  placeholder="Password"
+                  addon-left-icon="ni ni-lock-circle-open">
                 </base-input>
                 <base-checkbox>
                   Remember me
                 </base-checkbox>
                 <div class="text-center">
                   <base-button
-                      class="my-4"
-                      type="primary"
-                      @click.prevent="login">
+                    class="my-4"
+                    type="primary"
+                    @click.prevent="login">
                     Sign In
                   </base-button>
                 </div>
@@ -69,19 +69,19 @@
 </template>
 <script>
 export default {
-  name: "login",
-  data() {
+  name: 'login',
+  data () {
     return {
-      username: "",
-      password: ""
-    };
+      username: '',
+      password: ''
+    }
   },
   methods: {
-    login() {
-      this.$router.push({name: "home"});
+    login () {
+      this.$router.push({ name: 'home' })
     }
   }
-};
+}
 </script>
 <style>
 </style>
