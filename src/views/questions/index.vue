@@ -145,7 +145,7 @@ export default {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {
         axios.delete(`http://localhost:8080/quiz/questions/${id}`)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 200 || res.status === 204) {
               alert('Xóa câu hỏi thành công!')
               this.questions = this.questions.filter(question => question.id !== id)
             }

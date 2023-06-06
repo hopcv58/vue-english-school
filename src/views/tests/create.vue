@@ -245,7 +245,7 @@ export default {
         questionList: questionIds
       })
         .then(res => {
-          this.$router.push('/tests/' + res.data.data.id + '/edit')
+          this.$router.push('/tests')
         })
         .catch(err => {
           console.log(err)

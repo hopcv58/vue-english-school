@@ -21,9 +21,9 @@ export default new Router({
       path: '/',
       name: 'components',
       components: {
-        header: AppHeader,
+        header: EmptyHeader,
         default: Home,
-        footer: AppFooter
+        footer: EmptyFooter
       }
     },
     {
