@@ -13,7 +13,7 @@
                 <p>Đăng nhập</p>
               </div>
               <div class="text-center login">
-                <div class="login__boxTitle"><p>Đăng nhập tài khoản học MochiMochi</p></div>
+                <div class="login__boxTitle"><p>Đăng nhập tài khoản QuizChii</p></div>
                 <div class="login__boxInput">
                   <div class="input__group">
                     <input type="text" placeholder="Nhập email tài khoản học"

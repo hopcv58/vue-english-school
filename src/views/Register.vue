@@ -13,7 +13,7 @@
                 <p>Đăng nhập</p>
               </div>
               <div class="text-center login">
-                <div class="login__boxTitle"><p>Đăng nhập tài khoản học MochiMochi</p></div>
+                <div class="login__boxTitle"><p>Đăng nhập tài khoản QuizChii</p></div>
                 <div class="google button__social">
                   <div class="google__box button__social__box">
                     <img

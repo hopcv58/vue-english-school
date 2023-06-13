@@ -7,10 +7,10 @@
           <div class="col-3 _col-1 position-r">
             <div class="logo-menu vertical-center">
               <router-link to="/">
-                <img src="https://learn.mochidemy.com/image/Logo_mochi-01.png" class="w-100 logo-pc">
+                <img src="img/theme/QuizChii_White.PNG" class="w-100 logo-pc">
               </router-link>
               <a class="open-loading" href="https://learn.mochidemy.com">
-                <img src="https://learn.mochidemy.com/image/mochi_no.png" class="w-100 logo-small">
+                <img src="img/theme/mochi_new.PNG" class="w-100 logo-small">
               </a>
             </div>
           </div>
@@ -19,7 +19,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('tests')}">
                 <router-link to="/tests">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/e4dd21e9ad4131ae0908c4612ed53950.png" alt="">
+                    <img src="img/theme/quiz.png" alt="">
                     <p class="mb-0">
                       Quiz
                     </p>
@@ -29,7 +29,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('questions')}">
                 <router-link to="/questions">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/community.png" alt="">
+                    <img src="img/theme/community.png" alt="">
                     <p class="mb-0">
                       Câu hỏi
                     </p>
@@ -39,7 +39,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('tags')}">
                 <router-link to="/tags">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/c0a2da7975636aadc438062308305511.png" alt="">
+                    <img src="img/theme/book.png" alt="">
                     <p class="mb-0">
                       Tag
                     </p>
@@ -49,7 +49,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('examine')}">
                 <router-link to="/statistic">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/0de5e72098e28718ff302f2a5f010ea8.png" alt="">
+                    <img src="img/theme/analysis.png" alt="">
                     <p class="mb-0">
                       Thống kê
                     </p>

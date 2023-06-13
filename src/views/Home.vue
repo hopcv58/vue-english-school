@@ -3,7 +3,7 @@
     <div class="hello" style="height: 100%">
       <div class="container-full" style="padding-top: 250px; height: 100%; position: relative; overflow: hidden">
         <div class="logo" style="position: absolute; top: 30px; left: 30px;">
-          <img src="https://learn.mochidemy.com/image/Logo_white.png" alt="mochimochi" style="height: 50px">
+          <img src="img/theme/QuizChii_Yellow.PNG" alt="mochimochi" style="height: 100px">
         </div>
         <div class="row ">
           <div class="text-start" style="position: relative; min-width:320px; display: inline-flex">
