@@ -19,7 +19,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('tests')}">
                 <router-link to="/tests">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/0de5e72098e28718ff302f2a5f010ea8.png" alt="">
+                    <img src="https://learn.mochidemy.com/image/e4dd21e9ad4131ae0908c4612ed53950.png" alt="">
                     <p class="mb-0">
                       Bài thi
                     </p>
@@ -29,7 +29,7 @@
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('questions')}">
                 <router-link to="/questions">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/e4dd21e9ad4131ae0908c4612ed53950.png" alt="">
+                    <img src="https://learn.mochidemy.com/image/community.png" alt="">
                     <p class="mb-0">
                       Câu hỏi
                     </p>
@@ -47,11 +47,11 @@
                 </router-link>
               </div>
               <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('examine')}">
-                <router-link to="/examine">
+                <router-link to="/statistic">
                   <div class="menu-item-box text-center w-100">
-                    <img src="https://learn.mochidemy.com/image/community.png" alt="">
+                    <img src="https://learn.mochidemy.com/image/0de5e72098e28718ff302f2a5f010ea8.png" alt="">
                     <p class="mb-0">
-                      Thi thử
+                      Thống kê
                     </p>
                   </div>
                 </router-link>

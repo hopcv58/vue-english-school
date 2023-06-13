@@ -8,10 +8,14 @@
         <section class="section section-lg pt-lg-0" style="margin-top: 200px">
           <div class="container">
             <div class="row mb-3" style="justify-content: space-between">
-              <SearchInput></SearchInput>
+              <SearchInput v-model="keyword" @submit="searchByKeyword"></SearchInput>
+              <select v-model="selectedTagId" class="form-control col-3" >
+                <option value="" selected>Chọn tag</option>
+                <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
+              </select>
             </div>
             <div class="row mb-3" style="justify-content: flex-end">
-              <router-link to="/tests/create" class="btn btn-success">Thêm bài kiểm tra</router-link>
+              <router-link to="/tests/create" class="btn btn-success">Thêm bài test</router-link>
             </div>
             <div class="row justify-content-center bg-white">
               <table v-if="tests.length" class="table table-striped">
@@ -19,7 +23,7 @@
                 <tr>
                   <th scope="col">Tên bài kiểm tra</th>
                   <th scope="col">Mô tả</th>
-                  <th scope="col">Thời lượng (phút)</th>
+                  <th scope="col">Thời lượng</th>
                   <th scope="col">Tags</th>
                   <th scope="col" style="min-width: 130px">Thao tác</th>
                 </tr>
@@ -33,7 +37,7 @@
                     {{ shortenContent(test.description) }}
                   </td>
                   <td data-toggle="tooltip" :title="test.availableTime">
-                    {{ shortenContent(test.availableTime) }}
+                    {{ shortenContent(test.availableTime) + ' phút' }}
                   </td>
                   <td>
                     <span v-for="tag in test.tagList" :key="tag.id" class="badge badge-primary">{{ tag.name }}</span>
@@ -66,9 +70,11 @@
 
 <script>
 import axios from 'axios'
+import ButtonSubmitSuccess from "@/components/ButtonSubmitSuccess.vue";
 
 export default {
   name: 'tests',
+  components: {ButtonSubmitSuccess},
   data() {
     return {
       tests: [],
@@ -78,19 +84,28 @@ export default {
       sortName: this.$route.query.sortName || 'id',
       keyword: this.$route.query.keyword || '',
       totalPage: 0,
-      total: 0
+      total: 0,
+      selectedTagId: "",
+      tagList: [],
     }
   },
   async created () {
     await axios.get(`http://localhost:8080/quiz/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
-      .then(res => {
-        this.tests = res.data.data.items
-        this.totalPage = res.data.data.totalPage
-        this.total = res.data.data.totalElements
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(res => {
+          this.tests = res.data.data.items
+          this.totalPage = res.data.data.totalPage
+          this.total = res.data.data.totalElements
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
+        .then(res => {
+          this.tagList = res.data.data.items
+        })
+        .catch(err => {
+          console.log(err)
+        })
   },
   methods: {
     shortenContent (content) {
@@ -98,6 +113,9 @@ export default {
         return content.substring(0, 30) + '...'
       }
       return content
+    },
+    searchByKeyword () {
+      console.log(this.selectedTagId, this.keyword)
     },
     deleteTest (id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {

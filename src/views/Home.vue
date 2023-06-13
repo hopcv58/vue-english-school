@@ -17,7 +17,7 @@
                 <button class="btn-submit-success" id="btn-start" @click="redirectToTests">Bắt đầu ngay</button>
               </div>
               <div class="div-submit-white" style="width: 320px">
-                <button class="btn-submit-white" id="btn-has-account" style="width: 320px" @click="openLoginPopup">Mình đã có tài khoản</button>
+                <button class="btn-submit-white" id="btn-has-account" style="width: 320px" @click="redirectToLogin">Mình đã có tài khoản</button>
               </div>
             </div>
           </div>
@@ -42,7 +42,8 @@ export default {
 
   },
   methods: {
-    openLoginPopup() {
+    redirectToLogin() {
+      this.$router.push('/login')
     },
     redirectToTests() {
       this.$router.push('/tests')

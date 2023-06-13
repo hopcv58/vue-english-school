@@ -1,7 +1,9 @@
 <template>
   <div style="position: relative; width: 60%">
-    <input class="input-search" name="key" id="key_search" autocomplete="off" placeholder="Gõ vào đây để tìm kiếm">
-    <div class="position-a image-search">
+    <input id="key_search" :value="value" autocomplete="off" class="input-search" name="key"
+           placeholder="Gõ vào đây để tìm kiếm"
+           @input="$emit('input', $event.target.value)">
+    <div class="position-a image-search" @click="$emit('submit', $event.target.value)">
       <img src="https://learn.mochidemy.com/svg/search.svg" class="w-100">
     </div>
   </div>
@@ -9,5 +11,6 @@
 <script>
 export default {
   name: "SearchInput",
+  props: ['value'],
 };
 </script>

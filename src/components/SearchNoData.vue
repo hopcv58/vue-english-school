@@ -4,7 +4,9 @@
       <img src="https://learn.mochidemy.com/image/2d91da53346559194e2f37374c65cadc.png" style="width: 200px">
       <div class="mt-3">
         <p style="font-weight: bold; font-size: 15px; width: 70%; margin-left: 15%">
-          Mochi không tìm được từ này trong danh sách từ đã ôn của bạn. Bạn thử tìm từ khác nha.
+          <slot>
+            {{ defaultText }}
+          </slot>
         </p>
       </div>
     </div>
@@ -13,5 +15,10 @@
 <script>
 export default {
   name: "SearchNoData",
+  data() {
+    return {
+      defaultText: "Mochi không tìm được kết quả nào. Bạn thử tìm bằng từ khoá khác nhé. Hoặc bạn có thể liên hệ với Mochi để được hỗ trợ.",
+    };
+  },
 };
 </script>
