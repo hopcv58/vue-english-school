@@ -135,7 +135,7 @@ export default {
         tagIds.push({id: tag.id})
       }
 
-      await axios.post('http://localhost:8080/quiz/questions', {
+      await axios.post('http://localhost:8080/api/quiz/questions', {
         content: this.content,
         answer1: this.answer1,
         answer2: this.answer2,
@@ -152,7 +152,7 @@ export default {
           })
     },
     async getTags() {
-      await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
+      await axios.get('http://localhost:8080/api/quiz/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tagList = res.data.data.items
           })

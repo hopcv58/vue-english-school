@@ -48,7 +48,7 @@ export default {
     }
   },
   async created() {
-    await axios.get('http://localhost:8080/quiz/tags/' + this.$route.params.id)
+    await axios.get('http://localhost:8080/api/quiz/tags/' + this.$route.params.id)
         .then(res => {
           this.name = res.data.data.name
           this.description = res.data.data.description
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async storeTag() {
-      await axios.put('http://localhost:8080/quiz/tags/' + this.$route.params.id, {
+      await axios.put('http://localhost:8080/api/quiz/tags/' + this.$route.params.id, {
         name: this.name,
         description: this.description
       })

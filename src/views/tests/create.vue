@@ -214,7 +214,7 @@ export default {
         tagIds.push({id: tag.id})
       }
 
-      await axios.post('http://localhost:8080/quiz/tests', {
+      await axios.post('http://localhost:8080/api/quiz/tests', {
         name: this.name,
         description: this.description,
         availableTime: this.availableTime,
@@ -233,7 +233,7 @@ export default {
         this.addQuestionModal.questions = []
         return
       }
-      await axios.get('http://localhost:8080/quiz/questions?pageSize=100000&pageNo=0&tagId=' + this.addQuestionModal.selectingTagId)
+      await axios.get('http://localhost:8080/api/quiz/questions?pageSize=100000&pageNo=0&tagId=' + this.addQuestionModal.selectingTagId)
           .then(res => {
             this.addQuestionModal.questions = res.data.data.items
           })
@@ -242,7 +242,7 @@ export default {
           })
     },
     async getTags() {
-      await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
+      await axios.get('http://localhost:8080/api/quiz/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tagList = res.data.data.items
           })
@@ -251,7 +251,7 @@ export default {
           })
     },
     async getQuestions() {
-      await axios.get('http://localhost:8080/quiz/questions?pageSize=100000&pageNo=0')
+      await axios.get('http://localhost:8080/api/quiz/questions?pageSize=100000&pageNo=0')
           .then(res => {
             this.questions = res.data.data.items
           })

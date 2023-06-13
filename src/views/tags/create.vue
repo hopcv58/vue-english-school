@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     async storeTag() {
-      await axios.get('http://localhost:8080/quiz/tags?pageSize=100000&pageNo=0')
+      await axios.get('http://localhost:8080/api/quiz/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tags = res.data.data.items
           })
@@ -66,7 +66,7 @@ export default {
         return
       }
 
-      await axios.post('http://localhost:8080/quiz/tags', {
+      await axios.post('http://localhost:8080/api/quiz/tags', {
         name: this.name,
         description: this.description
       })
