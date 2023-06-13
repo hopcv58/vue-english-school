@@ -126,7 +126,7 @@ export default {
   },
   async created() {
     await this.getTags()
-    await axios.get('http://localhost:8080/api/quiz/questions/' + this.$route.params.id)
+    await axios.get('http://localhost:8080/quiz/api/questions/' + this.$route.params.id)
         .then(res => {
           this.content = res.data.data.content
           this.answer1 = res.data.data.answer1
@@ -149,7 +149,7 @@ export default {
         tagIds.push({id: tag.id})
       }
 
-      await axios.put('http://localhost:8080/api/quiz/questions/' + this.$route.params.id, {
+      await axios.put('http://localhost:8080/quiz/api/questions/' + this.$route.params.id, {
         id: this.$route.params.id,
         content: this.content,
         answer1: this.answer1,
@@ -167,7 +167,7 @@ export default {
           })
     },
     async getTags() {
-      await axios.get('http://localhost:8080/api/quiz/tags?pageSize=100000&pageNo=0')
+      await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
           .then(res => {
             if (res.data.data.items.length === 0) {
               return

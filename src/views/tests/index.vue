@@ -90,7 +90,7 @@ export default {
     }
   },
   async created () {
-    await axios.get(`http://localhost:8080/api/quiz/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
+    await axios.get(`http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.tests = res.data.data.items
           this.totalPage = res.data.data.totalPage
@@ -99,7 +99,7 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    await axios.get('http://localhost:8080/api/quiz/tags?pageSize=100000&pageNo=0')
+    await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
         .then(res => {
           this.tagList = res.data.data.items
         })
@@ -119,7 +119,7 @@ export default {
     },
     deleteTest (id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {
-        axios.delete(`http://localhost:8080/api/quiz/tests/${id}`)
+        axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
           .then(res => {
             if (res.status === 200) {
               alert('Xóa bài kiểm tra thành công!')

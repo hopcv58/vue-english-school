@@ -96,7 +96,7 @@ export default {
     }
   },
   async created () {
-    await axios.get(`http://localhost:8080/api/quiz/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
+    await axios.get(`http://localhost:8080/quiz/api/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
       .then(res => {
         this.questions = res.data.data.items
         this.totalPage = res.data.data.totalPage
@@ -127,7 +127,7 @@ export default {
     },
     deleteQuestion (id) {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {
-        axios.delete(`http://localhost:8080/api/quiz/questions/${id}`)
+        axios.delete(`http://localhost:8080/quiz/api/questions/${id}`)
           .then(res => {
             if (res.status === 200 || res.status === 204) {
               alert('Xóa câu hỏi thành công!')

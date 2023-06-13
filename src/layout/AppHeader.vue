@@ -21,7 +21,7 @@
                   <div class="menu-item-box text-center w-100">
                     <img src="https://learn.mochidemy.com/image/e4dd21e9ad4131ae0908c4612ed53950.png" alt="">
                     <p class="mb-0">
-                      Bài thi
+                      Quiz
                     </p>
                   </div>
                 </router-link>
@@ -41,7 +41,7 @@
                   <div class="menu-item-box text-center w-100">
                     <img src="https://learn.mochidemy.com/image/c0a2da7975636aadc438062308305511.png" alt="">
                     <p class="mb-0">
-                      Thẻ
+                      Tag
                     </p>
                   </div>
                 </router-link>

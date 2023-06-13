@@ -11,7 +11,7 @@
                  style="height: 140%; margin: 0 0 -5vw 25vw;">
             <div id="choose-start" style="align-self: center">
               <p id="memorize-title" style="color: rgba(91, 45, 17, 1); font-weight: bold; margin-bottom: 20px">
-                Học tiếng Anh cùng Mochi
+                Học tiếng Anh cùng QuizChii
               </p>
               <div class="div-submit-success mb-3">
                 <button class="btn-submit-success" id="btn-start" @click="redirectToTests">Bắt đầu ngay</button>

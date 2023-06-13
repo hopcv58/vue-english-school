@@ -75,7 +75,7 @@ export default {
     }
   },
   async created() {
-    await axios.get(`http://localhost:8080/api/quiz/tags?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
+    await axios.get(`http://localhost:8080/quiz/api/tags?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.tags = res.data.data.items
           this.totalPage = res.data.data.totalPage
@@ -95,7 +95,7 @@ export default {
     },
     deleteTag(id) {
       if (confirm('Bạn có chắc chắn muốn xóa tag này?')) {
-        axios.delete(`http://localhost:8080/api/quiz/tags/${id}`)
+        axios.delete(`http://localhost:8080/quiz/api/tags/${id}`)
             .then(res => {
               alert('Xóa tag thành công!')
               this.tags = this.tags.filter(tag => tag.id !== id)

@@ -17,7 +17,7 @@ export default {
   name: "SearchNoData",
   data() {
     return {
-      defaultText: "Mochi không tìm được kết quả nào. Bạn thử tìm bằng từ khoá khác nhé. Hoặc bạn có thể liên hệ với Mochi để được hỗ trợ.",
+      defaultText: "QuizChii không tìm được kết quả nào. Bạn thử tìm bằng từ khoá khác nhé. Hoặc bạn có thể liên hệ với QuizChii để được hỗ trợ.",
     };
   },
 };
