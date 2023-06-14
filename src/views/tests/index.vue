@@ -14,7 +14,7 @@
                 <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
               </select>
             </div>
-            <div class="row mb-3" style="justify-content: flex-end">
+            <div v-if="store.user" class="row mb-3" style="justify-content: flex-end">
               <router-link to="/tests/create" class="btn btn-success">Thêm bài test</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -25,7 +25,8 @@
                   <th scope="col">Mô tả</th>
                   <th scope="col">Thời lượng</th>
                   <th scope="col">Tags</th>
-                  <th scope="col" style="min-width: 130px">Thao tác</th>
+                  <th v-if="store.user" scope="col" style="min-width: 130px">Thao tác</th>
+                  <th v-else scope="col">Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,12 +43,21 @@
                   <td>
                     <span v-for="tag in test.tagList" :key="tag.id" class="badge badge-primary">{{ tag.name }}</span>
                   </td>
-                  <td>
-                    <router-link
-                        :to="{ name: 'tests.edit', params: { id: test.id } }"
-                        class="btn btn-sm btn-primary">Sửa
-                    </router-link>
-                    <button class="btn btn-sm btn-danger" @click="deleteTest(test.id)">Xóa</button>
+                  <td style="display: flex; justify-content: center">
+                    <template v-if="store.user">
+                      <button class="btn btn-sm btn-success">Thi</button>
+                      <router-link
+                          :to="{ name: 'tests.edit', params: { id: test.id } }"
+                          class="btn btn-sm btn-primary">Sửa
+                      </router-link>
+                      <button class="btn btn-sm btn-danger" @click="deleteTest(test.id)">Xóa</button>
+                    </template>
+                    <template v-else>
+                      <router-link
+                          :to="{ name: 'tests.detail', params: { id: test.id } }"
+                          class="btn btn-sm btn-primary">Xem
+                      </router-link>
+                    </template>
                   </td>
                 </tr>
                 </tbody>
@@ -67,6 +77,7 @@
 
 <script>
 import axios from 'axios'
+import {store} from "@/store";
 import ButtonSubmitSuccess from "@/components/ButtonSubmitSuccess.vue";
 
 export default {
@@ -74,6 +85,7 @@ export default {
   components: {ButtonSubmitSuccess},
   data() {
     return {
+      store,
       tests: [],
       pageNo: this.$route.query.page || 1,
       pageSize: this.$route.query.size || 10000,

@@ -61,8 +61,8 @@
           <div class="col-3 _col-3 position-r">
             <div class="position-a vertical-center" style="right: 60px;">
               <div class="menu-user-name">
-                <span class="text-user-name" style="color: #FFCB08" v-if="user">
-                  {{ user.name }}
+                <span v-if="store.user" class="text-user-name" style="color: #FFCB08">
+                  {{ store.user.username }}
                 </span>
                 <span class="text-user-name" style="color: #FFCB08" v-else>
                   Guest
@@ -71,32 +71,45 @@
               <div class="menu-avatar"
                    style="background: url(https://learn.mochidemy.com/image/0c0722e80c76ce7315418a18480e28d8.png); background-size: cover;">
               </div>
-              <div class="position-a icon-menu-dropdown-open">
-                <img src="https://learn.mochidemy.com/svg/dropdown_menu.svg">
-              </div>
-              <div class="position-a icon-menu-dropdown-close" style="display: none">
+              <div class="position-a"
+                   :class="showDropDown ? 'icon-menu-dropdown-open' : 'icon-menu-dropdown-close'"
+                   @click="showDropDown = !showDropDown"
+              >
                 <img src="https://learn.mochidemy.com/svg/dropdown_menu.svg">
               </div>
             </div>
           </div>
-          <div class="position-a menu-dropdown text-center" style="display: none;">
-            <a href="javascript:" onclick="openPopupPageHallOffFame()" class="btn-setting">
-              <div class="btn-top text-start btn-active menu-dropdown-item">
+          <div v-show="showDropDown" class="position-a menu-dropdown text-center">
+            <template v-if="store.user">
+              <a href="javascript:" class="btn-setting">
+                <div class="btn-top text-start btn-active menu-dropdown-item">
                 <span class="text-white p-dropdown vertical-center">
-                  Thành tích học tập
+                  Thông tin tài khoản
                 </span>
-                <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
-              </div>
-            </a>
-            <a href="javascript:" onclick="openPopupPage('#popup-page-setting')" class="btn-setting"
-               style="margin-bottom: 30px">
-              <div class="btn-top-setting text-start btn-active menu-dropdown-item">
+                  <img src="https://learn.mochidemy.com/image/98713df50c21cbe016386923bf65dc97.png" alt="">
+                </div>
+              </a>
+              <a href="javascript:" class="btn-setting"
+                 style="margin-bottom: 30px">
+                <div class="btn-top-setting text-start btn-active menu-dropdown-item" @click="logout">
                 <span class="text-white p-dropdown vertical-center">
-                  Cài đặt tài khoản
+                  Đăng xuất
                 </span>
-                <img src="https://learn.mochidemy.com/image/98713df50c21cbe016386923bf65dc97.png" alt="">
-              </div>
-            </a>
+                  <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
+                </div>
+              </a>
+            </template>
+            <template v-else>
+              <a href="javascript:" class="btn-setting"
+                 style="margin-bottom: 30px">
+                <div class="btn-top-setting text-start btn-active menu-dropdown-item" @click="login">
+                <span class="text-white p-dropdown vertical-center">
+                  Đăng nhập
+                </span>
+                  <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
+                </div>
+              </a>
+            </template>
           </div>
         </div>
       </div>
@@ -104,14 +117,28 @@
   </header>
 </template>
 <script>
+import {store} from "@/store";
 
 export default {
-  created() {
+  data() {
+    return {
+      store,
+      showDropDown: false,
+    };
   },
-  computed: {
-    user() {
-      return window.user;
-    }
+  methods: {
+    logout() {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      this.$router.push('/login');
+    },
+    login() {
+      this.$router.push('/login');
+    },
+  },
+  created() {
+    store.user = JSON.parse(localStorage.getItem('user'));
+    store.token = localStorage.getItem('token');
   },
 };
 </script>

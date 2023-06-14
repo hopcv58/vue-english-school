@@ -11,6 +11,10 @@
               </div>
               <div class="text-center login">
                 <div class="login__boxTitle"><p>Đăng nhập tài khoản QuizChii</p></div>
+                <base-alert v-if="error" type="danger" icon="ni ni-support-16" dismissible
+                            style="position: fixed; top:30px;right: 25%; width: 25%">
+                  <span slot="text"><strong>Error!</strong>{{ error }}</span>
+                </base-alert>
                 <div class="login__boxInput">
                   <div class="input__group">
                     <input
@@ -19,7 +23,9 @@
                         placeholder="Nhập tên đăng nhập"
                         class="form-control ">
                     <p class="input__message__error">
-                      <small>{{ username && username.length < 6 ? 'Tên đăng nhập phải có ít nhất 6 ký tự' : ''}}</small>
+                      <small>{{
+                          username && username.length < 6 ? 'Tên đăng nhập phải có ít nhất 6 ký tự' : ''
+                        }}</small>
                     </p>
                   </div>
                   <div class="input__group">
@@ -29,9 +35,10 @@
                           type="password"
                           minlength="6"
                           placeholder="Nhập chính xác mật khẩu của bạn"
-                          class="form-control"></div>
+                          class="form-control"/>
+                    </div>
                     <p class="input__message__error">
-                      <small>{{ password && password.length < 6 ? 'Mật khẩu phải có ít nhất 6 ký tự' : ''}}</small>
+                      <small>{{ password && password.length < 6 ? 'Mật khẩu phải có ít nhất 6 ký tự' : '' }}</small>
                     </p>
                   </div>
                 </div>
@@ -41,7 +48,7 @@
                     <p>Đăng nhập</p>
                   </div>
                   <div v-else class="button__action button__action--active">
-                    <div class="button__action__boxActive">
+                    <div class="button__action__boxActive" @click="login">
                       <p>Đăng nhập</p>
                     </div>
                   </div>
@@ -61,17 +68,29 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   name: 'register',
   data() {
     return {
       username: '',
       password: '',
+      error: ''
     }
   },
   methods: {
-    login() {
-      this.$router.push({name: 'home'})
+    async login() {
+      await axios.post('http://localhost:8080/quiz/auth/login', {
+        username: this.username,
+        password: this.password
+      }).then(res => {
+        localStorage.setItem('token', res.data.accessToken);
+        localStorage.setItem('user', JSON.stringify(res.data));
+        this.$router.push('/tests');
+      }).catch(err => {
+        this.error = err.response.data.error || err.message;
+      })
     }
   }
 }

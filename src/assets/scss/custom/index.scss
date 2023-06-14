@@ -356,6 +356,9 @@ a:hover {
 
 .p-dropdown {
   font-size: 20px;
+  width: calc(100% - 80px);
+  right: 1em;
+  text-align: right;
 }
 
 @media only screen and (max-width: 1190px) {
@@ -1660,7 +1663,7 @@ a:hover {
 }
 
 .input-search {
-  border: 1px solid black;
+  border: 1px solid black !important;
   height: 50px;
   width: 100%;
   padding-left: 20px;

@@ -7,7 +7,7 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <div class="row mb-3" style="justify-content: end">
+            <div v-if="store.user" class="row mb-3" style="justify-content: end">
               <router-link to="/tags/create" class="btn btn-success">Thêm tag</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -55,12 +55,14 @@
 
 <script>
 import axios from 'axios'
+import {store} from "@/store";
 
 export default {
   name: 'tags',
   components: {},
   data() {
     return {
+      store,
       tags: [],
       pageNo: this.$route.query.page || 1,
       pageSize: this.$route.query.size || 10000,

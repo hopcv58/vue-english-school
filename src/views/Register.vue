@@ -17,35 +17,41 @@
                      class="register__image">
                 <div class="register-box__input">
                   <base-alert v-if="error" type="danger" icon="ni ni-support-16" dismissible
-                              style="position: absolute; top:30px;right: 0%; width: 50%">
+                              style="position: fixed; top:30px;right: 25%; width: 25%">
                     <span slot="text"><strong>Error!</strong>{{ error }}</span>
                   </base-alert>
-                  <base-alert v-if="success" type="success" icon="ni ni-support-16" dismissible
-                              style="position: absolute; top:30px;right: 0%; width: 50%">
+                  <base-alert v-if="success" type="fixed" icon="ni ni-support-16" dismissible
+                              style="position: fixed; top:30px;right: 25%; width: 25%">
                     <span slot="text"><strong>Success!</strong>{{ success }}</span>
                   </base-alert>
                   <div class="input__group">
                     <input v-model="username" type="text" placeholder="Tên đăng nhập" class="form-control"
-                           @focus="clearError">
+                           @focus="clearError" name="username">
                     <p class="input__message__error"><small>{{ usernameError }}</small></p>
                   </div>
                   <div class="input__group">
                     <input v-model="name" type="text" placeholder="Tên của bạn" class="form-control"
-                           @focus="clearError">
+                           @focus="clearError" name="name">
                     <p class="input__message__error"><small>{{ nameError }}</small></p>
                   </div>
                   <div class="input__group">
                     <input v-model="email" type="text" placeholder="Nhập chính xác email của bạn"
-                           class="form-control" @focus="clearError">
+                           class="form-control" @focus="clearError" name="email">
                     <p class="input__message__error"><small>{{ emailError }}</small></p>
                   </div>
                   <div class="input__group">
                     <div style="position: relative;">
                       <input
                           v-model="password"
-                          type="password"
+                          :type="showPassword ? 'text' : 'password'"
                           placeholder="Tạo mật khẩu (dễ nhớ chút nhé ^^)"
-                          class="form-control" @focus="clearError">
+                          class="form-control" @focus="clearError"
+                          name="password">
+                      <span style="position: absolute; top:0.7em;right:1em;cursor: pointer;"
+                            @click="showPassword = !showPassword">
+                        <i v-if="showPassword" class="fa fa-eye-slash"></i>
+                        <i v-else class="fa fa-eye"></i>
+                      </span>
                     </div>
                     <p class="input__message__error"><small>{{ passwordError }}</small></p>
                   </div>
@@ -83,7 +89,8 @@ export default {
       name: '',
       password: '',
       error: '',
-      success: ''
+      success: '',
+      showPassword: false
     }
   },
   computed: {

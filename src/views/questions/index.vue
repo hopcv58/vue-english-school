@@ -7,7 +7,7 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <div class="row mb-3" style="justify-content: end">
+            <div v-if="store.user" class="row mb-3" style="justify-content: end">
               <router-link to="/questions/create" class="btn btn-success">Thêm câu hỏi</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -76,12 +76,14 @@
 
 <script>
 import axios from 'axios'
+import { store } from "@/store";
 
 export default {
   name: 'questions',
   components: {},
   data () {
     return {
+      store,
       questions: [],
       pageNo: this.$route.query.page || 1,
       pageSize: this.$route.query.size || 10000,
@@ -89,7 +91,7 @@ export default {
       sortName: this.$route.query.sortName || 'id',
       keyword: this.$route.query.keyword || '',
       totalPage: 0,
-      total: 0
+      total: 0,
     }
   },
   async created () {
