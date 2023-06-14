@@ -62,9 +62,6 @@
         </section>
       </div>
     </div>
-    <div class="mochi-co">
-      <img src="https://learn.mochidemy.com/svg/mochimochi.svg">
-    </div>
   </div>
 </template>
 
