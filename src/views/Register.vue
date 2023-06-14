@@ -16,11 +16,11 @@
                 <img src="img/theme/register.png" alt="icon-signup"
                      class="register__image">
                 <div class="register-box__input">
-                  <base-alert v-if="error" type="danger" icon="ni ni-support-16" dismissible
+                  <base-alert v-if="error" type="danger" icon="ni ni-support-16"
                               style="position: fixed; top:30px;right: 25%; width: 25%">
                     <span slot="text"><strong>Error!</strong>{{ error }}</span>
                   </base-alert>
-                  <base-alert v-if="success" type="fixed" icon="ni ni-support-16" dismissible
+                  <base-alert v-if="success" type="fixed" icon="ni ni-support-16"
                               style="position: fixed; top:30px;right: 25%; width: 25%">
                     <span slot="text"><strong>Success!</strong>{{ success }}</span>
                   </base-alert>

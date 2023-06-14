@@ -11,7 +11,7 @@
               </div>
               <div class="text-center login">
                 <div class="login__boxTitle"><p>Đăng nhập tài khoản QuizChii</p></div>
-                <base-alert v-if="error" type="danger" icon="ni ni-support-16" dismissible
+                <base-alert v-if="error" type="danger" icon="ni ni-support-16"
                             style="position: fixed; top:30px;right: 25%; width: 25%">
                   <span slot="text"><strong>Error!</strong>{{ error }}</span>
                 </base-alert>
@@ -90,6 +90,9 @@ export default {
         this.$router.push('/tests');
       }).catch(err => {
         this.error = err.response.data.error || err.message;
+        setTimeout(() => {
+          this.error = '';
+        }, 3000)
       })
     }
   }
