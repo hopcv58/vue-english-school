@@ -16,27 +16,18 @@
                 <img src="img/theme/register.png" alt="icon-signup"
                      class="register__image">
                 <div class="register-box__input">
-                  <base-alert v-if="error" type="danger" icon="ni ni-support-16"
-                              style="position: fixed; top:30px;right: 25%; width: 25%">
-                    <span slot="text"><strong>Error!</strong>{{ error }}</span>
-                  </base-alert>
-                  <base-alert v-if="success" type="fixed" icon="ni ni-support-16"
-                              style="position: fixed; top:30px;right: 25%; width: 25%">
-                    <span slot="text"><strong>Success!</strong>{{ success }}</span>
-                  </base-alert>
                   <div class="input__group">
                     <input v-model="username" type="text" placeholder="Tên đăng nhập" class="form-control"
-                           @focus="clearError" name="username">
+                           name="username">
                     <p class="input__message__error"><small>{{ usernameError }}</small></p>
                   </div>
                   <div class="input__group">
-                    <input v-model="name" type="text" placeholder="Tên của bạn" class="form-control"
-                           @focus="clearError" name="name">
+                    <input v-model="name" type="text" placeholder="Tên của bạn" class="form-control" name="name">
                     <p class="input__message__error"><small>{{ nameError }}</small></p>
                   </div>
                   <div class="input__group">
                     <input v-model="email" type="text" placeholder="Nhập chính xác email của bạn"
-                           class="form-control" @focus="clearError" name="email">
+                           class="form-control" name="email">
                     <p class="input__message__error"><small>{{ emailError }}</small></p>
                   </div>
                   <div class="input__group">
@@ -45,7 +36,7 @@
                           v-model="password"
                           :type="showPassword ? 'text' : 'password'"
                           placeholder="Tạo mật khẩu (dễ nhớ chút nhé ^^)"
-                          class="form-control" @focus="clearError"
+                          class="form-control"
                           name="password">
                       <span style="position: absolute; top:0.7em;right:1em;cursor: pointer;"
                             @click="showPassword = !showPassword">
@@ -79,6 +70,7 @@
 </template>
 <script>
 import axios from "axios";
+import {store} from "@/store";
 
 export default {
   name: 'register',
@@ -88,8 +80,6 @@ export default {
       email: '',
       name: '',
       password: '',
-      error: '',
-      success: '',
       showPassword: false
     }
   },
@@ -118,9 +108,6 @@ export default {
     }
   },
   methods: {
-    clearError() {
-      this.error = ''
-    },
     async register() {
       await axios.post(`http://localhost:8080/quiz/auth/register`, {
         username: this.username,
@@ -128,18 +115,12 @@ export default {
         name: this.name,
         password: this.password
       }).then(res => {
-        this.success = ' Bạn sẽ được chuyển đến trang đăng nhập'
-        setTimeout(() => {
-          this.$router.push('/login')
-        }, 2000)
+        store.displaySuccess('Bạn sẽ được chuyển đến trang đăng nhập')
       }).catch(err => {
         if (err.response.data.error)
-          this.error = err.response.data.error
+          store.displayError(err.response.data.error)
         else
-          this.error = 'Đã có lỗi xảy ra. Vui lòng thử lại'
-        setTimeout(() => {
-          this.error = ''
-        }, 3000)
+          store.displayError('Đã có lỗi xảy ra. Vui lòng thử lại')
       })
     },
   }

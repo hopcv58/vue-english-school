@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios'
+import {store} from '@/store'
 import {BFormTags} from 'bootstrap-vue'
 
 export default {
@@ -42,6 +43,7 @@ export default {
   },
   data() {
     return {
+      store,
       name: '',
       description: '',
       tags: [],
