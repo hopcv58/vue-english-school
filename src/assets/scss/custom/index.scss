@@ -1897,3 +1897,41 @@ input {
     }
   }
 }
+.register {
+  position: relative;
+
+  &__title {
+    width: 50%;
+    margin: 30px auto 31px;
+    text-align: center;
+
+    & p {
+      font-size: 22px;
+      font-weight: bold
+    }
+  }
+
+  &-box__input {
+    max-width: 450px;
+    margin: auto;
+  }
+
+  .box--redirect {
+    margin-top: 30px;
+
+    span {
+      font-size: 18px;
+      line-height: 22px;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .register__span--redirect {
+      color: #42A5F5;
+      text-decoration: underline;
+      font-weight: 700;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
+}
