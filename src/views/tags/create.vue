@@ -71,6 +71,10 @@ export default {
       await axios.post('http://localhost:8080/quiz/api/tags', {
         name: this.name,
         description: this.description
+      },{
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
       })
           .then(res => {
             this.$router.push('/tags')

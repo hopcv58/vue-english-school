@@ -21,7 +21,7 @@
                   <th scope="col" style="min-width: 120px">D</th>
                   <th scope="col" style="min-width: 60px">Answer</th>
                   <th scope="col" style="min-width: 130px">Tags</th>
-                  <th scope="col" style="min-width: 132px">Thao tác</th>
+                  <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,10 +49,16 @@
                   </td>
                   <td>
                     <router-link
-                        :to="{ name: 'questions.edit', params: { id: question.id } }"
-                        class="btn btn-sm btn-primary">Sửa
+                        :to="{ name: 'tests.detail', params: { id: question.id } }"
+                        class="btn btn-sm btn-primary">Xem
                     </router-link>
-                    <button class="btn btn-sm btn-danger" @click="deleteQuestion(question.id)">Xóa</button>
+                    <template v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">
+                      <router-link
+                          :to="{ name: 'questions.edit', params: { id: question.id } }"
+                          class="btn btn-sm btn-primary">Sửa
+                      </router-link>
+                      <button class="btn btn-sm btn-danger" @click="deleteQuestion(question.id)">Xóa</button>
+                    </template>
                   </td>
                 </tr>
                 </tbody>

@@ -1,4 +1,4 @@
-<template>
+<template xmlns="">
   <div class="content position-r w-100" style="background: #F2F2F2; min-height: calc(100vh - 128px)">
     <div class="container-fluid">
       <div class="row justify-content-center">
@@ -12,27 +12,33 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="content">Nội dung câu hỏi</label>
-                    <textarea v-model="content" required class="form-control" rows="5"></textarea>
+                    <wysiwyg v-model="content" class="form-control" required style="min-height: 200px;"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="question">Dữ kiện cho câu hỏi</label>
+                    <wysiwyg v-model="question" class="form-control" required style="min-height: 200px;"/>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="answer1">Đáp án A</label>
-                    <textarea v-model="answer1" required class="form-control" rows="2"></textarea>
+                    <wysiwyg v-model="answer1" required class="form-control" style="min-height: 150px;"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="answer2">Đáp án B</label>
-                    <textarea v-model="answer2" required class="form-control" rows="2"></textarea>
+                    <wysiwyg v-model="answer2" required class="form-control" style="min-height: 150px;"/>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="answer3">Đáp án C</label>
-                    <textarea v-model="answer3" required class="form-control" rows="2"></textarea>
+                    <wysiwyg v-model="answer3" required class="form-control" style="min-height: 150px;"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="answer4">Đáp án D</label>
-                    <textarea v-model="answer4" required class="form-control" rows="2"></textarea>
+                    <wysiwyg v-model="answer4" required class="form-control" style="min-height: 150px;"/>
                   </div>
                 </div>
                 <div class="form-row">
@@ -96,6 +102,7 @@
 <script>
 import axios from 'axios'
 import {BFormSelect, BFormTag, BFormTags} from 'bootstrap-vue'
+import { store } from '@/store'
 
 export default {
   name: 'questions',
@@ -106,7 +113,9 @@ export default {
   },
   data() {
     return {
+      store,
       content: '',
+      question: '',
       answer1: '',
       answer2: '',
       answer3: '',
@@ -129,21 +138,33 @@ export default {
   },
   methods: {
     async storeQuestion() {
+      if (!this.content || !this.question || !this.answer1 || !this.answer2 || !this.answer3 || !this.answer4 || !this.correctAnswer) {
+        alert('Vui lòng nhập đầy đủ thông tin')
+        return
+      }
       const tagIds = []
       for (let tagName of this.selectedTags) {
         const tag = this.tagList.find(tag => tag.name === tagName)
         tagIds.push({id: tag.id})
       }
 
-      await axios.post('http://localhost:8080/quiz/api/questions', {
-        content: this.content,
-        answer1: this.answer1,
-        answer2: this.answer2,
-        answer3: this.answer3,
-        answer4: this.answer4,
-        correctAnswer: this.correctAnswer,
-        tagList: tagIds
-      })
+      await axios.post('http://localhost:8080/quiz/api/questions',
+          {
+            content: this.content,
+            question: this.question,
+            answer1: this.answer1,
+            answer2: this.answer2,
+            answer3: this.answer3,
+            answer4: this.answer4,
+            correctAnswer: this.correctAnswer,
+            tagList: tagIds
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${store.token}`
+            }
+          }
+      )
           .then(res => {
             this.$router.push('/questions/' + res.data.data.id + '/edit')
           })

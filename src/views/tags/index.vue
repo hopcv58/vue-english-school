@@ -16,7 +16,8 @@
                 <tr>
                   <th scope="col">Tag</th>
                   <th scope="col">Mô tả</th>
-                  <th scope="col" style="width: 170px">Thao tác</th>
+                  <th v-if="store.user && store.user.roles.includes('ROLE_ADMIN')" scope="col"
+                      style="width: 170px"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,7 +28,7 @@
                   <td data-toggle="tooltip" :title="tag.description">
                     {{ shortenContent(tag.description) }}
                   </td>
-                  <td>
+                  <td v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">
                     <router-link :to="{ name: 'tags.edit', params: { id: tag.id } }" class="btn btn-sm btn-primary">
                       Sửa
                     </router-link>

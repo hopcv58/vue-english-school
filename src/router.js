@@ -54,6 +54,24 @@ export default new Router({
       }
     },
     {
+      path: '/tests/:id',
+      name: 'tests.detail',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tests/detail.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/tests/:id/start',
+      name: 'tests.start',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/tests/start.vue'),
+        footer: AppFooter
+      }
+    },
+    {
       path: '/questions',
       name: 'questions',
       components: {

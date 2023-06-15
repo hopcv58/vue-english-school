@@ -9,7 +9,7 @@
           <div class="container">
             <div class="row mb-3" style="justify-content: space-between">
               <SearchInput v-model="keyword" @submit="searchByKeyword"></SearchInput>
-              <select v-model="selectedTagId" class="form-control col-3" >
+              <select v-model="selectedTagId" class="form-control col-3">
                 <option value="" selected>Chọn tag</option>
                 <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
               </select>
@@ -25,8 +25,7 @@
                   <th scope="col">Mô tả</th>
                   <th scope="col">Thời lượng</th>
                   <th scope="col">Tags</th>
-                  <th v-if="store.user" scope="col" style="min-width: 130px">Thao tác</th>
-                  <th v-else scope="col">Thao tác</th>
+                  <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,19 +43,23 @@
                     <span v-for="tag in test.tagList" :key="tag.id" class="badge badge-primary">{{ tag.name }}</span>
                   </td>
                   <td style="display: flex; justify-content: center">
+                    <router-link
+                        :to="{ name: 'tests.detail', params: { id: test.id } }"
+                        class="btn btn-sm btn-primary">Xem
+                    </router-link>
                     <template v-if="store.user">
-                      <button class="btn btn-sm btn-success">Thi</button>
                       <router-link
-                          :to="{ name: 'tests.edit', params: { id: test.id } }"
-                          class="btn btn-sm btn-primary">Sửa
+                          :to="{ name: 'tests.start', params: { id: test.id } }"
+                          class="btn btn-sm btn-success">
+                        Thi
                       </router-link>
-                      <button class="btn btn-sm btn-danger" @click="deleteTest(test.id)">Xóa</button>
-                    </template>
-                    <template v-else>
-                      <router-link
-                          :to="{ name: 'tests.detail', params: { id: test.id } }"
-                          class="btn btn-sm btn-primary">Xem
-                      </router-link>
+                      <template v-if="store.user.roles.includes('ROLE_ADMIN')">
+                        <router-link
+                            :to="{ name: 'tests.edit', params: { id: test.id } }"
+                            class="btn btn-sm btn-primary">Sửa
+                        </router-link>
+                        <button class="btn btn-sm btn-danger" @click="deleteTest(test.id)">Xóa</button>
+                      </template>
                     </template>
                   </td>
                 </tr>
@@ -98,7 +101,7 @@ export default {
       tagList: [],
     }
   },
-  async created () {
+  async created() {
     await axios.get(`http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.tests = res.data.data.items
@@ -117,27 +120,27 @@ export default {
         })
   },
   methods: {
-    shortenContent (content) {
+    shortenContent(content) {
       if (content.length > 30) {
         return content.substring(0, 30) + '...'
       }
       return content
     },
-    searchByKeyword () {
+    searchByKeyword() {
       console.log(this.selectedTagId, this.keyword)
     },
-    deleteTest (id) {
+    deleteTest(id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {
         axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
-          .then(res => {
-            if (res.status === 200) {
-              alert('Xóa bài kiểm tra thành công!')
-              this.tests = this.tests.filter(test => test.id !== id)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+            .then(res => {
+              if (res.status === 200) {
+                alert('Xóa bài kiểm tra thành công!')
+                this.tests = this.tests.filter(test => test.id !== id)
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
       }
     }
   }

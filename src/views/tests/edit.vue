@@ -140,6 +140,7 @@
 import axios from 'axios'
 import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
 import Modal from '@/components/Modal.vue'
+import {store} from "@/store";
 
 export default {
   name: 'tests',
@@ -160,7 +161,7 @@ export default {
       },
       tagList: [],
       questions: [],
-
+      store,
       name: '',
       description: '',
       availableTime: '',
@@ -231,6 +232,10 @@ export default {
         availableTime: this.availableTime,
         questionList: questionIds,
         tagList: tagIds
+      }, {
+        headers: {
+          'Authorization': `Bearer ${store.token}`
+        }
       })
           .then(res => {
             alert('Cập nhật thành công')

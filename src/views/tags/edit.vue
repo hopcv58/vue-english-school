@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios'
 import {BFormTags} from 'bootstrap-vue'
+import {store} from "@/store";
 
 export default {
   name: 'tags',
@@ -42,6 +43,7 @@ export default {
   },
   data() {
     return {
+      store,
       name: '',
       description: '',
       tags: [],
@@ -62,6 +64,10 @@ export default {
       await axios.put('http://localhost:8080/quiz/api/tags/' + this.$route.params.id, {
         name: this.name,
         description: this.description
+      }, {
+        headers: {
+          'Authorization': `Bearer ${store.token}`
+        }
       })
           .then(res => {
             this.$router.push('/tags')
