@@ -240,29 +240,11 @@ export default {
   },
   data() {
     return {
-      addQuestionModal: {
-        show: false,
-        selectingTagId: null,
-        questions: [],
-        selectingQuestionIds: [],
-        selectedQuestionIds: []
-      },
-      tagList: [],
       questions: [],
-
-      name: '',
-      description: '',
-      availableTime: '',
-      selectedTags: [],
+      currentQuestionId: 0,
     }
   },
   computed: {
-    tagNameList() {
-      return this.tagList.map(tag => tag.name)
-    },
-    availableTags() {
-      return this.tagNameList.filter(tag => !this.selectedTags.includes(tag))
-    },
   },
   async created() {
     await this.getTags()
@@ -277,82 +259,6 @@ export default {
         })
   },
   methods: {
-    showModal() {
-      this.addQuestionModal.show = true
-      this.addQuestionModal.selectingTagId = null
-      this.addQuestionModal.questions = []
-      this.addQuestionModal.selectingQuestionIds = this.addQuestionModal.selectedQuestionIds
-    },
-    discardModalChanges() {
-      this.addQuestionModal.show = false
-      this.addQuestionModal.selectingTagId = null
-      this.addQuestionModal.questions = []
-      this.addQuestionModal.selectingQuestionIds = this.addQuestionModal.selectedQuestionIds
-    },
-    saveModalChanges() {
-      this.addQuestionModal.show = false
-      this.addQuestionModal.selectingTagId = null
-      this.addQuestionModal.questions = []
-      this.addQuestionModal.selectedQuestionIds = this.addQuestionModal.selectingQuestionIds
-      this.getQuestions()
-    },
-    async storeTest() {
-      if (!this.name || !this.availableTime) {
-        alert('Vui lòng nhập đầy đủ thông tin')
-        return
-      }
-
-      const questionIds = []
-      for (let questionId of this.addQuestionModal.selectedQuestionIds) {
-        questionIds.push({id: questionId})
-      }
-
-      const tagIds = []
-      for (let tagName of this.selectedTags) {
-        const tag = this.tagList.find(tag => tag.name === tagName)
-        tagIds.push({id: tag.id})
-      }
-
-      await axios.put('http://localhost:8080/quiz/api/tests/' + this.$route.params.id, {
-        id: this.$route.params.id,
-        name: this.name,
-        description: this.description,
-        availableTime: this.availableTime,
-        questionList: questionIds,
-        tagList: tagIds
-      })
-          .then(res => {
-            alert('Cập nhật thành công')
-          })
-          .catch(err => {
-            console.log(err)
-          })
-    },
-    async getQuestionsForModal() {
-      if (!this.addQuestionModal.selectingTagId) {
-        this.addQuestionModal.questions = []
-        return
-      }
-      await axios.get('http://localhost:8080/quiz/api/questions?pageSize=100000&pageNo=0&tagId=' + this.addQuestionModal.selectingTagId)
-          .then(res => {
-            this.addQuestionModal.questions = res.data.data.items
-          })
-          .catch(err => {
-            console.log(err)
-          })
-    },
-    async getTags() {
-      await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
-          .then(res => {
-            if (res.data.data.items.length === 0) {
-              return
-            }
-            this.tagList = res.data.data.items
-          })
-          .catch(err => {
-            console.log(err)
-          })
-    },
     async getQuestions() {
       await axios.get('http://localhost:8080/quiz/api/questions?pageSize=100000&pageNo=0')
           .then(res => {

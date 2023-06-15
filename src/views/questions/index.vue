@@ -15,11 +15,10 @@
                 <thead>
                 <tr>
                   <th scope="col">Nội dung</th>
-                  <th scope="col" style="min-width: 120px">A</th>
-                  <th scope="col" style="min-width: 120px">B</th>
-                  <th scope="col" style="min-width: 120px">C</th>
-                  <th scope="col" style="min-width: 120px">D</th>
-                  <th scope="col" style="min-width: 60px">Answer</th>
+                  <th scope="col">Câu hỏi</th>
+                  <th v-if="store.user && store.user.roles.includes('ROLE_ADMIN')" scope="col" style="min-width: 60px">
+                    Answer
+                  </th>
                   <th scope="col" style="min-width: 130px">Tags</th>
                   <th scope="col"></th>
                 </tr>
@@ -29,19 +28,10 @@
                   <td data-toggle="tooltip" :title="question.content">
                     {{ shortenContent(question.content) }}
                   </td>
-                  <td data-toggle="tooltip" :title="question.answer1">
-                    {{ shortenContent(question.answer1) }}
+                  <td data-toggle="tooltip" :title="question.question">
+                    {{ shortenContent(question.question) }}
                   </td>
-                  <td data-toggle="tooltip" :title="question.answer2">
-                    {{ shortenContent(question.answer2) }}
-                  </td>
-                  <td data-toggle="tooltip" :title="question.answer3">
-                    {{ shortenContent(question.answer3) }}
-                  </td>
-                  <td data-toggle="tooltip" :title="question.answer4">
-                    {{ shortenContent(question.answer4) }}
-                  </td>
-                  <td>{{ convertAnswer(question.correctAnswer) }}</td>
+                  <td v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">{{ convertAnswer(question) }}</td>
                   <td>
                     <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary">{{
                         tag.name
@@ -82,12 +72,12 @@
 
 <script>
 import axios from 'axios'
-import { store } from "@/store";
+import {store} from "@/store";
 
 export default {
   name: 'questions',
   components: {},
-  data () {
+  data() {
     return {
       store,
       questions: [],
@@ -100,48 +90,44 @@ export default {
       total: 0,
     }
   },
-  async created () {
+  async created() {
     await axios.get(`http://localhost:8080/quiz/api/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
-      .then(res => {
-        this.questions = res.data.data.items
-        this.totalPage = res.data.data.totalPage
-        this.total = res.data.data.totalElements
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(res => {
+          this.questions = res.data.data.items
+          this.totalPage = res.data.data.totalPage
+          this.total = res.data.data.totalElements
+        })
+        .catch(err => {
+          console.log(err)
+        })
   },
   methods: {
-    convertAnswer (correctAnswer) {
-      correctAnswer = parseInt(correctAnswer)
-      if (correctAnswer === 1) {
-        return 'A'
-      } else if (correctAnswer === 2) {
-        return 'B'
-      } else if (correctAnswer === 3) {
-        return 'C'
-      } else if (correctAnswer === 4) {
-        return 'D'
+    convertAnswer(question) {
+      if (question.correctAnswer) {
+        question.correctAnswer = parseInt(question.correctAnswer)
+      } else {
+        return ''
       }
+      return question['answer' + question.correctAnswer]
     },
-    shortenContent (content) {
+    shortenContent(content) {
       if (content.length > 20) {
         return content.substring(0, 20) + '...'
       }
       return content
     },
-    deleteQuestion (id) {
+    deleteQuestion(id) {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {
         axios.delete(`http://localhost:8080/quiz/api/questions/${id}`)
-          .then(res => {
-            if (res.status === 200 || res.status === 204) {
-              alert('Xóa câu hỏi thành công!')
-              this.questions = this.questions.filter(question => question.id !== id)
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+            .then(res => {
+              if (res.status === 200 || res.status === 204) {
+                alert('Xóa câu hỏi thành công!')
+                this.questions = this.questions.filter(question => question.id !== id)
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
       }
     }
   }
