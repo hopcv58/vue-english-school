@@ -19,5 +19,11 @@ export const store = reactive({
         setTimeout(() => {
             this.successTexts.shift()
         }, 3000)
+    },
+    isLoggedIn() {
+        return this.user != null
+    },
+    isAdmin() {
+        return this.user != null && this.user.roles.includes('ROLE_ADMIN')
     }
 })

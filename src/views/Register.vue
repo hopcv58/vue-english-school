@@ -116,6 +116,9 @@ export default {
         password: this.password
       }).then(res => {
         store.displaySuccess('Bạn sẽ được chuyển đến trang đăng nhập')
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 2000)
       }).catch(err => {
         if (err.response.data.error)
           store.displayError(err.response.data.error)

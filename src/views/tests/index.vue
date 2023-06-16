@@ -14,7 +14,7 @@
                 <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
               </select>
             </div>
-            <div v-if="store.user" class="row mb-3" style="justify-content: flex-end">
+            <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: flex-end">
               <router-link to="/tests/create" class="btn btn-success">Thêm bài test</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -47,13 +47,13 @@
                         :to="{ name: 'tests.detail', params: { id: test.id } }"
                         class="btn btn-sm btn-primary">Xem
                     </router-link>
-                    <template v-if="store.user">
+                    <template v-if="store.isLoggedIn()">
                       <router-link
                           :to="{ name: 'tests.start', params: { id: test.id } }"
                           class="btn btn-sm btn-success">
                         Thi
                       </router-link>
-                      <template v-if="store.user.roles.includes('ROLE_ADMIN')">
+                      <template v-if="store.isAdmin()">
                         <router-link
                             :to="{ name: 'tests.edit', params: { id: test.id } }"
                             class="btn btn-sm btn-primary">Sửa

@@ -7,7 +7,7 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <div v-if="store.user" class="row mb-3" style="justify-content: end">
+            <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
               <router-link to="/questions/create" class="btn btn-success">Thêm câu hỏi</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -16,7 +16,7 @@
                 <tr>
                   <th scope="col">Nội dung</th>
                   <th scope="col">Câu hỏi</th>
-                  <th v-if="store.user && store.user.roles.includes('ROLE_ADMIN')" scope="col" style="min-width: 60px">
+                  <th v-if="store.isLoggedIn()" scope="col" style="min-width: 60px">
                     Answer
                   </th>
                   <th scope="col" style="min-width: 130px">Tags</th>
@@ -29,7 +29,7 @@
                   </td>
                   <td data-toggle="tooltip" :title="question.question" v-html="question.question">
                   </td>
-                  <td v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">{{ convertAnswer(question) }}</td>
+                  <td v-if="store.isAdmin()">{{ convertAnswer(question) }}</td>
                   <td>
                     <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary">{{
                         tag.name
@@ -40,7 +40,7 @@
                         :to="{ name: 'tests.detail', params: { id: question.id } }"
                         class="btn btn-sm btn-primary">Xem
                     </router-link>
-                    <template v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">
+                    <template v-if="store.isAdmin()">
                       <router-link
                           :to="{ name: 'questions.edit', params: { id: question.id } }"
                           class="btn btn-sm btn-primary">Sửa

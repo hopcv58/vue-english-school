@@ -7,7 +7,7 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <div v-if="store.user" class="row mb-3" style="justify-content: end">
+            <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
               <router-link to="/tags/create" class="btn btn-success">Thêm tag</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -16,7 +16,7 @@
                 <tr>
                   <th scope="col">Tag</th>
                   <th scope="col">Mô tả</th>
-                  <th v-if="store.user && store.user.roles.includes('ROLE_ADMIN')" scope="col"
+                  <th v-if="store.isAdmin()" scope="col"
                       style="width: 170px"></th>
                 </tr>
                 </thead>
@@ -28,7 +28,7 @@
                   <td data-toggle="tooltip" :title="tag.description">
                     {{ shortenContent(tag.description) }}
                   </td>
-                  <td v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">
+                  <td v-if="store.isAdmin()">
                     <router-link :to="{ name: 'tags.edit', params: { id: tag.id } }" class="btn btn-sm btn-primary">
                       Sửa
                     </router-link>
