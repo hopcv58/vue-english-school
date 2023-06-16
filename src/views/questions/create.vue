@@ -156,7 +156,7 @@ export default {
             answer2: this.answer2,
             answer3: this.answer3,
             answer4: this.answer4,
-            correctAnswer: this.correctAnswer,
+            correctAnswer: parseInt(this.correctAnswer),
             tagList: tagIds
           },
           {

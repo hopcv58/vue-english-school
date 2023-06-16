@@ -25,11 +25,9 @@
                 </thead>
                 <tbody>
                 <tr v-for="question in questions" :key="question.id">
-                  <td data-toggle="tooltip" :title="question.content">
-                    {{ shortenContent(question.content) }}
+                  <td data-toggle="tooltip" :title="question.content" v-html="question.content">
                   </td>
-                  <td data-toggle="tooltip" :title="question.question">
-                    {{ shortenContent(question.question) }}
+                  <td data-toggle="tooltip" :title="question.question" v-html="question.question">
                   </td>
                   <td v-if="store.user && store.user.roles.includes('ROLE_ADMIN')">{{ convertAnswer(question) }}</td>
                   <td>
