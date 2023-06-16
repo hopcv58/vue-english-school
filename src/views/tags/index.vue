@@ -37,6 +37,7 @@
                 </tr>
                 </tbody>
               </table>
+              <SearchNoData v-else></SearchNoData>
               <div v-if="totalPage === 0" class="text-center">
                 <div class="spinner-border text-primary" role="status">
                   <span class="sr-only">Loading...</span>
@@ -97,11 +98,11 @@ export default {
       if (confirm('Bạn có chắc chắn muốn xóa tag này?')) {
         axios.delete(`http://localhost:8080/quiz/api/tags/${id}`)
             .then(res => {
-              alert('Xóa tag thành công!')
+              store.displaySuccess('Xóa tag thành công!')
               this.tags = this.tags.filter(tag => tag.id !== id)
             })
             .catch(err => {
-              alert('Xóa tag thất bại!')
+              store.displayError('Xóa tag thất bại!')
               console.log(err)
             })
       }

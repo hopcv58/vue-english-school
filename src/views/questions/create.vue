@@ -56,7 +56,6 @@
                   <div class="form-group col-md-12">
                     <label for="tags">Tags</label>
                     <b-form-tags
-                        v-if="tagNameList.length > 0"
                         id="tags-component-select"
                         v-model="selectedTags"
                         class="mb-2"
@@ -139,7 +138,7 @@ export default {
   methods: {
     async storeQuestion() {
       if (!this.content || !this.question || !this.answer1 || !this.answer2 || !this.answer3 || !this.answer4 || !this.correctAnswer) {
-        alert('Vui lòng nhập đầy đủ thông tin')
+        store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
       }
       const tagIds = []
@@ -166,7 +165,8 @@ export default {
           }
       )
           .then(res => {
-            this.$router.push('/questions/' + res.data.data.id + '/edit')
+            store.displaySuccess('Thêm câu hỏi thành công')
+            this.$router.push('/questions/')
           })
           .catch(err => {
             console.log(err)

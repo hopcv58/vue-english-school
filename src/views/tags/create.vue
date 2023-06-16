@@ -64,7 +64,7 @@ export default {
       const existed = this.tags.find(tag => tag.name === this.name)
 
       if (existed) {
-        alert('Tag đã tồn tại')
+        store.displayError('Tag đã tồn tại')
         return
       }
 
@@ -77,6 +77,7 @@ export default {
         }
       })
           .then(res => {
+            store.displaySuccess('Thêm tag thành công')
             this.$router.push('/tags')
           })
           .catch(err => {

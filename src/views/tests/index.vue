@@ -134,7 +134,7 @@ export default {
         axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
             .then(res => {
               if (res.status === 200) {
-                alert('Xóa bài kiểm tra thành công!')
+                store.displayError('Xóa bài kiểm tra thành công!')
                 this.tests = this.tests.filter(test => test.id !== id)
               }
             })

@@ -210,7 +210,7 @@ export default {
     },
     async storeTest() {
       if (!this.name || !this.availableTime) {
-        alert('Vui lòng nhập đầy đủ thông tin')
+        store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
       }
 
@@ -238,7 +238,7 @@ export default {
         }
       })
           .then(res => {
-            alert('Cập nhật thành công')
+            store.displaySuccess('Cập nhật thành công')
           })
           .catch(err => {
             console.log(err)

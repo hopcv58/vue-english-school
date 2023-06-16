@@ -29,7 +29,7 @@
                   </td>
                   <td data-toggle="tooltip" :title="question.question" v-html="question.question">
                   </td>
-                  <td v-if="store.isAdmin()">{{ convertAnswer(question) }}</td>
+                  <td v-if="store.isAdmin()" v-html="convertAnswer(question)"></td>
                   <td>
                     <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary">{{
                         tag.name
@@ -51,6 +51,7 @@
                 </tr>
                 </tbody>
               </table>
+              <SearchNoData v-else></SearchNoData>
               <div v-if="totalPage === 0" class="text-center">
                 <div class="spinner-border text-primary" role="status">
                   <span class="sr-only">Loading...</span>
@@ -119,7 +120,7 @@ export default {
         axios.delete(`http://localhost:8080/quiz/api/questions/${id}`)
             .then(res => {
               if (res.status === 200 || res.status === 204) {
-                alert('Xóa câu hỏi thành công!')
+                store.displaySuccess('Xóa câu hỏi thành công!')
                 this.questions = this.questions.filter(question => question.id !== id)
               }
             })

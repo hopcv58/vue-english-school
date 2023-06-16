@@ -5,7 +5,7 @@
         <Title>
           Thêm bài kiểm tra
         </Title>
-        <modal :show.sync="addQuestionModal.show">
+        <modal :show.sync="addQuestionModal.show" modal-classes="modal-lg">
           <h6 slot="header" class="modal-title" id="modal-title-default">Thêm câu hỏi vào đề thi</h6>
 
           <select v-model="addQuestionModal.selectingTagId" class="form-control col-6" @change="getQuestionsForModal">
@@ -18,6 +18,8 @@
             <tr>
               <th scope="col">Chọn</th>
               <th scope="col">Nội dung</th>
+              <th scope="col">Câu hỏi</th>
+              <th scope="col">Đáp án</th>
               <th scope="col">Tags</th>
             </tr>
             </thead>
@@ -26,16 +28,18 @@
               <td>
                 <input type="checkbox" :value="question.id" v-model="addQuestionModal.selectingQuestionIds">
               </td>
-              <td>{{ question.content }}</td>
+              <td v-html="question.content"></td>
+              <td v-html="question.question"></td>
+              <td v-html="convertAnswer(question)"></td>
               <td>
                 <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
               </td>
             </tr>
             </tbody>
           </table>
-
+          <SearchNoData v-else></SearchNoData>
           <template slot="footer">
-            <base-button type="primary" @click="saveModalChanges">Save changes</base-button>
+            <base-button type="primary" @click="saveModalChanges">Chọn câu hỏi</base-button>
             <base-button type="link" class="ml-auto" @click="discardModalChanges">
               Close
             </base-button>
@@ -43,9 +47,7 @@
         </modal>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <form @submit.prevent="storeTest">
-              <button type="submit" class="btn btn-success">Thêm</button>
-              <button type="button" class="btn btn-primary" @click="showModal">Thêm câu hỏi</button>
+            <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="content">Tên bài kiểm tra</label>
@@ -103,6 +105,7 @@
               </div>
             </form>
 
+            <button type="button" class="btn btn-primary" @click="showModal">Thêm câu hỏi</button>
             <h4 v-if="addQuestionModal.selectedQuestionIds.length" class="mt-5">
               Các câu hỏi đã chọn
             </h4>
@@ -113,13 +116,17 @@
               <thead>
               <tr>
                 <th scope="col">Nội dung</th>
+                <th scope="col">Câu hỏi</th>
+                <th scope="col">Đáp án</th>
                 <th scope="col">Tags</th>
               </tr>
               </thead>
               <tbody>
               <template v-for="question in questions">
                 <tr v-if="addQuestionModal.selectedQuestionIds.includes(question.id)">
-                  <td>{{ question.content }}</td>
+                  <td v-html="question.content"></td>
+                  <td v-html="question.question"></td>
+                  <td v-html="convertAnswer(question)"></td>
                   <td>
                     <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
                   </td>
@@ -127,6 +134,12 @@
               </template>
               </tbody>
             </table>
+            <button
+                v-if="this.name && this.availableTime && addQuestionModal.selectedQuestionIds.length"
+                type="button" class="btn btn-success" @click="storeTest"
+            >
+              Lưu lại
+            </button>
           </div>
         </section>
       </div>
@@ -200,7 +213,11 @@ export default {
     },
     async storeTest() {
       if (!this.name || !this.availableTime) {
-        alert('Vui lòng nhập đầy đủ thông tin')
+        store.displayError('Vui lòng nhập đầy đủ thông tin')
+        return
+      }
+      if (!this.addQuestionModal.selectedQuestionIds.length) {
+        store.displayError('Vui lòng chọn it nhất 1 câu hỏi')
         return
       }
 
@@ -227,6 +244,7 @@ export default {
         }
       })
           .then(res => {
+            store.displaySuccess('Tạo bài thi thành công')
             this.$router.push('/tests')
           })
           .catch(err => {
@@ -263,7 +281,15 @@ export default {
           .catch(err => {
             console.log(err)
           })
-    }
+    },
+    convertAnswer(question) {
+      if (question.correctAnswer) {
+        question.correctAnswer = parseInt(question.correctAnswer)
+      } else {
+        return ''
+      }
+      return question['answer' + question.correctAnswer]
+    },
   }
 }
 </script>

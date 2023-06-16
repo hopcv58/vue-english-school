@@ -153,7 +153,7 @@ export default {
   methods: {
     async storeQuestion() {
       if (!this.content || !this.question || !this.answer1 || !this.answer2 || !this.answer3 || !this.answer4 || !this.correctAnswer) {
-        alert('Vui lòng nhập đầy đủ thông tin')
+        store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
       }
 
@@ -179,7 +179,7 @@ export default {
         }
       })
           .then(res => {
-            alert('Cập nhật thành công')
+            store.displaySuccess('Cập nhật thành công')
           })
           .catch(err => {
             console.log(err)
