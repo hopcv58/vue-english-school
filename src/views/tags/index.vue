@@ -83,7 +83,7 @@ export default {
           this.total = res.data.data.totalElements
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
             })
             .catch(err => {
               store.displayError('Xóa tag thất bại!')
-              console.log(err)
+              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
             })
       }
     }

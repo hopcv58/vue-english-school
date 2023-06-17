@@ -24,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="question in addQuestionModal.questions">
+            <tr v-for="question in addQuestionModal.questions" :key="question.id">
               <td>
                 <input type="checkbox" :value="question.id" v-model="addQuestionModal.selectingQuestionIds">
               </td>
@@ -32,7 +32,7 @@
               <td v-html="question.question"></td>
               <td v-html="convertAnswer(question)"></td>
               <td>
-                <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
+                 <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
               </td>
             </tr>
             </tbody>
@@ -128,7 +128,7 @@
                   <td v-html="question.question"></td>
                   <td v-html="convertAnswer(question)"></td>
                   <td>
-                    <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
+                     <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
                   </td>
                 </tr>
               </template>
@@ -248,7 +248,7 @@ export default {
             this.$router.push('/tests')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getQuestionsForModal() {
@@ -261,7 +261,7 @@ export default {
             this.addQuestionModal.questions = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getTags() {
@@ -270,7 +270,7 @@ export default {
             this.tagList = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getQuestions() {
@@ -279,7 +279,7 @@ export default {
             this.questions = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     convertAnswer(question) {

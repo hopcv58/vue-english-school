@@ -147,7 +147,7 @@ export default {
           this.selectedTags = res.data.data.tagList ? res.data.data.tagList.map(tag => tag.name) : []
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
   },
   methods: {
@@ -182,7 +182,7 @@ export default {
             store.displaySuccess('Cập nhật thành công')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getTags() {
@@ -194,7 +194,7 @@ export default {
             this.tagList = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
   }

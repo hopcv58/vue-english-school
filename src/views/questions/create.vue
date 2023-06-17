@@ -169,7 +169,7 @@ export default {
             this.$router.push('/questions/')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getTags() {
@@ -178,7 +178,7 @@ export default {
             this.tagList = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
   }

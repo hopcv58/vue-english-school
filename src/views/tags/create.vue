@@ -58,7 +58,7 @@ export default {
             this.tags = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
 
       const existed = this.tags.find(tag => tag.name === this.name)
@@ -81,7 +81,7 @@ export default {
             this.$router.push('/tags')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     }
   }

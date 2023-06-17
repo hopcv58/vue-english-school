@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .full-height {
@@ -744,7 +745,255 @@ html, body {
 td .btn-sm {
   margin-bottom: 10px;
 }
+
 a.skip-question-btn {
   text-decoration: underline;
   font-weight: bolder;
+}
+
+:root {
+  --primary-color: #FFCB08;
+}
+
+.navbar {
+  background: var(--primary-color);
+  background: #FFCB08;
+  left: 0px;
+  top: 0px;
+}
+
+.navbar-mochimochi {
+  height: 41px;
+  left: 25px;
+  top: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.0128571em;
+  color: #FFFFFF;
+  text-decoration: none;
+  margin-left: 25px;
+}
+
+.navbar-mochimochi:hover {
+  color: #FFFFFF;
+}
+
+.navbar-mochimochi img {
+  position: absolute;
+  height: 35.04px;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.btn-secondary, .btn-secondary:hover, .btn-secondary.show {
+  background: none;
+  border: 0px;
+  box-shadow: none;
+}
+
+.navbar .dropdown, .navbar .dropdown button {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold !important;
+}
+
+.navbar .dropdown .btn, .navbar .dropdown-item {
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.navbar .dropdown-item.active, .navbar .dropdown-item:active {
+  background-color: var(--primary-color);
+  font-weight: 700 !important;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.navbar .dropdown-item {
+  font-weight: normal !important;
+}
+
+.m-w-962 {
+  max-width: 962px;
+}
+
+.mr-13 {
+  margin-right: 13px;
+}
+
+.foot-info {
+  margin: 28px 0 28px 0;
+}
+
+body {
+  background-color: #E5E5E5;
+}
+
+.content {
+  background-color: #F8F8F8;
+}
+
+.sidebar {
+  padding-top: 57px;
+  max-width: 35%;
+  float: right;
+}
+
+.list-question {
+  display: none;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  position: -webkit-sticky;
+}
+
+.result-questions {
+  display: block;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  width: 270px;
+}
+
+.result-tests {
+  display: block;
+  width: auto;
+  position: sticky;
+  top: 0px;
+}
+
+.result-box-header {
+  height: 52px;
+  background: #FFCB08;
+  border-radius: 10px 10px 0px 0px;
+  display: block;
+}
+
+.result-box-title {
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 25px;
+  color: #FFFFFF;
+  text-align: center;
+  position: relative;
+  top: 30%;
+  margin-bottom: 0;
+  line-height: 52px;
+}
+
+.result-box-body {
+  height: auto;
+  background: #FFFFFF;
+  display: block;
+  padding: 25px 15px;
+}
+
+.result-box-body-large {
+  height: 450px;
+  background: #FFFFFF;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  display: block;
+}
+
+.result-box-list {
+  max-width: 240px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.result-box-span {
+  width: 40px;
+  height: 40px;
+  background: #E0E0E0;
+  border-radius: 9px;
+  display: inline-block;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.result-box-number {
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 25px;
+  letter-spacing: 0.0128571em;
+  color: #000000;
+  text-align: center;
+  position: relative;
+  top: 20%;
+  cursor: pointer;
+}
+
+.result-test-list {
+  text-align: center;
+}
+
+.result-test-title {
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 22px;
+  display: inline-block;
+  text-align: left;
+  padding: 10px;
+  padding-block: 10px;
+}
+
+.result-test-title a {
+  color: #213782;
+  text-decoration: underline;
+  text-decoration-color: #000000;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.answer-content {
+  display: inline;
+}
+
+.answer-content-space {
+  display: block;
+  margin-bottom: 0px;
+}
+
+.answer-content-ml {
+  margin-left: 70px;
+}
+
+.answer-content-wd {
+  width: 33% !important;
+}
+
+.dropdown-menu {
+  width: 100%;
+  min-width: fit-content;
+}
+
+li .dropdown-item {
+  text-align: center;
+}
+
+footer a:hover, .foot-title:hover {
+  color: #2F80ED !important;
+}
+
+.dropdown-toggle::after {
+  color: #F2F2F2;
+}
+
+_:-ms-fullscreen, :root .navbar-mochimochi img {
+  position: relative;
+}
+
+.answering {
+  background: #ffcb08 !important;
+  border: 1px black dashed;
+}
+.answered {
+  background: #ffcb08 !important
 }

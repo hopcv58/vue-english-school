@@ -64,13 +64,16 @@
             </div>
             <div class="btn-answer" style="width: 50%; margin-left: 25%; height: 80px; bottom: 20px">
               <div v-if="!currentAnswer" class="div-no_click w-100 text-center">
-                <button class="no_click btn-active">
-                  {{ totalAnswers < totalQuestions - 1 ? 'CÂU TIẾP THEO' : 'NỘP BÀI' }}
+                <button v-if="this.currentQuestionNo + 1 < totalQuestions" class="no_click btn-active">
+                  CÂU TIẾP THEO
+                </button>
+                <button v-else class="no_click btn-active">
+                  NỘP BÀI
                 </button>
               </div>
               <div v-else class="div-submit-success div-review-next">
                 <button
-                    v-if="totalAnswers < totalQuestions - 1"
+                    v-if="this.currentQuestionNo + 1 < totalQuestions"
                     class="btn btn-submit-success"
                     @click="nextQuestion"
                 >
@@ -103,6 +106,20 @@
           <div class="position-a" style="right: 0; top: 50%; width: 80%">
             <img src="https://learn.mochidemy.com/image/213202355_4534422609904130_3896387388468451408_n.png.webp"
                  style="width: 100%">
+          </div>
+          <div class="result-questions">
+            <h2 class="result-box-header result-box-title">Question List</h2>
+            <div class="result-box-body">
+              <div class="row g-0 result-box-list">
+                <div v-for="(question, index) in questions" :key="index"
+                     class="result-box-span" :class="{
+                  answering: index === currentQuestionNo,
+                  answered: answers[index] !== undefined,
+                }" @click="goToQuestion(index)">
+                  <div class="result-box-number">{{ index + 1 }}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -176,7 +193,7 @@ export default {
             this.totalQuestions = res.data.data.questionList.length
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     setAnswer(answer) {
@@ -196,7 +213,14 @@ export default {
     },
     submitTest() {
 
-    }
+    },
+    goToQuestion(index) {
+      if (this.currentAnswer !== 0) {
+        this.answers[this.currentQuestionNo] = this.currentAnswer
+      }
+      this.currentQuestionNo = index
+      this.currentAnswer = this.answers[index] || 0
+    },
   }
 }
 </script>

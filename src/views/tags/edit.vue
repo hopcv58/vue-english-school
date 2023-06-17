@@ -56,7 +56,7 @@ export default {
           this.description = res.data.data.description
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
   },
   methods: {
@@ -73,7 +73,7 @@ export default {
             this.$router.push('/tags')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     }
   }

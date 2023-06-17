@@ -11,7 +11,7 @@
               <SearchInput v-model="keyword" @submit="searchByKeyword"></SearchInput>
               <select v-model="selectedTagId" class="form-control col-3">
                 <option value="" selected>Chọn tag</option>
-                <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
+                <option v-for="tag in tagList" :value="tag.id" :key="tag.id">{{ tag.name }}</option>
               </select>
             </div>
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: flex-end">
@@ -109,14 +109,14 @@ export default {
           this.total = res.data.data.totalElements
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
     await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
         .then(res => {
           this.tagList = res.data.data.items
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
   },
   methods: {
@@ -139,7 +139,7 @@ export default {
               }
             })
             .catch(err => {
-              console.log(err)
+              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
             })
       }
     }
