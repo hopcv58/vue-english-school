@@ -1662,22 +1662,22 @@ a:hover {
   border-radius: 10px;
 }
 
-.input-search {
-  border: 1px solid black !important;
-  height: 50px;
-  width: 100%;
-  padding-left: 20px;
-  padding-right: 45px;
-  border-radius: 50px;
-  background: #F2F2F2;
-}
-
-.image-search {
-  width: 40px;
-  right: 10px;
-  top: 5px;
-  cursor: pointer;
-}
+//.input-search {
+//  border: 1px solid black !important;
+//  height: 50px;
+//  width: 100%;
+//  padding-left: 20px;
+//  padding-right: 45px;
+//  border-radius: 50px;
+//  background: #F2F2F2;
+//}
+//
+//.image-search {
+//  width: 40px;
+//  right: 10px;
+//  top: 5px;
+//  cursor: pointer;
+//}
 
 .btn-success {
   background: #58bd2f;
@@ -1792,21 +1792,21 @@ a:hover {
   font-size: 14px;
 }
 
-input {
-  height: 60px;
-  border: none !important;
-  padding: 20px 20px;
-  border-radius: 15px !important;
-  margin-bottom: 5px;
-
-  &:focus {
-    box-shadow: inset 0 -1px 0 #ddd !important;
-  }
-
-  &:active {
-    box-shadow: inset 0 -1px 0 #ddd !important;
-  }
-}
+//input {
+//  height: 60px;
+//  border: none !important;
+//  padding: 20px 20px;
+//  border-radius: 15px !important;
+//  margin-bottom: 5px;
+//
+//  &:focus {
+//    box-shadow: inset 0 -1px 0 #ddd !important;
+//  }
+//
+//  &:active {
+//    box-shadow: inset 0 -1px 0 #ddd !important;
+//  }
+//}
 
 .input {
   &__error {
