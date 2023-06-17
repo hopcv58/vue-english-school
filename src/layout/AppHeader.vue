@@ -130,7 +130,7 @@
           <p>{{store.confirmModal.content}}</p>
 
           <template slot="footer">
-            <base-button type="success" @click="store.confirmModal.onConfirm">Confirm</base-button>
+            <base-button type="success" @click="confirmAndClose">Confirm</base-button>
             <base-button type="link" class="ml-auto" @click="store.confirmModal.show = false">
               Cancel
             </base-button>
@@ -145,6 +145,7 @@ import {store} from "@/store";
 import Modal from "@/components/Modal.vue";
 
 export default {
+  name: "AppHeader",
   components: {Modal},
   data() {
     return {
@@ -152,10 +153,21 @@ export default {
       showDropDown: false,
     };
   },
+  computed: {
+    confirmAndClose() {
+      return () => {
+        store.confirmModal.onConfirm();
+        setTimeout(() => {
+          store.confirmModal.show = false;
+        }, 0);
+      };
+    },
+  },
   methods: {
     logout() {
       localStorage.removeItem('user');
       localStorage.removeItem('token');
+      localStorage.removeItem('expired');
       this.$router.push('/login');
     },
     login() {
@@ -163,8 +175,17 @@ export default {
     },
   },
   created() {
-    store.user = JSON.parse(localStorage.getItem('user'));
-    store.token = localStorage.getItem('token');
+    const expired = localStorage.getItem('expired');
+    if (expired && expired < Date.now()) {
+      store.displayError('Phiên đăng nhập đã hết hạn');
+      this.logout();
+    } else if (localStorage.getItem('user')) {
+      store.user = JSON.parse(localStorage.getItem('user'));
+      store.token = localStorage.getItem('token');
+    } else {
+      store.user = null;
+      store.token = null;
+    }
   },
 };
 </script>

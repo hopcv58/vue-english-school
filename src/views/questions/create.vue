@@ -104,7 +104,7 @@ import {BFormSelect, BFormTag, BFormTags} from 'bootstrap-vue'
 import { store } from '@/store'
 
 export default {
-  name: 'questions',
+  name: 'questions-create',
   components: {
     BFormTag,
     BFormSelect,

@@ -137,7 +137,7 @@ import Modal from '@/components/Modal.vue'
 import {store} from '@/store'
 
 export default {
-  name: 'tests',
+  name: 'tests-start',
   components: {
     Modal,
     BFormTags,
@@ -155,6 +155,7 @@ export default {
       totalAnswers: 0,
       availableTime: 0,
       passedTime: 0,
+      interval: null,
     }
   },
   computed: {
@@ -185,6 +186,10 @@ export default {
     },
   },
   async created() {
+    // add refresh event listener
+    window.onbeforeunload = function (e) {
+      return 'Are you sure you want to leave? Your progress will be lost.'
+    }
     await this.getQuestions()
     await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id,
         {
@@ -207,7 +212,14 @@ export default {
   },
   methods: {
     endTestEarly() {
-      this.$router.push('/tests')
+      this.store.confirmModal = {
+        show: true,
+        title: 'Bạn chưa hoàn thành bài thi',
+        content: 'Bạn có chắc chắn muốn quay lại? Các câu trả lời sẽ không được lưu lại.',
+        onConfirm: () => {
+          this.$router.push('/tests')
+        },
+      }
     },
     async getQuestions() {
       await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id)
@@ -247,7 +259,10 @@ export default {
       }
     },
     submit() {
-
+      const data = {
+        userId: this.store.user.id,
+        testId: this.$route.params.id,
+      }
     },
     goToQuestion(index) {
       if (this.currentAnswer !== 0) {
@@ -256,7 +271,10 @@ export default {
       this.currentQuestionNo = index
       this.currentAnswer = this.answers[index] || 0
     },
-
+  },
+  beforeDestroy() {
+    clearInterval(this.interval)
+    window.onbeforeunload = null
   }
 }
 </script>

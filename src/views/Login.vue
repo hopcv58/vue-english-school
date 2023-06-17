@@ -20,7 +20,7 @@
                         class="form-control ">
                     <p class="input__message__error">
                       <small>{{
-                          username && username.length < 6 ? 'Tên đăng nhập phải có ít nhất 6 ký tự' : ''
+                          username && username.length < 4 ? 'Tên đăng nhập phải có ít nhất 4 ký tự' : ''
                         }}</small>
                     </p>
                   </div>
@@ -29,17 +29,17 @@
                       <input
                           v-model="password"
                           type="password"
-                          minlength="6"
+                          minlength="4"
                           placeholder="Nhập chính xác mật khẩu của bạn"
                           class="form-control"/>
                     </div>
                     <p class="input__message__error">
-                      <small>{{ password && password.length < 6 ? 'Mật khẩu phải có ít nhất 6 ký tự' : '' }}</small>
+                      <small>{{ password && password.length < 4 ? 'Mật khẩu phải có ít nhất 4 ký tự' : '' }}</small>
                     </p>
                   </div>
                 </div>
                 <div class="login__action">
-                  <div v-if="password.length < 6 || username.length < 6"
+                  <div v-if="password.length < 4 || username.length < 4"
                        class="button__action button__action--inactive">
                     <p>Đăng nhập</p>
                   </div>
@@ -68,7 +68,7 @@ import axios from "axios";
 import {store} from "@/store";
 
 export default {
-  name: 'register',
+  name: 'login',
   data() {
     return {
       username: '',
@@ -83,6 +83,8 @@ export default {
       }).then(res => {
         localStorage.setItem('token', res.data.accessToken);
         localStorage.setItem('user', JSON.stringify(res.data));
+        // token is expired after 1 day
+        localStorage.setItem('expired', Date.now() + 86399000);
         this.$router.push('/tests');
       }).catch(err => {
         const error = err.response.data.error || err.message;

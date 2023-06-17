@@ -103,7 +103,7 @@ import Modal from '@/components/Modal.vue'
 import {store} from '@/store'
 
 export default {
-  name: 'tests',
+  name: 'tests-detail',
   components: {
     Modal,
     BFormTags,

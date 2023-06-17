@@ -39,6 +39,7 @@
 import { store } from '@/store'
 import SearchCustom from "@/components/SearchCustom.vue";
 export default {
+  name: 'Home',
   components: {SearchCustom},
   data() {
     return {

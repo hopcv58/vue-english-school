@@ -8,7 +8,7 @@
         <section class="section section-lg pt-lg-0" style="margin-top: 200px">
           <div class="container">
             <div class="d-flex justify-content-center my-3">
-              <SearchCustom></SearchCustom>
+              <SearchCustom :tags="tagList" @submit="searchByTag"></SearchCustom>
             </div>
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: flex-end">
               <router-link to="/tests/create" class="btn btn-success">Thêm bài test</router-link>
@@ -123,8 +123,8 @@ export default {
       }
       return content
     },
-    searchByKeyword() {
-      console.log(this.selectedTagId, this.keyword)
+    searchByTag(tagId, keyword) {
+      console.log(tagId, keyword)
     },
     deleteTest(id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {

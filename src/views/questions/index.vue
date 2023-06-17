@@ -7,6 +7,9 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
+            <div class="d-flex justify-content-center my-3">
+              <SearchCustom :tags="tagList" @submit="searchByTag"></SearchCustom>
+            </div>
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
               <router-link to="/questions/create" class="btn btn-success">Thêm câu hỏi</router-link>
             </div>
@@ -20,7 +23,7 @@
                     Answer
                   </th>
                   <th scope="col" style="min-width: 130px">Tags</th>
-                  <th scope="col"></th>
+                  <th scope="col" style="min-width: 130px"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,10 +39,6 @@
                       }}</span>
                   </td>
                   <td>
-                    <router-link
-                        :to="{ name: 'tests.detail', params: { id: question.id } }"
-                        class="btn btn-sm btn-primary">Xem
-                    </router-link>
                     <template v-if="store.isAdmin()">
                       <router-link
                           :to="{ name: 'questions.edit', params: { id: question.id } }"
@@ -72,10 +71,11 @@
 <script>
 import axios from 'axios'
 import {store} from "@/store";
+import SearchCustom from "@/components/SearchCustom.vue";
 
 export default {
   name: 'questions',
-  components: {},
+  components: {SearchCustom},
   data() {
     return {
       store,
@@ -87,6 +87,7 @@ export default {
       keyword: this.$route.query.keyword || '',
       totalPage: 0,
       total: 0,
+      tagList: []
     }
   },
   async created() {
@@ -95,6 +96,13 @@ export default {
           this.questions = res.data.data.items
           this.totalPage = res.data.data.totalPage
           this.total = res.data.data.totalElements
+        })
+        .catch(err => {
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+        })
+    await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
+        .then(res => {
+          this.tagList = res.data.data.items
         })
         .catch(err => {
           store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
@@ -109,11 +117,8 @@ export default {
       }
       return question['answer' + question.correctAnswer]
     },
-    shortenContent(content) {
-      if (content.length > 20) {
-        return content.substring(0, 20) + '...'
-      }
-      return content
+    searchByTag(tagId, keyword) {
+      console.log(tagId, keyword)
     },
     deleteQuestion(id) {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {

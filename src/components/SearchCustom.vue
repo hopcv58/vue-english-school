@@ -2,20 +2,23 @@
   <div class="wrapper">
     <div class="search__left">
       <div class="search__select" :class="isOpen ? 'search__select--open' : ''" @click="isOpen = !isOpen">
-        <p class="select__name">Danh sách tag</p>
+        <p v-if="!selectedTagId" class="select__name">Danh sách tag</p>
+        <p v-else class="select__name">{{ tags.find(tag => tag.id === selectedTagId).name }}</p>
         <ul class="search__dropdown">
-          <li class="search__option">Tag 1</li>
-          <li class="search__option">Tag 2</li>
-          <li class="search__option">Tag 3</li>
+          <li class="search__option" @click="selectTag(0)">
+            Danh sách tag
+          </li>
+          <li v-for="tag in tags" :key="tag.id" class="search__option" @click="selectTag(tag.id)">
+            {{ tag.name }}
+          </li>
         </ul>
         <i class="fa" :class="isOpen ? 'fa-chevron-down' : 'fa-chevron-up'" aria-hidden="true"></i>
       </div>
-      <input id="key_search" :value="value" autocomplete="off" class="search__input" name="key"
-             placeholder="Cho QuizChii biết bạn muốn tìm kiếm gì?"
-             @input="$emit('input', $event.target.value)">
+      <input id="key_search" v-model="keyword" autocomplete="off" class="search__input" name="key"
+             placeholder="Cho QuizChii biết bạn muốn tìm kiếm gì?">
     </div>
 
-    <div class="search__image search__right" @click="$emit('submit', $event.target.value)">
+    <div class="search__image search__right" @click="$emit('submit', selectedTagId, keyword)">
       <img src="https://learn.mochidemy.com/svg/search.svg" class="w-100" alt="">
     </div>
   </div>
@@ -25,11 +28,21 @@
 <script>
 export default {
   name: "SearchCustom",
-  props: ['value'],
+  props: [
+      'tags'
+  ],
+  created() {},
   data() {
     return {
       isOpen: false,
+      selectedTagId: 0,
+      keyword: '',
     }
+  },
+  methods: {
+    selectTag(id) {
+      this.selectedTagId = id
+    },
   },
 };
 </script>
@@ -40,7 +53,9 @@ export default {
   width: 100%;
   max-width: 600px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  border-radius: 8px;
 }
 
 .search__left {
@@ -49,11 +64,11 @@ export default {
 }
 
 .search__input {
-  height: 40px;
+  height: 50px;
   border: none !important;
   padding: 10px 20px;
   border-radius: 15px !important;
-  width: 60%;
+  width: 350px;
 
   &:focus {
     box-shadow: none;
@@ -69,7 +84,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 40px;
+  height: 50px;
   width: 170px;
   background-color: #FFCB09;
   color: #fff;
@@ -106,6 +121,7 @@ export default {
 }
 
 .search__image {
+  margin-right: 20px;
   cursor: pointer;
 }
 

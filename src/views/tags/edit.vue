@@ -37,7 +37,7 @@ import {BFormTags} from 'bootstrap-vue'
 import {store} from "@/store";
 
 export default {
-  name: 'tags',
+  name: 'tags-edit',
   components: {
     BFormTags
   },
