@@ -5,6 +5,12 @@ export const store = reactive({
     token: null,
     errorTexts: [],
     successTexts: [],
+    confirmModal: {
+        show: false,
+        title: '',
+        content: '',
+        onConfirm: ()=> {}
+    },
 
     displayError(text) {
         this.errorTexts.push(text)

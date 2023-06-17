@@ -7,12 +7,8 @@
         </Title>
         <section class="section section-lg pt-lg-0" style="margin-top: 200px">
           <div class="container">
-            <div class="row mb-3" style="justify-content: space-between">
-              <SearchInput v-model="keyword" @submit="searchByKeyword"></SearchInput>
-              <select v-model="selectedTagId" class="form-control col-3">
-                <option value="" selected>Chọn tag</option>
-                <option v-for="tag in tagList" :value="tag.id" :key="tag.id">{{ tag.name }}</option>
-              </select>
+            <div class="d-flex justify-content-center my-3">
+              <SearchCustom></SearchCustom>
             </div>
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: flex-end">
               <router-link to="/tests/create" class="btn btn-success">Thêm bài test</router-link>
@@ -82,10 +78,11 @@
 import axios from 'axios'
 import {store} from "@/store";
 import ButtonSubmitSuccess from "@/components/ButtonSubmitSuccess.vue";
+import SearchCustom from "@/components/SearchCustom.vue";
 
 export default {
   name: 'tests',
-  components: {ButtonSubmitSuccess},
+  components: {SearchCustom, ButtonSubmitSuccess},
   data() {
     return {
       store,

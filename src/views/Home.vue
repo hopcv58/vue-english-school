@@ -1,6 +1,5 @@
 <template>
   <div class="w-100 welcome full-height" style="background: #FFCB08; position: relative; height: 100vh; display: block">
-    <SearchCustom></SearchCustom>
     <div class="hello" style="height: 100%">
       <div class="container-full" style="padding-top: 250px; height: 100%; position: relative; overflow: hidden">
         <div class="logo" style="position: absolute; top: 30px; left: 30px;">

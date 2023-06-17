@@ -7,6 +7,14 @@
             <img src="https://learn.mochidemy.com/image/213202355_4534422609904130_3896387388468451408_n_1.png"
                  style="width: 100%">
           </div>
+          <div v-if="availableTime" class="result-questions" style="position: absolute; right: 15px">
+            <h2 class="result-box-header result-box-title">Time remaining</h2>
+            <div class="result-box-body">
+              <h3 class="text-center">
+                {{ formattedRemainingTime }}
+              </h3>
+            </div>
+          </div>
         </div>
         <div class="col-6 _col-2 main-center" style="padding-bottom: 10px; min-height: 616px;">
           <div class="div-review" style="">
@@ -63,28 +71,23 @@
               </div>
             </div>
             <div class="btn-answer" style="width: 50%; margin-left: 25%; height: 80px; bottom: 20px">
-              <div v-if="!currentAnswer" class="div-no_click w-100 text-center">
-                <button v-if="this.currentQuestionNo + 1 < totalQuestions" class="no_click btn-active">
-                  CÂU TIẾP THEO
-                </button>
-                <button v-else class="no_click btn-active">
+              <div v-if="this.currentQuestionNo + 1 >= totalQuestions" class="div-submit-success div-review-next">
+                <button class="btn btn-submit-success" @click="submitTest">
                   NỘP BÀI
+                </button>
+              </div>
+              <div v-else-if="!currentAnswer"
+                   class="div-no_click w-100 text-center">
+                <button class="no_click btn-active">
+                  CÂU TIẾP THEO
                 </button>
               </div>
               <div v-else class="div-submit-success div-review-next">
                 <button
-                    v-if="this.currentQuestionNo + 1 < totalQuestions"
                     class="btn btn-submit-success"
                     @click="nextQuestion"
                 >
                   CÂU TIẾP THEO
-                </button>
-                <button
-                    v-else
-                    class="btn btn-submit-success"
-                    @click="submitTest"
-                >
-                  NỘP BÀI
                 </button>
               </div>
               <div class="div-no-success text-center mt-2" v-if="currentQuestionNo < totalQuestions - 1">
@@ -150,6 +153,8 @@ export default {
       currentAnswer: 0,
       totalQuestions: 0,
       totalAnswers: 0,
+      availableTime: 0,
+      passedTime: 0,
     }
   },
   computed: {
@@ -169,6 +174,15 @@ export default {
       }
       return this.questions[this.currentQuestionNo]
     },
+    formattedRemainingTime() {
+      const remainingTime = this.availableTime - this.passedTime
+      if (remainingTime <= 0) {
+        return '00:00'
+      }
+      const minutes = Math.floor(remainingTime / 60)
+      const seconds = remainingTime % 60
+      return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
+    },
   },
   async created() {
     await this.getQuestions()
@@ -180,6 +194,15 @@ export default {
         })
         .then(response => {
           this.questions = response.data.data.questionList
+          this.availableTime = response.data.data.availableTime * 60 // convert to seconds
+          // set Interval to count down. When time is up, submit test and clear interval
+          this.interval = setInterval(() => {
+            this.passedTime++
+            if (this.passedTime >= this.availableTime) {
+              this.submit()
+              clearInterval(this.interval)
+            }
+          }, 1000)
         })
   },
   methods: {
@@ -212,6 +235,18 @@ export default {
       this.totalAnswers++
     },
     submitTest() {
+      if (this.totalAnswers < this.totalQuestions) {
+        this.store.confirmModal = {
+          show: true,
+          title: 'Bạn chưa hoàn thành bài thi',
+          content: 'Bạn có chắc chắn muốn nộp bài?',
+          onConfirm: this.submit,
+        }
+      } else {
+        this.submit()
+      }
+    },
+    submit() {
 
     },
     goToQuestion(index) {
@@ -221,6 +256,7 @@ export default {
       this.currentQuestionNo = index
       this.currentAnswer = this.answers[index] || 0
     },
+
   }
 }
 </script>

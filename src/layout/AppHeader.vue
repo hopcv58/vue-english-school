@@ -124,14 +124,28 @@
             </base-alert>
           </template>
         </div>
+        <modal :show.sync="store.confirmModal.show">
+          <h5 slot="header" class="modal-title" id="modal-title-default">{{store.confirmModal.title}}</h5>
+
+          <p>{{store.confirmModal.content}}</p>
+
+          <template slot="footer">
+            <base-button type="success" @click="store.confirmModal.onConfirm">Confirm</base-button>
+            <base-button type="link" class="ml-auto" @click="store.confirmModal.show = false">
+              Cancel
+            </base-button>
+          </template>
+        </modal>
       </div>
     </div>
   </header>
 </template>
 <script>
 import {store} from "@/store";
+import Modal from "@/components/Modal.vue";
 
 export default {
+  components: {Modal},
   data() {
     return {
       store,
