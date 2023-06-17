@@ -10,7 +10,7 @@
 
           <select v-model="addQuestionModal.selectingTagId" class="form-control col-6" @change="getQuestionsForModal">
             <option value="">Chọn tag</option>
-            <option v-for="tag in tagList" :value="tag.id">{{ tag.name }}</option>
+            <option v-for="tag in tagList" :value="tag.id" :key="tag.id">{{ tag.name }}</option>
           </select>
 
           <table v-if="addQuestionModal.questions.length" class="table table-striped">
@@ -22,13 +22,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="question in addQuestionModal.questions">
+            <tr v-for="question in addQuestionModal.questions" :key="question.id">
               <td>
                 <input type="checkbox" :value="question.id" v-model="addQuestionModal.selectingQuestionIds">
               </td>
               <td>{{ question.content }}</td>
               <td>
-                <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
+                 <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
               </td>
             </tr>
             </tbody>
@@ -122,7 +122,7 @@
                   <tr v-if="addQuestionModal.selectedQuestionIds.includes(question.id)">
                     <td>{{ question.content }}</td>
                     <td>
-                      <span v-for="tag in question.tagList" class="badge badge-primary mr-1">{{ tag.name }}</span>
+                       <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
                     </td>
                   </tr>
                 </template>
@@ -140,6 +140,7 @@
 import axios from 'axios'
 import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
 import Modal from '@/components/Modal.vue'
+import {store} from "@/store";
 
 export default {
   name: 'tests',
@@ -160,7 +161,7 @@ export default {
       },
       tagList: [],
       questions: [],
-
+      store,
       name: '',
       description: '',
       availableTime: '',
@@ -209,7 +210,7 @@ export default {
     },
     async storeTest() {
       if (!this.name || !this.availableTime) {
-        alert('Vui lòng nhập đầy đủ thông tin')
+        store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
       }
 
@@ -231,12 +232,16 @@ export default {
         availableTime: this.availableTime,
         questionList: questionIds,
         tagList: tagIds
+      }, {
+        headers: {
+          'Authorization': `Bearer ${store.token}`
+        }
       })
           .then(res => {
-            alert('Cập nhật thành công')
+            store.displaySuccess('Cập nhật thành công')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getQuestionsForModal() {
@@ -249,7 +254,7 @@ export default {
             this.addQuestionModal.questions = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getTags() {
@@ -261,7 +266,7 @@ export default {
             this.tagList = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
     async getQuestions() {
@@ -270,7 +275,7 @@ export default {
             this.questions = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     }
   }

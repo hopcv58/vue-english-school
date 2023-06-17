@@ -11,10 +11,6 @@
               </div>
               <div class="text-center login">
                 <div class="login__boxTitle"><p>Đăng nhập tài khoản QuizChii</p></div>
-                <base-alert v-if="error" type="danger" icon="ni ni-support-16"
-                            style="position: fixed; top:30px;right: 25%; width: 25%">
-                  <span slot="text"><strong>Error!</strong>{{ error }}</span>
-                </base-alert>
                 <div class="login__boxInput">
                   <div class="input__group">
                     <input
@@ -69,6 +65,7 @@
 </template>
 <script>
 import axios from "axios";
+import {store} from "@/store";
 
 export default {
   name: 'register',
@@ -76,7 +73,6 @@ export default {
     return {
       username: '',
       password: '',
-      error: ''
     }
   },
   methods: {
@@ -89,10 +85,8 @@ export default {
         localStorage.setItem('user', JSON.stringify(res.data));
         this.$router.push('/tests');
       }).catch(err => {
-        this.error = err.response.data.error || err.message;
-        setTimeout(() => {
-          this.error = '';
-        }, 3000)
+        const error = err.response.data.error || err.message;
+        store.displayError(error)
       })
     }
   }

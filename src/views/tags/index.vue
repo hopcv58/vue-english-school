@@ -7,7 +7,7 @@
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
-            <div v-if="store.user" class="row mb-3" style="justify-content: end">
+            <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
               <router-link to="/tags/create" class="btn btn-success">Thêm tag</router-link>
             </div>
             <div class="row justify-content-center bg-white">
@@ -16,7 +16,8 @@
                 <tr>
                   <th scope="col">Tag</th>
                   <th scope="col">Mô tả</th>
-                  <th scope="col" style="width: 170px">Thao tác</th>
+                  <th v-if="store.isAdmin()" scope="col"
+                      style="width: 170px"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,7 +28,7 @@
                   <td data-toggle="tooltip" :title="tag.description">
                     {{ shortenContent(tag.description) }}
                   </td>
-                  <td>
+                  <td v-if="store.isAdmin()">
                     <router-link :to="{ name: 'tags.edit', params: { id: tag.id } }" class="btn btn-sm btn-primary">
                       Sửa
                     </router-link>
@@ -36,6 +37,7 @@
                 </tr>
                 </tbody>
               </table>
+              <SearchNoData v-else></SearchNoData>
               <div v-if="totalPage === 0" class="text-center">
                 <div class="spinner-border text-primary" role="status">
                   <span class="sr-only">Loading...</span>
@@ -81,7 +83,7 @@ export default {
           this.total = res.data.data.totalElements
         })
         .catch(err => {
-          console.log(err)
+          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
         })
   },
   methods: {
@@ -96,12 +98,12 @@ export default {
       if (confirm('Bạn có chắc chắn muốn xóa tag này?')) {
         axios.delete(`http://localhost:8080/quiz/api/tags/${id}`)
             .then(res => {
-              alert('Xóa tag thành công!')
+              store.displaySuccess('Xóa tag thành công!')
               this.tags = this.tags.filter(tag => tag.id !== id)
             })
             .catch(err => {
-              alert('Xóa tag thất bại!')
-              console.log(err)
+              store.displayError('Xóa tag thất bại!')
+              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
             })
       }
     }

@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios'
+import {store} from '@/store'
 import {BFormTags} from 'bootstrap-vue'
 
 export default {
@@ -42,6 +43,7 @@ export default {
   },
   data() {
     return {
+      store,
       name: '',
       description: '',
       tags: [],
@@ -56,25 +58,30 @@ export default {
             this.tags = res.data.data.items
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
 
       const existed = this.tags.find(tag => tag.name === this.name)
 
       if (existed) {
-        alert('Tag đã tồn tại')
+        store.displayError('Tag đã tồn tại')
         return
       }
 
       await axios.post('http://localhost:8080/quiz/api/tags', {
         name: this.name,
         description: this.description
+      },{
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
       })
           .then(res => {
+            store.displaySuccess('Thêm tag thành công')
             this.$router.push('/tags')
           })
           .catch(err => {
-            console.log(err)
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     }
   }

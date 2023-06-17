@@ -61,7 +61,7 @@
           <div class="col-3 _col-3 position-r">
             <div class="position-a vertical-center" style="right: 60px;">
               <div class="menu-user-name">
-                <span v-if="store.user" class="text-user-name" style="color: #FFCB08">
+                <span v-if="store.isLoggedIn()" class="text-user-name" style="color: #FFCB08">
                   {{ store.user.username }}
                 </span>
                 <span class="text-user-name" style="color: #FFCB08" v-else>
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div v-show="showDropDown" class="position-a menu-dropdown text-center">
-            <template v-if="store.user">
+            <template v-if="store.isLoggedIn()">
               <a href="javascript:" class="btn-setting">
                 <div class="btn-top text-start btn-active menu-dropdown-item">
                 <span class="text-white p-dropdown vertical-center">
@@ -111,6 +111,18 @@
               </a>
             </template>
           </div>
+        </div>
+        <div class="message-container">
+          <template v-for="error in store.errorTexts">
+            <base-alert type="danger" icon="ni ni-support-16">
+              <span slot="text"><strong>Error!</strong> {{ error }}</span>
+            </base-alert>
+          </template>
+          <template v-for="success in store.successTexts">
+            <base-alert type="success" icon="ni ni-support-16">
+              <span slot="text"><strong>Success!</strong> {{ success }}</span>
+            </base-alert>
+          </template>
         </div>
       </div>
     </div>
