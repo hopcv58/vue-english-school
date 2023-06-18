@@ -117,8 +117,23 @@ export default {
       }
       return question['answer' + question.correctAnswer]
     },
-    searchByTag(tagId, keyword) {
-      console.log(tagId, keyword)
+    async searchByTag(tagId, keyword) {
+      let url = `http://localhost:8080/quiz/api/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
+      if (tagId) {
+        url += `&tagId=${tagId}`
+      }
+      if (keyword) {
+        url += `&content=${keyword}`
+      }
+      await axios.get(url)
+          .then(res => {
+            this.questions = res.data.data.items
+            this.totalPage = res.data.data.totalPage
+            this.total = res.data.data.totalElements
+          })
+          .catch(err => {
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+          })
     },
     deleteQuestion(id) {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {

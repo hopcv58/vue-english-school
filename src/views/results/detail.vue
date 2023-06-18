@@ -44,27 +44,27 @@
                       Chi tiết kết quả:
                     </p>
                   </div>
-                  <div class="col-10 offset-1">
+                  <div class="col-8 offset-2">
                     <div class="row justify-content-center position-r">
                       <div class="w-100">
                         <div class="game-learn-2 game-learn-word">
                           <div class="text-center w-100">
-                            <p class="title-game-2">
+                            <div class="title-game-2">
                               <i
                                   class="fa fa-check" aria-hidden="true" style="margin-right: 20px"
                                   :class="currentQuestion.correctAnswer === currentQuestion.answered ? 'fa-check text-success' : 'fa-times text-danger'">
                               </i>
                               <span v-html="currentQuestion.content"></span>
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="w-100">
                         <div class="box-answer-3">
                           <div class="text-center list-answer-3">
-                            <p class="mb-0" style="font-size: 15px; font-weight: bold"
+                            <div class="mb-0" style="font-size: 15px; font-weight: 550"
                                v-html="currentQuestion.question">
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -76,8 +76,8 @@
                                   'answer-review-item-success': currentQuestion.correctAnswer === answerNo,
                                   'answer-review-item-error': currentQuestion.answered === answerNo && currentQuestion.correctAnswer !== answerNo,
                             }">
-                              <p class="mb-0" v-html="currentQuestion['answer' + answerNo]">
-                              </p>
+                              <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
+                              </div>
                             </div>
                           </div>
                         </div>

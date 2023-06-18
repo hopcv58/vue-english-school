@@ -123,8 +123,23 @@ export default {
       }
       return content
     },
-    searchByTag(tagId, keyword) {
-      console.log(tagId, keyword)
+    async searchByTag(tagId, keyword) {
+      let url = `http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
+      if (tagId) {
+        url += `&tagId=${tagId}`
+      }
+      if (keyword) {
+        url += `&name=${keyword}`
+      }
+      await axios.get(url)
+          .then(res => {
+            this.tests = res.data.data.items
+            this.totalPage = res.data.data.totalPage
+            this.total = res.data.data.totalElements
+          })
+          .catch(err => {
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+          })
     },
     deleteTest(id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {

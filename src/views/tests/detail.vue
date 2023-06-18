@@ -33,16 +33,16 @@
                     <div class="col-9">
                       <div class="game-learn-2 game-learn-word">
                         <div class="text-center w-100">
-                          <p class="title-game-2" v-html="currentQuestion.content">
-                          </p>
+                          <div class="title-game-2" v-html="currentQuestion.content">
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-9">
                       <div class="box-answer-3">
                         <div class="text-center list-answer-3">
-                          <p class="mb-0" style="font-size: 15px; font-weight: bold" v-html="currentQuestion.question">
-                          </p>
+                          <div class="mb-0" style="font-size: 15px; font-weight: 550" v-html="currentQuestion.question">
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -52,8 +52,8 @@
                           <div class="answer-review-item item-game text-center"
                                :class="{'answer-review-item-success': currentAnswer === answerNo}"
                                :data-answer="answerNo" @click="setAnswer(answerNo)">
-                            <p class="mb-0" v-html="currentQuestion['answer' + answerNo]">
-                            </p>
+                            <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
+                            </div>
                           </div>
                         </div>
                       </div>
