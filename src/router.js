@@ -6,8 +6,6 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Profile from './views/Profile.vue'
-import QuestionIndex from '@/views/questions/index.vue'
-import TagIndex from '@/views/tags/index.vue'
 import TestIndex from './views/tests/index.vue'
 import EmptyHeader from '@/layout/empty/EmptyHeader.vue'
 import EmptyFooter from '@/layout/empty/EmptyFooter.vue'
@@ -76,7 +74,7 @@ export default new Router({
       name: 'questions',
       components: {
         header: AppHeader,
-        default: QuestionIndex,
+        default: () => import('@/views/questions/index.vue'),
         footer: AppFooter
       }
     },
@@ -103,7 +101,7 @@ export default new Router({
       name: 'tags',
       components: {
         header: AppHeader,
-        default: TagIndex,
+        default: () => import('@/views/tags/index.vue'),
         footer: AppFooter
       }
     },
@@ -122,6 +120,15 @@ export default new Router({
       components: {
         header: AppHeader,
         default: () => import('@/views/tags/edit.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/results/:id',
+      name: 'results-detail',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/results/detail.vue'),
         footer: AppFooter
       }
     },

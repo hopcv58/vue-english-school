@@ -132,21 +132,14 @@
 
 <script>
 import axios from 'axios'
-import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
-import Modal from '@/components/Modal.vue'
 import {store} from '@/store'
 
 export default {
   name: 'tests-start',
-  components: {
-    Modal,
-    BFormTags,
-    BFormTag,
-    BFormSelect
-  },
   data() {
     return {
       store,
+      startedTime: null,
       questions: [],
       answers: [],
       currentQuestionNo: 0,
@@ -156,6 +149,7 @@ export default {
       availableTime: 0,
       passedTime: 0,
       interval: null,
+      testName: '',
     }
   },
   computed: {
@@ -191,24 +185,6 @@ export default {
       return 'Are you sure you want to leave? Your progress will be lost.'
     }
     await this.getQuestions()
-    await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id,
-        {
-          headers: {
-            'Authorization': `Bearer ${store.token}`
-          }
-        })
-        .then(response => {
-          this.questions = response.data.data.questionList
-          this.availableTime = response.data.data.availableTime * 60 // convert to seconds
-          // set Interval to count down. When time is up, submit test and clear interval
-          this.interval = setInterval(() => {
-            this.passedTime++
-            if (this.passedTime >= this.availableTime) {
-              this.submit()
-              clearInterval(this.interval)
-            }
-          }, 1000)
-        })
   },
   methods: {
     endTestEarly() {
@@ -222,13 +198,26 @@ export default {
       }
     },
     async getQuestions() {
-      await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id)
-          .then(res => {
-            this.questions = res.data.data.questionList
-            this.totalQuestions = res.data.data.questionList.length
+      axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id,
+          {
+            headers: {
+              'Authorization': `Bearer ${store.token}`
+            }
           })
-          .catch(err => {
-            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+          .then(response => {
+            this.questions = response.data.data.questionList
+            this.availableTime = response.data.data.availableTime * 60 // convert to seconds
+            this.startedTime = new Date().toISOString().slice(0, 19).replace('T', ' ')
+            this.totalQuestions = this.questions.length
+            this.testName = response.data.data.name
+            // set Interval to count down. When time is up, submit test and clear interval
+            this.interval = setInterval(() => {
+              this.passedTime++
+              if (this.passedTime >= this.availableTime) {
+                this.submit()
+                clearInterval(this.interval)
+              }
+            }, 1000)
           })
     },
     setAnswer(answer) {
@@ -251,7 +240,7 @@ export default {
         this.store.confirmModal = {
           show: true,
           title: 'Bạn chưa hoàn thành bài thi',
-          content: 'Bạn có chắc chắn muốn nộp bài?',
+          content: 'Bạn vẫn còn câu hỏi chưa trả lời. Bạn có chắc chắn muốn nộp bài? Các câu chưa trả lời sẽ được tính là sai.',
           onConfirm: this.submit,
         }
       } else {
@@ -259,10 +248,32 @@ export default {
       }
     },
     submit() {
+      this.answers[this.currentQuestionNo] = this.currentAnswer
+      clearInterval(this.interval)
+      const submittedAt = new Date().toISOString().slice(0, 19).replace('T', ' ')
       const data = {
         userId: this.store.user.id,
         testId: this.$route.params.id,
+        testName: this.testName,
+        startedAt: this.startedTime,
+        submittedAt: submittedAt,
+        resultDetails: this.questions.map((question, index) => {
+          return {
+            questionId: question.id,
+            answered: this.answers[index] || 0,
+          }
+        })
       }
+      axios.post('http://localhost:8080/quiz/api/results', data, {
+        headers: {
+          'Authorization': `Bearer ${this.store.token}`
+        }
+      }).then(response => {
+        this.store.displaySuccess('Nộp bài thành công')
+        this.$router.push('/results/' + response.data.data.resultId)
+      }).catch(error => {
+        store.displayError('Có lỗi xảy ra khi nộp bài. Vui lòng thử lại sau.')
+      })
     },
     goToQuestion(index) {
       if (this.currentAnswer !== 0) {

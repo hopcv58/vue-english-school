@@ -991,9 +991,28 @@ _:-ms-fullscreen, :root .navbar-mochimochi img {
 }
 
 .answering {
-  background: #ffcb08 !important;
+  background: #ffcb08;
   border: 1px black dashed;
 }
 .answered {
-  background: #ffcb08 !important
+  background: #ffcb08
+}
+.correct {
+  background: #58bd2f
+}
+.incorrect {
+  background: #EB5757
+}
+.test-instruction {
+  color: rgba(0,0,0,.51);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 22px;
+  margin-bottom: 3.4%;
+  padding-left: 8%
+}
+.question {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 28px;
 }
