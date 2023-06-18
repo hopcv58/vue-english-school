@@ -43,6 +43,8 @@
                     <p class="title-box">
                       Chi tiết kết quả:
                     </p>
+                  </div>
+                  <div class="col-10 offset-1">
                     <div class="row justify-content-center position-r">
                       <div class="w-100">
                         <div class="game-learn-2 game-learn-word">
