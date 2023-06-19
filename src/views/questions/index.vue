@@ -19,7 +19,7 @@
                 <tr>
                   <th scope="col">Nội dung</th>
                   <th scope="col">Câu hỏi</th>
-                  <th v-if="store.isLoggedIn()" scope="col" style="min-width: 60px">
+                  <th v-if="store.isAdmin()" scope="col" style="min-width: 60px">
                     Answer
                   </th>
                   <th scope="col" style="min-width: 130px">Tags</th>

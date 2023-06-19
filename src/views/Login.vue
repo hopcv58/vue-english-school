@@ -82,6 +82,8 @@ export default {
         password: this.password
       }).then(res => {
         localStorage.setItem('token', res.data.accessToken);
+        const user = res.data;
+        user.password = this.password;
         localStorage.setItem('user', JSON.stringify(res.data));
         // token is expired after 1 day
         localStorage.setItem('expired', Date.now() + 86399000);

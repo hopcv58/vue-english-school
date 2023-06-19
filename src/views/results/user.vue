@@ -1,46 +1,47 @@
-<template><section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
-  <div class="container">
-    <div class="row justify-content-center bg-white">
-      <table v-if="result.list && result.list.length" class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">Tên</th>
-          <th scope="col">Thời điểm bắt đầu</th>
-          <th scope="col">Thời gian làm bài</th>
-          <th scope="col">Kết quả</th>
-          <th scope="col">Điểm</th>
-          <th scope="col">Review</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="detail in result.list" :key="result.list.userId">
-          <td data-toggle="tooltip" :title="detail.testName">
-            {{ detail.testName }}
-          </td>
-          <td data-toggle="tooltip" :title="detail.startedAt.substr(0, 19)">
-            {{ detail.startedAt.substr(0, 19) }}
-          </td>
-          <td data-toggle="tooltip" :title="calcTimeUsed(detail.startedAt, detail.submittedAt)">
-            {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
-          </td>
-          <td data-toggle="tooltip" :title="detail.corrected">
-            {{ detail.corrected }}
-          </td>
-          <td data-toggle="tooltip" :title="detail.corrected">
-            {{ detail.corrected }}
-          </td>
-          <td>
-            <router-link :to="`/results/${detail.resultId}`">
-              <button class="btn btn-sm btn-primary">Review</button>
-            </router-link>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <SearchNoData v-else></SearchNoData>
+<template>
+  <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
+    <div class="container">
+      <div class="row justify-content-center bg-white">
+        <table v-if="result.list && result.list.length" class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Tên</th>
+            <th scope="col">Thời điểm bắt đầu</th>
+            <th scope="col">Thời gian làm bài</th>
+            <th scope="col">Kết quả</th>
+            <th scope="col">Điểm</th>
+            <th scope="col">Review</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="detail in result.list" :key="result.list.userId">
+            <td data-toggle="tooltip" :title="detail.testName">
+              {{ detail.testName }}
+            </td>
+            <td data-toggle="tooltip" :title="detail.startedAt.substr(0, 19)">
+              {{ detail.startedAt.substr(0, 19) }}
+            </td>
+            <td data-toggle="tooltip" :title="calcTimeUsed(detail.startedAt, detail.submittedAt)">
+              {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
+            </td>
+            <td data-toggle="tooltip" :title="detail.corrected">
+              {{ detail.corrected }}
+            </td>
+            <td data-toggle="tooltip" :title="detail.corrected">
+              {{ detail.corrected }}
+            </td>
+            <td>
+              <router-link :to="`/results/${detail.resultId}`">
+                <button class="btn btn-sm btn-primary">Review</button>
+              </router-link>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <SearchNoData v-else></SearchNoData>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 </template>
 
 <script>
