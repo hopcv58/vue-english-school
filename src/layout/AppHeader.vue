@@ -46,12 +46,12 @@
                   </div>
                 </router-link>
               </div>
-              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('examine')}">
-                <router-link to="/statistic">
+              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('results')}">
+                <router-link to="/results">
                   <div class="menu-item-box text-center w-100">
                     <img src="img/theme/analysis.png" alt="">
                     <p class="mb-0">
-                      Thống kê
+                      {{store.isAdmin() ? 'Thống kê' : 'Lịch sử thi' }}
                     </p>
                   </div>
                 </router-link>

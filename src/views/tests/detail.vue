@@ -51,7 +51,7 @@
                         <div v-for="answerNo in [1,2,3,4]" :key="answerNo" class="bg-answer-item">
                           <div class="answer-review-item item-game text-center"
                                :class="{'answer-review-item-success': currentAnswer === answerNo}"
-                               :data-answer="answerNo" @click="setAnswer(answerNo)">
+                               :data-answer="answerNo">
                             <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
                             </div>
                           </div>
@@ -185,35 +185,11 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    setAnswer(answer) {
-      this.currentAnswer = answer
-    },
-    skipQuestion() {
-      if (this.currentQuestionNo < this.totalQuestions - 1) {
-        this.currentQuestionNo++
-        this.currentAnswer = 0
-      }
-    },
     nextQuestion() {
       this.answers[this.currentQuestionNo] = this.currentAnswer
       this.currentAnswer = 0
       this.currentQuestionNo++
       this.totalAnswers++
-    },
-    submitTest() {
-      if (this.totalAnswers < this.totalQuestions) {
-        this.store.confirmModal = {
-          show: true,
-          title: 'Bạn chưa hoàn thành bài thi',
-          content: 'Bạn có chắc chắn muốn nộp bài?',
-          onConfirm: this.submit,
-        }
-      } else {
-        this.submit()
-      }
-    },
-    submit() {
-
     },
     goToQuestion(index) {
       if (this.currentAnswer !== 0) {

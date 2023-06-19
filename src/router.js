@@ -158,6 +158,25 @@ export default new Router({
         default: Profile,
         footer: AppFooter
       }
+    },
+    {
+      path: '/results',
+      name: 'results',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/results/index.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/results/tests/:id',
+      name: 'results.test',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/results/test.vue'),
+        footer: AppFooter
+      }
+
     }
   ],
   scrollBehavior: to => {

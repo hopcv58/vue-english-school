@@ -236,6 +236,8 @@ export default {
       this.totalAnswers++
     },
     submitTest() {
+      this.answers[this.currentQuestionNo] = this.currentAnswer
+      this.totalAnswers++
       if (this.totalAnswers < this.totalQuestions) {
         this.store.confirmModal = {
           show: true,
@@ -248,7 +250,6 @@ export default {
       }
     },
     submit() {
-      this.answers[this.currentQuestionNo] = this.currentAnswer
       clearInterval(this.interval)
       const submittedAt = new Date().toISOString().slice(0, 19).replace('T', ' ')
       const data = {
