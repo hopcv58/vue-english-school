@@ -169,11 +169,11 @@ export default new Router({
       }
     },
     {
-      path: '/results/tests/:id',
+      path: '/results/quiz/:id',
       name: 'results.test',
       components: {
         header: AppHeader,
-        default: () => import('@/views/results/test.vue'),
+        default: () => import('@/views/results/quiz.vue'),
         footer: AppFooter
       }
 

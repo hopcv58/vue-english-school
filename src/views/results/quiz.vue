@@ -29,11 +29,11 @@
                   <td data-toggle="tooltip" :title="calcTimeUsed(detail.startedAt, detail.submittedAt)">
                     {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
                   </td>
-                  <td data-toggle="tooltip" :title="detail.corrected">
-                    {{ detail.corrected }}
+                  <td>
+                    {{ detail.corrected }} / {{ detail.totalQuestion }}
                   </td>
                   <td data-toggle="tooltip" :title="detail.corrected">
-                    {{ detail.corrected }}
+                    {{ Math.round(detail.corrected * 100 / detail.totalQuestion) }}
                   </td>
                 </tr>
                 </tbody>

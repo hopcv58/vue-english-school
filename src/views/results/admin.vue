@@ -31,7 +31,7 @@
             </td>
             <td style="display: flex; justify-content: center">
               <router-link
-                  :to="{ name: 'results.test', params: { id: test.id } }"
+                  :to="'/results/quiz/' + test.id"
                   class="btn btn-sm btn-primary">Chi tiết
               </router-link>
             </td>

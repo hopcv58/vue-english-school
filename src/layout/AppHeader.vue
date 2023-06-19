@@ -62,7 +62,7 @@
             <div class="position-a vertical-center" style="right: 60px;">
               <div class="menu-user-name">
                 <span v-if="store.isLoggedIn()" class="text-user-name" style="color: #FFCB08">
-                  {{ store.user.username }}
+                  {{ store.user.name }}
                 </span>
                 <span class="text-user-name" style="color: #FFCB08" v-else>
                   Guest
