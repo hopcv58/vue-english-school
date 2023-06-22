@@ -15,8 +15,8 @@
             </div>
           </div>
           <div class="col-6 _col-2">
-            <div class="row menu">
-              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('tests')}">
+            <div v-if="store.isAdmin()" class="row menu">
+              <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('tests')}">
                 <router-link to="/tests">
                   <div class="menu-item-box text-center w-100">
                     <img src="img/theme/quiz.png" alt="">
@@ -26,7 +26,7 @@
                   </div>
                 </router-link>
               </div>
-              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('questions')}">
+              <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('questions')}">
                 <router-link to="/questions">
                   <div class="menu-item-box text-center w-100">
                     <img src="img/theme/community.png" alt="">
@@ -36,7 +36,7 @@
                   </div>
                 </router-link>
               </div>
-              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('tags')}">
+              <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('tags')}">
                 <router-link to="/tags">
                   <div class="menu-item-box text-center w-100">
                     <img src="img/theme/book.png" alt="">
@@ -46,17 +46,28 @@
                   </div>
                 </router-link>
               </div>
-              <div class="col-3 p-0 text-center menu-item" :class="{active: $route.path.includes('results')}">
-                <router-link to="/results">
+              <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('statistics')}">
+                <router-link to="/statistics">
                   <div class="menu-item-box text-center w-100">
                     <img src="img/theme/analysis.png" alt="">
                     <p class="mb-0">
-                      {{store.isAdmin() ? 'Thống kê' : 'Lịch sử thi' }}
+                      Thống kê
+                    </p>
+                  </div>
+                </router-link>
+              </div>
+              <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('users')}">
+                <router-link to="/users">
+                  <div class="menu-item-box text-center w-100">
+                    <img src="img/theme/profile_active.png" alt="">
+                    <p class="mb-0">
+                      Quản lý người dùng
                     </p>
                   </div>
                 </router-link>
               </div>
             </div>
+            <div v-else style="height: 68px"></div>
           </div>
           <div class="col-3 _col-3 position-r">
             <div class="position-a vertical-center" style="right: 60px;">

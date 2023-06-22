@@ -127,7 +127,7 @@ import Modal from '@/components/Modal.vue'
 import {store} from '@/store'
 
 export default {
-  name: 'result-detail',
+  name: 'statistic-detail',
   data() {
     return {
       store,

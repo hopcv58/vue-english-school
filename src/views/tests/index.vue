@@ -5,7 +5,7 @@
         <Title>
           Danh sách bài kiểm tra
         </Title>
-        <section class="section section-lg pt-lg-0" style="margin-top: 200px">
+        <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
             <div class="d-flex justify-content-center my-3">
               <SearchCustom :tags="tagList" @submit="searchByTag"></SearchCustom>

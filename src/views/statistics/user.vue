@@ -31,7 +31,7 @@
               {{ detail.corrected }}
             </td>
             <td>
-              <router-link :to="`/results/${detail.resultId}`">
+              <router-link :to="`/statistics/${detail.resultId}`">
                 <button class="btn btn-sm btn-primary">Review</button>
               </router-link>
             </td>

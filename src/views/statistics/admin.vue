@@ -1,5 +1,5 @@
 <template>
-  <section class="section section-lg pt-lg-0" style="margin-top: 200px">
+  <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
     <div class="container">
       <div class="d-flex justify-content-center my-3">
         <SearchCustom :tags="tagList" @submit="searchByTag"></SearchCustom>
@@ -31,7 +31,7 @@
             </td>
             <td style="display: flex; justify-content: center">
               <router-link
-                  :to="'/results/quiz/' + test.id"
+                  :to="'/statistics/quiz/' + test.id"
                   class="btn btn-sm btn-primary">Chi tiết
               </router-link>
             </td>

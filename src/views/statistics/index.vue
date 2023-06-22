@@ -3,10 +3,9 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <Title>
-          {{ store.isAdmin() ? 'Thống kê' : 'Lịch sử thi' }}
+          Thống kê
         </Title>
-        <AdminStatistic v-if="store.isAdmin()"/>
-        <UserStatistic v-else-if="store.isLoggedIn()"/>
+        <AdminStatistic />
       </div>
     </div>
   </div>
@@ -14,14 +13,12 @@
 
 <script>
 import {store} from "@/store";
-import AdminStatistic from "@/views/results/admin";
-import UserStatistic from "@/views/results/user";
+import AdminStatistic from "@/views/statistics/admin";
 
 export default {
-  name: 'results',
+  name: 'statistics',
   components: {
-    AdminStatistic,
-    UserStatistic
+    AdminStatistic
   },
   data() {
     return {

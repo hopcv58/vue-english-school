@@ -271,7 +271,7 @@ export default {
         }
       }).then(response => {
         this.store.displaySuccess('Nộp bài thành công')
-        this.$router.push('/results/' + response.data.data.resultId)
+        this.$router.push('/statistics/' + response.data.data.resultId)
       }).catch(error => {
         store.displayError('Có lỗi xảy ra khi nộp bài. Vui lòng thử lại sau.')
       })

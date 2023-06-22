@@ -124,15 +124,6 @@ export default new Router({
       }
     },
     {
-      path: '/results/:id',
-      name: 'results-detail',
-      components: {
-        header: AppHeader,
-        default: () => import('@/views/results/detail.vue'),
-        footer: AppFooter
-      }
-    },
-    {
       path: '/login',
       name: 'login',
       components: {
@@ -160,24 +151,41 @@ export default new Router({
       }
     },
     {
-      path: '/results',
-      name: 'results',
+      path: '/statistics',
+      name: 'statistics',
       components: {
         header: AppHeader,
-        default: () => import('@/views/results/index.vue'),
+        default: () => import('@/views/statistics/index.vue'),
         footer: AppFooter
       }
     },
     {
-      path: '/results/quiz/:id',
-      name: 'results.test',
+      path: '/statistics/my-results',
+      name: 'statistics.my-results',
       components: {
         header: AppHeader,
-        default: () => import('@/views/results/quiz.vue'),
+        default: () => import('@/views/statistics/my-results.vue'),
         footer: AppFooter
       }
-
-    }
+    },
+    {
+      path: '/statistics/quiz/:id',
+      name: 'statistics.test',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/statistics/quiz.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/statistics/:id',
+      name: 'statistics-detail',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/statistics/detail.vue'),
+        footer: AppFooter
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {
