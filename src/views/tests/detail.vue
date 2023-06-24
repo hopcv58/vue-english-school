@@ -12,14 +12,14 @@
           <div class="div-review" style="">
             <div class="row div_process" style="margin: 0; padding: 30px 0 10px">
               <div class="col-2 text-center">
-                <img @click="endTestEarly" src="https://learn.mochidemy.com/svg/close_game.svg"
-                     style="width: 25px; cursor: pointer">
+                <img src="https://learn.mochidemy.com/svg/close_game.svg" style="width: 25px; cursor: pointer"
+                     @click="endTestEarly">
               </div>
               <div class="col-9">
                 <div class="process_bar" style="">
-                  <div class="process-element" data-content="5" id="process-element"
-                       :style="{'width': this.progress + '%'}">
-                    <img src="https://learn.mochidemy.com/image/9362859030ff2f1748657ae47ef40370.png" alt="">
+                  <div id="process-element" :style="{'width': this.progress + '%'}" class="process-element"
+                       data-content="5">
+                    <img alt="" src="https://learn.mochidemy.com/image/9362859030ff2f1748657ae47ef40370.png">
                   </div>
                 </div>
               </div>
@@ -49,9 +49,9 @@
                     <div class="col-8">
                       <div class="div-answer-game" style="margin-top: 30px">
                         <div v-for="answerNo in [1,2,3,4]" :key="answerNo" class="bg-answer-item">
-                          <div class="answer-review-item item-game text-center"
-                               :class="{'answer-review-item-success': currentAnswer === answerNo}"
-                               :data-answer="answerNo">
+                          <div :class="{'answer-review-item-success': currentAnswer === answerNo}"
+                               :data-answer="answerNo"
+                               class="answer-review-item item-game text-center">
                             <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
                             </div>
                           </div>
@@ -81,10 +81,10 @@
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(question, index) in questions" :key="index"
-                     class="result-box-span" :class="{
+                     :class="{
                   answering: index === currentQuestionNo,
                   answered: answers[index] !== undefined,
-                }" @click="goToQuestion(index)">
+                }" class="result-box-span" @click="goToQuestion(index)">
                   <div class="result-box-number">{{ index + 1 }}</div>
                 </div>
               </div>
@@ -98,9 +98,9 @@
 
 <script>
 import axios from 'axios'
-import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
+import { BFormTags, BFormTag, BFormSelect } from 'bootstrap-vue'
 import Modal from '@/components/Modal.vue'
-import {store} from '@/store'
+import { store } from '@/store'
 
 export default {
   name: 'tests-detail',
@@ -110,7 +110,7 @@ export default {
     BFormTag,
     BFormSelect
   },
-  data() {
+  data () {
     return {
       store,
       questions: [],
@@ -124,7 +124,7 @@ export default {
     }
   },
   computed: {
-    progress() {
+    progress () {
       if (this.totalQuestions === 0) {
         return 5
       }
@@ -134,13 +134,13 @@ export default {
       }
       return progress < 5 ? 5 : progress
     },
-    currentQuestion() {
+    currentQuestion () {
       if (this.totalQuestions === 0) {
         return {}
       }
       return this.questions[this.currentQuestionNo]
     },
-    formattedRemainingTime() {
+    formattedRemainingTime () {
       const remainingTime = this.availableTime - this.passedTime
       if (remainingTime <= 0) {
         return '00:00'
@@ -150,7 +150,7 @@ export default {
       return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
     },
   },
-  async created() {
+  async created () {
     await this.getQuestions()
     await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id,
         {
@@ -172,10 +172,10 @@ export default {
         })
   },
   methods: {
-    endTestEarly() {
+    endTestEarly () {
       this.$router.push('/tests')
     },
-    async getQuestions() {
+    async getQuestions () {
       await axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id)
           .then(res => {
             this.questions = res.data.data.questionList
@@ -185,13 +185,13 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    nextQuestion() {
+    nextQuestion () {
       this.answers[this.currentQuestionNo] = this.currentAnswer
       this.currentAnswer = 0
       this.currentQuestionNo++
       this.totalAnswers++
     },
-    goToQuestion(index) {
+    goToQuestion (index) {
       if (this.currentAnswer !== 0) {
         this.answers[this.currentQuestionNo] = this.currentAnswer
       }

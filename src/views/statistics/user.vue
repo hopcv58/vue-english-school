@@ -15,19 +15,19 @@
           </thead>
           <tbody>
           <tr v-for="detail in result.list" :key="result.list.userId">
-            <td data-toggle="tooltip" :title="detail.testName">
+            <td :title="detail.testName" data-toggle="tooltip">
               {{ detail.testName }}
             </td>
-            <td data-toggle="tooltip" :title="detail.startedAt.substr(0, 19)">
+            <td :title="detail.startedAt.substr(0, 19)" data-toggle="tooltip">
               {{ detail.startedAt.substr(0, 19) }}
             </td>
-            <td data-toggle="tooltip" :title="calcTimeUsed(detail.startedAt, detail.submittedAt)">
+            <td :title="calcTimeUsed(detail.startedAt, detail.submittedAt)" data-toggle="tooltip">
               {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
             </td>
-            <td data-toggle="tooltip" :title="detail.corrected">
+            <td :title="detail.corrected" data-toggle="tooltip">
               {{ detail.corrected }}
             </td>
-            <td data-toggle="tooltip" :title="detail.corrected">
+            <td :title="detail.corrected" data-toggle="tooltip">
               {{ detail.corrected }}
             </td>
             <td>
@@ -46,17 +46,17 @@
 
 <script>
 import axios from 'axios'
-import {store} from "@/store";
+import { store } from '@/store'
 
 export default {
   name: 'user-statistics',
-  data() {
+  data () {
     return {
       store,
       result: {}
     }
   },
-  async created() {
+  async created () {
     if (!store.user) {
       this.$router.push('/login')
       return
@@ -72,7 +72,7 @@ export default {
     })
   },
   methods: {
-    calcTimeUsed(started, submitted) {
+    calcTimeUsed (started, submitted) {
       const start = new Date(started)
       const submit = new Date(submitted)
       const diff = submit.getTime() - start.getTime()

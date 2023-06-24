@@ -17,13 +17,13 @@
           </thead>
           <tbody>
           <tr v-for="test in tests" :key="test.id">
-            <td data-toggle="tooltip" :title="test.name">
+            <td :title="test.name" data-toggle="tooltip">
               {{ shortenContent(test.name) }}
             </td>
-            <td data-toggle="tooltip" :title="test.description">
+            <td :title="test.description" data-toggle="tooltip">
               {{ shortenContent(test.description) }}
             </td>
-            <td data-toggle="tooltip" :title="test.availableTime">
+            <td :title="test.availableTime" data-toggle="tooltip">
               {{ shortenContent(test.availableTime) + ' phút' }}
             </td>
             <td>
@@ -40,8 +40,8 @@
         </table>
         <SearchNoData v-else></SearchNoData>
         <div v-if="totalPage > 1">
-          <base-pagination :page-count="totalPage" :per-page="pageSize" :total="total"
-                           v-model="pageNo"></base-pagination>
+          <base-pagination v-model="pageNo" :page-count="totalPage" :per-page="pageSize"
+                           :total="total"></base-pagination>
         </div>
       </div>
     </div>
@@ -50,14 +50,14 @@
 
 <script>
 import axios from 'axios'
-import ButtonSubmitSuccess from "@/components/ButtonSubmitSuccess.vue";
-import SearchCustom from "@/components/SearchCustom.vue";
-import {store} from "@/store";
+import ButtonSubmitSuccess from '@/components/ButtonSubmitSuccess.vue'
+import SearchCustom from '@/components/SearchCustom.vue'
+import { store } from '@/store'
 
 export default {
   name: 'admin-statistics',
-  components: {SearchCustom, ButtonSubmitSuccess},
-  data() {
+  components: { SearchCustom, ButtonSubmitSuccess },
+  data () {
     return {
       store,
       tests: [],
@@ -68,11 +68,11 @@ export default {
       keyword: this.$route.query.keyword || '',
       totalPage: 0,
       total: 0,
-      selectedTagId: "",
+      selectedTagId: '',
       tagList: [],
     }
   },
-  async created() {
+  async created () {
     await axios.get(`http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.tests = res.data.data.items
@@ -91,13 +91,13 @@ export default {
         })
   },
   methods: {
-    shortenContent(content) {
+    shortenContent (content) {
       if (content.length > 30) {
         return content.substring(0, 30) + '...'
       }
       return content
     },
-    async searchByTag(tagId, keyword) {
+    async searchByTag (tagId, keyword) {
       let url = `http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
       if (tagId) {
         url += `&tagId=${tagId}`
@@ -115,7 +115,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    deleteTest(id) {
+    deleteTest (id) {
       if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {
         axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
             .then(res => {

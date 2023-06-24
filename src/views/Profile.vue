@@ -16,13 +16,13 @@
                   </div>
                   <div class="input__group">
                     <label>Tên hiển thị</label>
-                    <input v-model="name" type="text" placeholder="Tên của bạn" class="form-control" name="name">
+                    <input v-model="name" class="form-control" name="name" placeholder="Tên của bạn" type="text">
                     <p class="input__message__error"><small>{{ nameError }}</small></p>
                   </div>
                   <div class="input__group">
                     <label>Email</label>
-                    <input v-model="email" type="text" placeholder="Nhập chính xác email của bạn"
-                           class="form-control" name="email">
+                    <input v-model="email" class="form-control" name="email"
+                           placeholder="Nhập chính xác email của bạn" type="text">
                     <p class="input__message__error"><small>{{ emailError }}</small></p>
                   </div>
                 </div>
@@ -48,12 +48,12 @@
 </template>
 
 <script>
-import {store} from "@/store";
-import axios from "axios";
+import { store } from '@/store'
+import axios from 'axios'
 
 export default {
   name: 'profile',
-  data() {
+  data () {
     return {
       store,
       username: '',
@@ -62,28 +62,28 @@ export default {
     }
   },
   computed: {
-    emailError() {
+    emailError () {
       if (!this.email) return ''
       if (this.email.length > 50) return 'Email quá dài'
       const re = /\S+@\S+\.\S+/
       return re.test(this.email) ? '' : 'Email không hợp lệ'
     },
-    nameError() {
+    nameError () {
       if (!this.name) return ''
       return this.name.length >= 6 && this.name.length <= 50 ? '' : 'Tên phải có từ 6 đến 50 ký tự'
     },
-    isFormValid() {
+    isFormValid () {
       return this.username && this.email && this.name
           && !this.emailError && !this.nameError
     }
   },
-  created() {
+  created () {
     this.username = this.store.user.username
     this.name = this.store.user.name
     this.email = this.store.user.email
   },
   methods: {
-    updateUser() {
+    updateUser () {
       axios.put(`http://localhost:8080/quiz/api/users/${this.store.user.id}`, {
         email: this.email,
         name: this.name,
@@ -102,7 +102,7 @@ export default {
           store.displayError('Đã có lỗi xảy ra. Vui lòng thử lại')
       })
     },
-    refreshUserInfo() {
+    refreshUserInfo () {
       axios.get(`http://localhost:8080/quiz/api/users/${this.store.user.id}`, {
         headers: {
           'Authorization': `Bearer ${this.store.token}`

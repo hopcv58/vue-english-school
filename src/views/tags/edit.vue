@@ -12,7 +12,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="content">Nội dung tag</label>
-                    <textarea v-model="name" required class="form-control" rows="5"></textarea>
+                    <textarea v-model="name" class="form-control" required rows="5"></textarea>
                   </div>
                 </div>
                 <div class="form-row">
@@ -21,7 +21,7 @@
                     <textarea v-model="description" class="form-control" rows="5"></textarea>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <button class="btn btn-primary" type="submit">Cập nhật</button>
               </form>
             </div>
           </div>
@@ -33,15 +33,15 @@
 
 <script>
 import axios from 'axios'
-import {BFormTags} from 'bootstrap-vue'
-import {store} from "@/store";
+import { BFormTags } from 'bootstrap-vue'
+import { store } from '@/store'
 
 export default {
   name: 'tags-edit',
   components: {
     BFormTags
   },
-  data() {
+  data () {
     return {
       store,
       name: '',
@@ -49,7 +49,7 @@ export default {
       tags: [],
     }
   },
-  async created() {
+  async created () {
     await axios.get('http://localhost:8080/quiz/api/tags/' + this.$route.params.id)
         .then(res => {
           this.name = res.data.data.name
@@ -60,7 +60,7 @@ export default {
         })
   },
   methods: {
-    async storeTag() {
+    async storeTag () {
       await axios.put('http://localhost:8080/quiz/api/tags/' + this.$route.params.id, {
         name: this.name,
         description: this.description

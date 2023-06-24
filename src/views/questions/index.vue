@@ -11,7 +11,7 @@
               <SearchCustom :tags="tagList" @submit="searchByTag"></SearchCustom>
             </div>
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
-              <router-link to="/questions/create" class="btn btn-success">Thêm câu hỏi</router-link>
+              <router-link class="btn btn-success" to="/questions/create">Thêm câu hỏi</router-link>
             </div>
             <div class="row justify-content-center bg-white">
               <table v-if="questions.length" class="table table-striped">
@@ -28,9 +28,9 @@
                 </thead>
                 <tbody>
                 <tr v-for="question in questions" :key="question.id">
-                  <td data-toggle="tooltip" :title="question.content" v-html="question.content">
+                  <td :title="question.content" data-toggle="tooltip" v-html="question.content">
                   </td>
-                  <td data-toggle="tooltip" :title="question.question" v-html="question.question">
+                  <td :title="question.question" data-toggle="tooltip" v-html="question.question">
                   </td>
                   <td v-if="store.isAdmin()" v-html="convertAnswer(question)"></td>
                   <td>
@@ -57,8 +57,8 @@
                 </div>
               </div>
               <div v-if="totalPage > 1">
-                <base-pagination :page-count="totalPage" :per-page="pageSize" :total="total"
-                                 v-model="pageNo"></base-pagination>
+                <base-pagination v-model="pageNo" :page-count="totalPage" :per-page="pageSize"
+                                 :total="total"></base-pagination>
               </div>
             </div>
           </div>
@@ -70,13 +70,13 @@
 
 <script>
 import axios from 'axios'
-import {store} from "@/store";
-import SearchCustom from "@/components/SearchCustom.vue";
+import { store } from '@/store'
+import SearchCustom from '@/components/SearchCustom.vue'
 
 export default {
   name: 'questions',
-  components: {SearchCustom},
-  data() {
+  components: { SearchCustom },
+  data () {
     return {
       store,
       questions: [],
@@ -90,7 +90,7 @@ export default {
       tagList: []
     }
   },
-  async created() {
+  async created () {
     await axios.get(`http://localhost:8080/quiz/api/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.questions = res.data.data.items
@@ -109,7 +109,7 @@ export default {
         })
   },
   methods: {
-    convertAnswer(question) {
+    convertAnswer (question) {
       if (question.correctAnswer) {
         question.correctAnswer = parseInt(question.correctAnswer)
       } else {
@@ -117,7 +117,7 @@ export default {
       }
       return question['answer' + question.correctAnswer]
     },
-    async searchByTag(tagId, keyword) {
+    async searchByTag (tagId, keyword) {
       let url = `http://localhost:8080/quiz/api/questions?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
       if (tagId) {
         url += `&tagId=${tagId}`
@@ -135,7 +135,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    deleteQuestion(id) {
+    deleteQuestion (id) {
       if (confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')) {
         axios.delete(`http://localhost:8080/quiz/api/questions/${id}`)
             .then(res => {

@@ -5,22 +5,22 @@
         <Title>
           Thống kê
         </Title>
-        <AdminStatistic />
+        <AdminStatistic/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {store} from "@/store";
-import AdminStatistic from "@/views/statistics/admin";
+import { store } from '@/store'
+import AdminStatistic from '@/views/statistics/admin'
 
 export default {
   name: 'statistics',
   components: {
     AdminStatistic
   },
-  data() {
+  data () {
     return {
       store
     }

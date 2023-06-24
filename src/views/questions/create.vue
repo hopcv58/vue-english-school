@@ -24,27 +24,27 @@
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="answer1">Đáp án A</label>
-                    <wysiwyg v-model="answer1" required class="form-control" style="min-height: 150px;"/>
+                    <wysiwyg v-model="answer1" class="form-control" required style="min-height: 150px;"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="answer2">Đáp án B</label>
-                    <wysiwyg v-model="answer2" required class="form-control" style="min-height: 150px;"/>
+                    <wysiwyg v-model="answer2" class="form-control" required style="min-height: 150px;"/>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="answer3">Đáp án C</label>
-                    <wysiwyg v-model="answer3" required class="form-control" style="min-height: 150px;"/>
+                    <wysiwyg v-model="answer3" class="form-control" required style="min-height: 150px;"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="answer4">Đáp án D</label>
-                    <wysiwyg v-model="answer4" required class="form-control" style="min-height: 150px;"/>
+                    <wysiwyg v-model="answer4" class="form-control" required style="min-height: 150px;"/>
                   </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="correctAnswer">Đáp án đúng</label>
-                    <select v-model="correctAnswer" required class="form-control">
+                    <select v-model="correctAnswer" class="form-control" required>
                       <option value="1">A</option>
                       <option value="2">B</option>
                       <option value="3">C</option>
@@ -58,26 +58,26 @@
                     <b-form-tags
                         id="tags-component-select"
                         v-model="selectedTags"
-                        class="mb-2"
                         add-on-change
+                        class="mb-2"
                         no-outer-focus
                     >
                       <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
                         <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
                           <li v-for="tag in tags" :key="tag" class="list-inline-item">
                             <b-form-tag
-                                @remove="removeTag(tag)"
-                                :title="tag"
                                 :disabled="disabled"
+                                :title="tag"
+                                @remove="removeTag(tag)"
                             >{{ tag }}
                             </b-form-tag>
                           </li>
                         </ul>
                         <b-form-select
-                            v-bind="inputAttrs"
-                            v-on="inputHandlers"
                             :disabled="disabled || availableTags.length === 0"
                             :options="availableTags"
+                            v-bind="inputAttrs"
+                            v-on="inputHandlers"
                         >
                           <template #first>
                             <!-- This is required to prevent bugs with Safari -->
@@ -88,7 +88,7 @@
                     </b-form-tags>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-success">Thêm</button>
+                <button class="btn btn-success" type="submit">Thêm</button>
               </form>
             </div>
           </div>
@@ -100,7 +100,7 @@
 
 <script>
 import axios from 'axios'
-import {BFormSelect, BFormTag, BFormTags} from 'bootstrap-vue'
+import { BFormSelect, BFormTag, BFormTags } from 'bootstrap-vue'
 import { store } from '@/store'
 
 export default {
@@ -110,7 +110,7 @@ export default {
     BFormSelect,
     BFormTags
   },
-  data() {
+  data () {
     return {
       store,
       content: '',
@@ -124,19 +124,19 @@ export default {
       tagList: [],
     }
   },
-  async created() {
+  async created () {
     this.getTags()
   },
   computed: {
-    tagNameList() {
+    tagNameList () {
       return this.tagList.map(tag => tag.name)
     },
-    availableTags() {
+    availableTags () {
       return this.tagNameList.filter(tag => !this.selectedTags.includes(tag))
     },
   },
   methods: {
-    async storeQuestion() {
+    async storeQuestion () {
       if (!this.content || !this.question || !this.answer1 || !this.answer2 || !this.answer3 || !this.answer4 || !this.correctAnswer) {
         store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
@@ -144,7 +144,7 @@ export default {
       const tagIds = []
       for (let tagName of this.selectedTags) {
         const tag = this.tagList.find(tag => tag.name === tagName)
-        tagIds.push({id: tag.id})
+        tagIds.push({ id: tag.id })
       }
 
       await axios.post('http://localhost:8080/quiz/api/questions',
@@ -172,7 +172,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    async getTags() {
+    async getTags () {
       await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tagList = res.data.data.items

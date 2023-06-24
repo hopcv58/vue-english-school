@@ -20,19 +20,19 @@
                 </thead>
                 <tbody>
                 <tr v-for="detail in result.list" :key="result.list.userId">
-                  <td data-toggle="tooltip" :title="detail.username">
+                  <td :title="detail.username" data-toggle="tooltip">
                     {{ detail.username }}
                   </td>
-                  <td data-toggle="tooltip" :title="detail.startedAt.substr(0, 19)">
+                  <td :title="detail.startedAt.substr(0, 19)" data-toggle="tooltip">
                     {{ detail.startedAt.substr(0, 19) }}
                   </td>
-                  <td data-toggle="tooltip" :title="calcTimeUsed(detail.startedAt, detail.submittedAt)">
+                  <td :title="calcTimeUsed(detail.startedAt, detail.submittedAt)" data-toggle="tooltip">
                     {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
                   </td>
                   <td>
                     {{ detail.corrected }} / {{ detail.totalQuestion }}
                   </td>
-                  <td data-toggle="tooltip" :title="detail.corrected">
+                  <td :title="detail.corrected" data-toggle="tooltip">
                     {{ Math.round(detail.corrected * 100 / detail.totalQuestion) }}
                   </td>
                 </tr>
@@ -48,18 +48,18 @@
 </template>
 
 <script>
-import {store} from "@/store";
-import axios from "axios";
+import { store } from '@/store'
+import axios from 'axios'
 
 export default {
   name: 'statistics-by-test',
-  data() {
+  data () {
     return {
       store,
       result: {}
     }
   },
-  async created() {
+  async created () {
     await axios.get(`http://localhost:8080/quiz/api/results/test/${this.$route.params.id}`, {
       headers: {
         Authorization: `Bearer ${store.token}`
@@ -71,7 +71,7 @@ export default {
     })
   },
   methods: {
-    calcTimeUsed(started, submitted) {
+    calcTimeUsed (started, submitted) {
       const start = new Date(started)
       const submit = new Date(submitted)
       const diff = submit.getTime() - start.getTime()

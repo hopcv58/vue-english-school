@@ -20,14 +20,14 @@
           <div class="div-review" style="">
             <div class="row div_process" style="margin: 0; padding: 30px 0 10px">
               <div class="col-2 text-center">
-                <img @click="endTestEarly" src="https://learn.mochidemy.com/svg/close_game.svg"
-                     style="width: 25px; cursor: pointer">
+                <img src="https://learn.mochidemy.com/svg/close_game.svg" style="width: 25px; cursor: pointer"
+                     @click="endTestEarly">
               </div>
               <div class="col-9">
                 <div class="process_bar" style="">
-                  <div class="process-element" data-content="5" id="process-element"
-                       :style="{'width': this.progress + '%'}">
-                    <img src="https://learn.mochidemy.com/image/9362859030ff2f1748657ae47ef40370.png" alt="">
+                  <div id="process-element" :style="{'width': this.progress + '%'}" class="process-element"
+                       data-content="5">
+                    <img alt="" src="https://learn.mochidemy.com/image/9362859030ff2f1748657ae47ef40370.png">
                   </div>
                 </div>
               </div>
@@ -57,9 +57,9 @@
                     <div class="col-8">
                       <div class="div-answer-game" style="margin-top: 30px">
                         <div v-for="answerNo in [1,2,3,4]" :key="answerNo" class="bg-answer-item">
-                          <div class="answer-review-item item-game text-center"
-                               :class="{'answer-review-item-success': currentAnswer === answerNo}"
-                               :data-answer="answerNo" @click="setAnswer(answerNo)">
+                          <div :class="{'answer-review-item-success': currentAnswer === answerNo}"
+                               :data-answer="answerNo"
+                               class="answer-review-item item-game text-center" @click="setAnswer(answerNo)">
                             <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
                             </div>
                           </div>
@@ -90,7 +90,7 @@
                   CÂU TIẾP THEO
                 </button>
               </div>
-              <div class="div-no-success text-center mt-2" v-if="currentQuestionNo < totalQuestions - 1">
+              <div v-if="currentQuestionNo < totalQuestions - 1" class="div-no-success text-center mt-2">
                 <a class="skip-question-btn" href="#" @click.prevent="skipQuestion">
                   Bỏ qua câu này
                 </a>
@@ -115,10 +115,10 @@
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(question, index) in questions" :key="index"
-                     class="result-box-span" :class="{
+                     :class="{
                   answering: index === currentQuestionNo,
                   answered: answers[index] !== undefined,
-                }" @click="goToQuestion(index)">
+                }" class="result-box-span" @click="goToQuestion(index)">
                   <div class="result-box-number">{{ index + 1 }}</div>
                 </div>
               </div>
@@ -132,11 +132,11 @@
 
 <script>
 import axios from 'axios'
-import {store} from '@/store'
+import { store } from '@/store'
 
 export default {
   name: 'tests-start',
-  data() {
+  data () {
     return {
       store,
       startedTime: null,
@@ -153,7 +153,7 @@ export default {
     }
   },
   computed: {
-    progress() {
+    progress () {
       if (this.totalQuestions === 0) {
         return 5
       }
@@ -163,13 +163,13 @@ export default {
       }
       return progress < 5 ? 5 : progress
     },
-    currentQuestion() {
+    currentQuestion () {
       if (this.totalQuestions === 0) {
         return {}
       }
       return this.questions[this.currentQuestionNo]
     },
-    formattedRemainingTime() {
+    formattedRemainingTime () {
       const remainingTime = this.availableTime - this.passedTime
       if (remainingTime <= 0) {
         return '00:00'
@@ -179,7 +179,7 @@ export default {
       return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
     },
   },
-  async created() {
+  async created () {
     // add refresh event listener
     window.onbeforeunload = function (e) {
       return 'Are you sure you want to leave? Your progress will be lost.'
@@ -187,7 +187,7 @@ export default {
     await this.getQuestions()
   },
   methods: {
-    endTestEarly() {
+    endTestEarly () {
       this.store.confirmModal = {
         show: true,
         title: 'Bạn chưa hoàn thành bài thi',
@@ -197,7 +197,7 @@ export default {
         },
       }
     },
-    async getQuestions() {
+    async getQuestions () {
       axios.get('http://localhost:8080/quiz/api/tests/' + this.$route.params.id,
           {
             headers: {
@@ -220,22 +220,22 @@ export default {
             }, 1000)
           })
     },
-    setAnswer(answer) {
+    setAnswer (answer) {
       this.currentAnswer = answer
     },
-    skipQuestion() {
+    skipQuestion () {
       if (this.currentQuestionNo < this.totalQuestions - 1) {
         this.currentQuestionNo++
         this.currentAnswer = 0
       }
     },
-    nextQuestion() {
+    nextQuestion () {
       this.answers[this.currentQuestionNo] = this.currentAnswer
       this.currentAnswer = 0
       this.currentQuestionNo++
       this.totalAnswers++
     },
-    submitTest() {
+    submitTest () {
       this.answers[this.currentQuestionNo] = this.currentAnswer
       this.totalAnswers++
       if (this.totalAnswers < this.totalQuestions) {
@@ -249,7 +249,7 @@ export default {
         this.submit()
       }
     },
-    submit() {
+    submit () {
       clearInterval(this.interval)
       const submittedAt = new Date().toISOString().slice(0, 19).replace('T', ' ')
       const data = {
@@ -276,7 +276,7 @@ export default {
         store.displayError('Có lỗi xảy ra khi nộp bài. Vui lòng thử lại sau.')
       })
     },
-    goToQuestion(index) {
+    goToQuestion (index) {
       if (this.currentAnswer !== 0) {
         this.answers[this.currentQuestionNo] = this.currentAnswer
       }
@@ -284,7 +284,7 @@ export default {
       this.currentAnswer = this.answers[index] || 0
     },
   },
-  beforeDestroy() {
+  beforeDestroy () {
     clearInterval(this.interval)
     window.onbeforeunload = null
   }

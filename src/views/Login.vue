@@ -15,9 +15,9 @@
                   <div class="input__group">
                     <input
                         v-model="username"
-                        type="text"
+                        class="form-control "
                         placeholder="Nhập tên đăng nhập"
-                        class="form-control ">
+                        type="text">
                     <p class="input__message__error">
                       <small>{{
                           username && username.length < 4 ? 'Tên đăng nhập phải có ít nhất 4 ký tự' : ''
@@ -28,10 +28,10 @@
                     <div style="position: relative;">
                       <input
                           v-model="password"
-                          type="password"
+                          class="form-control"
                           minlength="4"
                           placeholder="Nhập chính xác mật khẩu của bạn"
-                          class="form-control"/>
+                          type="password"/>
                     </div>
                     <p class="input__message__error">
                       <small>{{ password && password.length < 4 ? 'Mật khẩu phải có ít nhất 4 ký tự' : '' }}</small>
@@ -64,32 +64,29 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import {store} from "@/store";
+import axios from 'axios'
+import { store } from '@/store'
 
 export default {
   name: 'login',
-  data() {
+  data () {
     return {
       username: '',
       password: '',
     }
   },
   methods: {
-    async login() {
+    async login () {
       await axios.post('http://localhost:8080/quiz/auth/login', {
         username: this.username,
         password: this.password
       }).then(res => {
-        localStorage.setItem('token', res.data.accessToken);
-        const user = res.data;
-        user.password = this.password;
-        localStorage.setItem('user', JSON.stringify(res.data));
-        // token is expired after 1 day
-        localStorage.setItem('expired', Date.now() + 86399000);
-        this.$router.push('/tests');
+        localStorage.setItem('token', res.data.accessToken)
+        localStorage.setItem('user', JSON.stringify(res.data))
+        localStorage.setItem('expired', Date.now() + 86399000)
+        this.$router.push('/tests')
       }).catch(err => {
-        const error = err.response.data.error || err.message;
+        const error = err.response.data.error || err.message
         store.displayError(error)
       })
     }

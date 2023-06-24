@@ -92,16 +92,24 @@
           <div v-show="showDropDown" class="position-a menu-dropdown text-center">
             <template v-if="store.isLoggedIn()">
               <router-link to="/users/profile" class="btn-setting">
-                <div class="btn-top text-start btn-active menu-dropdown-item">
-                  <span class="text-white p-dropdown vertical-center">
+                <div class="btn-top text-start btn-active menu-dropdown-item" @click="showDropDown = false">
+                  <span class="p-dropdown vertical-center">
                     Thông tin tài khoản
                   </span>
                   <img src="https://learn.mochidemy.com/image/98713df50c21cbe016386923bf65dc97.png" alt="">
                 </div>
               </router-link>
+              <router-link to="/users/profile/change-password" class="btn-setting">
+                <div class="btn-top text-start btn-active menu-dropdown-item" @click="showDropDown = false">
+                  <span class="p-dropdown vertical-center">
+                    Đổi mật khẩu
+                  </span>
+                  <img src="https://cdn-icons-png.flaticon.com/512/891/891399.png" alt="">
+                </div>
+              </router-link>
               <router-link to="/statistics/my-results" class="btn-setting">
-                <div class="btn-top text-start btn-active menu-dropdown-item">
-                  <span class="text-white p-dropdown vertical-center">
+                <div class="btn-top text-start btn-active menu-dropdown-item" @click="showDropDown = false">
+                  <span class="p-dropdown vertical-center">
                     Lịch sử làm bài
                   </span>
                   <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
@@ -109,8 +117,8 @@
               </router-link>
               <a href="javascript:" class="btn-setting"
                  style="margin-bottom: 30px">
-                <div class="btn-top-setting text-start btn-active menu-dropdown-item" @click="logout">
-                  <span class="text-white p-dropdown vertical-center">
+                <div class="btn-top text-start btn-active menu-dropdown-item" @click="logout">
+                  <span class="p-dropdown vertical-center">
                     Đăng xuất
                   </span>
                   <img src="https://cdn-icons-png.flaticon.com/512/1053/1053210.png" alt="">

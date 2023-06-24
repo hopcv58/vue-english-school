@@ -9,6 +9,7 @@ import Profile from './views/Profile.vue'
 import TestIndex from './views/tests/index.vue'
 import EmptyHeader from '@/layout/empty/EmptyHeader.vue'
 import EmptyFooter from '@/layout/empty/EmptyFooter.vue'
+import Password from '@/views/users/Password.vue'
 
 Vue.use(Router)
 
@@ -156,6 +157,15 @@ export default new Router({
       components: {
         header: AppHeader,
         default: Profile,
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/users/profile/change-password',
+      name: 'user-password',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/users/Password.vue'),
         footer: AppFooter
       }
     },

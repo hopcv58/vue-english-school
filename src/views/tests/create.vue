@@ -6,7 +6,7 @@
           Thêm bài kiểm tra
         </Title>
         <modal :show.sync="addQuestionModal.show" modal-classes="modal-lg">
-          <h6 slot="header" class="modal-title" id="modal-title-default">Thêm câu hỏi vào đề thi</h6>
+          <h6 id="modal-title-default" slot="header" class="modal-title">Thêm câu hỏi vào đề thi</h6>
 
           <select v-model="addQuestionModal.selectingTagId" class="form-control col-6" @change="getQuestionsForModal">
             <option value="">Chọn tag</option>
@@ -26,13 +26,15 @@
             <tbody>
             <tr v-for="question in addQuestionModal.questions" :key="question.id">
               <td>
-                <input type="checkbox" :value="question.id" v-model="addQuestionModal.selectingQuestionIds">
+                <input v-model="addQuestionModal.selectingQuestionIds" :value="question.id" type="checkbox">
               </td>
               <td v-html="question.content"></td>
               <td v-html="question.question"></td>
               <td v-html="convertAnswer(question)"></td>
               <td>
-                 <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
+                <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary mr-1">{{
+                    tag.name
+                  }}</span>
               </td>
             </tr>
             </tbody>
@@ -40,7 +42,7 @@
           <SearchNoData v-else></SearchNoData>
           <template slot="footer">
             <base-button type="primary" @click="saveModalChanges">Chọn câu hỏi</base-button>
-            <base-button type="link" class="ml-auto" @click="discardModalChanges">
+            <base-button class="ml-auto" type="link" @click="discardModalChanges">
               Close
             </base-button>
           </template>
@@ -51,19 +53,19 @@
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="content">Tên bài kiểm tra</label>
-                  <input v-model="name" required class="form-control"/>
+                  <input v-model="name" class="form-control" required/>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="content">Mô tả</label>
-                  <textarea v-model="description" required class="form-control" rows="5"></textarea>
+                  <textarea v-model="description" class="form-control" required rows="5"></textarea>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="content">Thời gian làm bài</label>
-                  <input v-model="availableTime" required class="form-control" type="number"/>
+                  <input v-model="availableTime" class="form-control" required type="number"/>
                 </div>
               </div>
               <div class="form-row">
@@ -73,26 +75,26 @@
                       v-if="tagNameList.length > 0"
                       id="tags-component-select"
                       v-model="selectedTags"
-                      class="mb-2"
                       add-on-change
+                      class="mb-2"
                       no-outer-focus
                   >
                     <template v-slot="{ tags, inputAttrs, inputHandlers, disabled, removeTag }">
                       <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
                         <li v-for="tag in tags" :key="tag" class="list-inline-item">
                           <b-form-tag
-                              @remove="removeTag(tag)"
-                              :title="tag"
                               :disabled="disabled"
+                              :title="tag"
+                              @remove="removeTag(tag)"
                           >{{ tag }}
                           </b-form-tag>
                         </li>
                       </ul>
                       <b-form-select
-                          v-bind="inputAttrs"
-                          v-on="inputHandlers"
                           :disabled="disabled || availableTags.length === 0"
                           :options="availableTags"
+                          v-bind="inputAttrs"
+                          v-on="inputHandlers"
                       >
                         <template #first>
                           <!-- This is required to prevent bugs with Safari -->
@@ -105,7 +107,7 @@
               </div>
             </form>
 
-            <button type="button" class="btn btn-primary" @click="showModal">Thêm câu hỏi</button>
+            <button class="btn btn-primary" type="button" @click="showModal">Thêm câu hỏi</button>
             <h4 v-if="addQuestionModal.selectedQuestionIds.length" class="mt-5">
               Các câu hỏi đã chọn
             </h4>
@@ -128,7 +130,9 @@
                   <td v-html="question.question"></td>
                   <td v-html="convertAnswer(question)"></td>
                   <td>
-                     <span v-for="tag in question.tagList" class="badge badge-primary mr-1" :key="tag.id">{{ tag.name }}</span>
+                    <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary mr-1">{{
+                        tag.name
+                      }}</span>
                   </td>
                 </tr>
               </template>
@@ -136,7 +140,7 @@
             </table>
             <button
                 v-if="this.name && this.availableTime && addQuestionModal.selectedQuestionIds.length"
-                type="button" class="btn btn-success" @click="storeTest"
+                class="btn btn-success" type="button" @click="storeTest"
             >
               Lưu lại
             </button>
@@ -149,9 +153,9 @@
 
 <script>
 import axios from 'axios'
-import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
+import { BFormTags, BFormTag, BFormSelect } from 'bootstrap-vue'
 import Modal from '@/components/Modal.vue'
-import {store} from "@/store";
+import { store } from '@/store'
 
 export default {
   name: 'tests-create',
@@ -161,7 +165,7 @@ export default {
     BFormTag,
     BFormSelect
   },
-  data() {
+  data () {
     return {
       addQuestionModal: {
         show: false,
@@ -180,38 +184,38 @@ export default {
     }
   },
   computed: {
-    tagNameList() {
+    tagNameList () {
       return this.tagList.map(tag => tag.name)
     },
-    availableTags() {
+    availableTags () {
       return this.tagNameList.filter(tag => !this.selectedTags.includes(tag))
     },
   },
-  async created() {
+  async created () {
     this.getTags()
     this.getQuestions()
   },
   methods: {
-    showModal() {
+    showModal () {
       this.addQuestionModal.show = true
       this.addQuestionModal.selectingTagId = null
       this.addQuestionModal.questions = []
       this.addQuestionModal.selectingQuestionIds = this.addQuestionModal.selectedQuestionIds
     },
-    discardModalChanges() {
+    discardModalChanges () {
       this.addQuestionModal.show = false
       this.addQuestionModal.selectingTagId = null
       this.addQuestionModal.questions = []
       this.addQuestionModal.selectingQuestionIds = this.addQuestionModal.selectedQuestionIds
     },
-    saveModalChanges() {
+    saveModalChanges () {
       this.addQuestionModal.show = false
       this.addQuestionModal.selectingTagId = null
       this.addQuestionModal.questions = []
       this.addQuestionModal.selectedQuestionIds = this.addQuestionModal.selectingQuestionIds
       this.getQuestions()
     },
-    async storeTest() {
+    async storeTest () {
       if (!this.name || !this.availableTime) {
         store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
@@ -223,13 +227,13 @@ export default {
 
       const questionIds = []
       for (let questionId of this.addQuestionModal.selectedQuestionIds) {
-        questionIds.push({id: questionId})
+        questionIds.push({ id: questionId })
       }
 
       const tagIds = []
       for (let tagName of this.selectedTags) {
         const tag = this.tagList.find(tag => tag.name === tagName)
-        tagIds.push({id: tag.id})
+        tagIds.push({ id: tag.id })
       }
 
       await axios.post('http://localhost:8080/quiz/api/tests', {
@@ -251,7 +255,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    async getQuestionsForModal() {
+    async getQuestionsForModal () {
       if (!this.addQuestionModal.selectingTagId) {
         this.addQuestionModal.questions = []
         return
@@ -264,7 +268,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    async getTags() {
+    async getTags () {
       await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tagList = res.data.data.items
@@ -273,7 +277,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    async getQuestions() {
+    async getQuestions () {
       await axios.get('http://localhost:8080/quiz/api/questions?pageSize=100000&pageNo=0')
           .then(res => {
             this.questions = res.data.data.items
@@ -282,7 +286,7 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    convertAnswer(question) {
+    convertAnswer (question) {
       if (question.correctAnswer) {
         question.correctAnswer = parseInt(question.correctAnswer)
       } else {

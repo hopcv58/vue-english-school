@@ -12,7 +12,7 @@
                 <div class="form-row">
                   <div class="form-group col-md-12">
                     <label for="content">Nội dung tag</label>
-                    <textarea v-model="name" required class="form-control" rows="5"></textarea>
+                    <textarea v-model="name" class="form-control" required rows="5"></textarea>
                   </div>
                 </div>
                 <div class="form-row">
@@ -21,7 +21,7 @@
                     <textarea v-model="description" class="form-control" rows="5"></textarea>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-success">Thêm</button>
+                <button class="btn btn-success" type="submit">Thêm</button>
               </form>
             </div>
           </div>
@@ -33,15 +33,15 @@
 
 <script>
 import axios from 'axios'
-import {store} from '@/store'
-import {BFormTags} from 'bootstrap-vue'
+import { store } from '@/store'
+import { BFormTags } from 'bootstrap-vue'
 
 export default {
   name: 'tags-create',
   components: {
     BFormTags
   },
-  data() {
+  data () {
     return {
       store,
       name: '',
@@ -49,10 +49,10 @@ export default {
       tags: [],
     }
   },
-  async created() {
+  async created () {
   },
   methods: {
-    async storeTag() {
+    async storeTag () {
       await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
           .then(res => {
             this.tags = res.data.data.items
@@ -71,7 +71,7 @@ export default {
       await axios.post('http://localhost:8080/quiz/api/tags', {
         name: this.name,
         description: this.description
-      },{
+      }, {
         headers: {
           Authorization: `Bearer ${store.token}`
         }

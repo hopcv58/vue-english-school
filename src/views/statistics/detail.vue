@@ -31,7 +31,7 @@
                       Thời gian sử dụng: {{ timeUsed }}
                     </p>
                     <div class="process-box">
-                      <div class="process-box-1 progress-count-proficiency" :style="{width: percentage + '%'}"></div>
+                      <div :style="{width: percentage + '%'}" class="process-box-1 progress-count-proficiency"></div>
                     </div>
                     <p class="title-box" style="margin-top: 1rem">
                       Số câu đúng: {{ result.corrected }} / {{ result.resultDetails ? result.resultDetails.length : 0 }}
@@ -51,8 +51,8 @@
                           <div class="text-center w-100">
                             <div class="title-game-2">
                               <i
-                                  class="fa fa-check" aria-hidden="true" style="margin-right: 20px"
-                                  :class="currentQuestion.correctAnswer === currentQuestion.answered ? 'fa-check text-success' : 'fa-times text-danger'">
+                                  :class="currentQuestion.correctAnswer === currentQuestion.answered ? 'fa-check text-success' : 'fa-times text-danger'" aria-hidden="true" class="fa fa-check"
+                                  style="margin-right: 20px">
                               </i>
                               <span v-html="currentQuestion.content"></span>
                             </div>
@@ -63,7 +63,7 @@
                         <div class="box-answer-3">
                           <div class="text-center list-answer-3">
                             <div class="mb-0" style="font-size: 15px; font-weight: 550"
-                               v-html="currentQuestion.question">
+                                 v-html="currentQuestion.question">
                             </div>
                           </div>
                         </div>
@@ -71,11 +71,11 @@
                       <div class="col-10">
                         <div class="div-answer-game" style="margin-top: 30px">
                           <div v-for="answerNo in [1,2,3,4]" :key="answerNo" class="bg-answer-item">
-                            <div class="answer-review-item item-game text-center"
-                                 :class="{
+                            <div :class="{
                                   'answer-review-item-success': currentQuestion.correctAnswer === answerNo,
                                   'answer-review-item-error': currentQuestion.answered === answerNo && currentQuestion.correctAnswer !== answerNo,
-                            }">
+                            }"
+                                 class="answer-review-item item-game text-center">
                               <div class="mb-0" v-html="currentQuestion['answer' + answerNo]">
                               </div>
                             </div>
@@ -98,16 +98,16 @@
             <img src="https://learn.mochidemy.com/image/213202355_4534422609904130_3896387388468451408_n.png.webp"
                  style="width: 100%">
           </div>
-          <div class="result-questions" v-if="result">
+          <div v-if="result" class="result-questions">
             <h2 class="result-box-header result-box-title">Question List</h2>
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(resultDetail, index) in result.resultDetails" :key="index"
-                     class="result-box-span" :class="{
+                     :class="{
                         'correct': resultDetail.answered === resultDetail.correctAnswer,
                         'incorrect': resultDetail.answered !== resultDetail.correctAnswer,
                         'answering': index === currentQuestionIndex
-                     }"
+                     }" class="result-box-span"
                      @click="goToQuestion(index)">
                   <div class="result-box-number">{{ index + 1 }}</div>
                 </div>
@@ -122,13 +122,13 @@
 
 <script>
 import axios from 'axios'
-import {BFormTags, BFormTag, BFormSelect} from 'bootstrap-vue'
+import { BFormTags, BFormTag, BFormSelect } from 'bootstrap-vue'
 import Modal from '@/components/Modal.vue'
-import {store} from '@/store'
+import { store } from '@/store'
 
 export default {
   name: 'statistic-detail',
-  data() {
+  data () {
     return {
       store,
       result: {},
@@ -136,22 +136,22 @@ export default {
     }
   },
   computed: {
-    percentage() {
+    percentage () {
       if (!this.result.resultDetails) return 0
       return (this.result.corrected / this.result.resultDetails.length) * 100
     },
-    timeUsed() {
+    timeUsed () {
       // convert string to date, then get the difference in seconds
       const diff = (new Date(this.result.submittedAt) - new Date(this.result.startedAt)) / 1000
       // convert seconds to minutes
       return Math.floor(diff / 60) + ' phút ' + Math.floor(diff % 60) + ' giây'
     },
-    currentQuestion() {
+    currentQuestion () {
       if (!this.result.resultDetails) return {}
       return this.result.resultDetails[this.currentQuestionIndex]
     }
   },
-  async created() {
+  async created () {
     await axios.get('http://localhost:8080/quiz/api/results/' + this.$route.params.id,
         {
           headers: {
@@ -163,7 +163,7 @@ export default {
         })
   },
   methods: {
-    goToQuestion(index) {
+    goToQuestion (index) {
       this.currentQuestionIndex = index
     }
   }

@@ -5,22 +5,22 @@
         <Title>
           Lịch sử thi
         </Title>
-        <UserStatistic />
+        <UserStatistic/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {store} from "@/store";
-import UserStatistic from "@/views/statistics/user";
+import { store } from '@/store'
+import UserStatistic from '@/views/statistics/user'
 
 export default {
   name: 'statistics',
   components: {
     UserStatistic
   },
-  data() {
+  data () {
     return {
       store
     }

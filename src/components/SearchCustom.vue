@@ -15,7 +15,9 @@
         <i class="fa" :class="isOpen ? 'fa-chevron-down' : 'fa-chevron-up'" aria-hidden="true"></i>
       </div>
       <input id="key_search" v-model="keyword" autocomplete="off" class="search__input" name="key"
-             placeholder="Cho QuizChii biết bạn muốn tìm kiếm gì?">
+             placeholder="Cho QuizChii biết bạn muốn tìm kiếm gì?" :style="{
+                width: tags && tags.length ? '373px' : '543px',
+             }">
     </div>
 
     <div class="search__image search__right" @click="$emit('submit', selectedTagId, keyword)">

@@ -13,21 +13,21 @@
                 <div class="register__title">
                   <p>Cùng tạo 1 tài khoản QuizChii nào</p>
                 </div>
-                <img src="img/theme/register.png" alt="icon-signup"
-                     class="register__image">
+                <img alt="icon-signup" class="register__image"
+                     src="img/theme/register.png">
                 <div class="register-box__input">
                   <div class="input__group">
-                    <input v-model="username" type="text" placeholder="Tên đăng nhập" class="form-control"
-                           name="username">
+                    <input v-model="username" class="form-control" name="username" placeholder="Tên đăng nhập"
+                           type="text">
                     <p class="input__message__error"><small>{{ usernameError }}</small></p>
                   </div>
                   <div class="input__group">
-                    <input v-model="name" type="text" placeholder="Tên của bạn" class="form-control" name="name">
+                    <input v-model="name" class="form-control" name="name" placeholder="Tên của bạn" type="text">
                     <p class="input__message__error"><small>{{ nameError }}</small></p>
                   </div>
                   <div class="input__group">
-                    <input v-model="email" type="text" placeholder="Nhập chính xác email của bạn"
-                           class="form-control" name="email">
+                    <input v-model="email" class="form-control" name="email"
+                           placeholder="Nhập chính xác email của bạn" type="text">
                     <p class="input__message__error"><small>{{ emailError }}</small></p>
                   </div>
                   <div class="input__group">
@@ -35,9 +35,9 @@
                       <input
                           v-model="password"
                           :type="showPassword ? 'text' : 'password'"
-                          placeholder="Tạo mật khẩu (dễ nhớ chút nhé ^^)"
                           class="form-control"
-                          name="password">
+                          name="password"
+                          placeholder="Tạo mật khẩu (dễ nhớ chút nhé ^^)">
                       <span style="position: absolute; top:0.7em;right:1em;cursor: pointer;"
                             @click="showPassword = !showPassword">
                         <i v-if="showPassword" class="fa fa-eye-slash"></i>
@@ -69,12 +69,12 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import {store} from "@/store";
+import axios from 'axios'
+import { store } from '@/store'
 
 export default {
   name: 'Register',
-  data() {
+  data () {
     return {
       username: '',
       email: '',
@@ -84,31 +84,31 @@ export default {
     }
   },
   computed: {
-    usernameError() {
+    usernameError () {
       if (!this.username) return ''
       return this.username.length >= 3 && this.username.length <= 20 ? '' : 'Tên đăng nhập phải có từ 3 đến 20 ký tự'
     },
-    emailError() {
+    emailError () {
       if (!this.email) return ''
       if (this.email.length > 50) return 'Email quá dài'
       const re = /\S+@\S+\.\S+/
       return re.test(this.email) ? '' : 'Email không hợp lệ'
     },
-    nameError() {
+    nameError () {
       if (!this.name) return ''
       return this.name.length >= 6 && this.name.length <= 50 ? '' : 'Tên phải có từ 6 đến 50 ký tự'
     },
-    passwordError() {
+    passwordError () {
       if (!this.password) return ''
       return this.password.length >= 6 && this.password.length <= 20 ? '' : 'Mật khẩu phải có từ 6 đến 20 ký tự'
     },
-    isFormValid() {
+    isFormValid () {
       return this.username && this.email && this.name && this.password
           && !this.usernameError && !this.emailError && !this.nameError && !this.passwordError
     }
   },
   methods: {
-    async register() {
+    async register () {
       await axios.post(`http://localhost:8080/quiz/auth/register`, {
         username: this.username,
         email: this.email,

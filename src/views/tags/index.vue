@@ -8,7 +8,7 @@
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
-              <router-link to="/tags/create" class="btn btn-success">Thêm tag</router-link>
+              <router-link class="btn btn-success" to="/tags/create">Thêm tag</router-link>
             </div>
             <div class="row justify-content-center bg-white">
               <table v-if="tags.length" class="table table-striped">
@@ -22,10 +22,10 @@
                 </thead>
                 <tbody>
                 <tr v-for="tag in tags" :key="tag.id">
-                  <td data-toggle="tooltip" :title="tag.name">
+                  <td :title="tag.name" data-toggle="tooltip">
                     {{ shortenContent(tag.name) }}
                   </td>
-                  <td data-toggle="tooltip" :title="tag.description">
+                  <td :title="tag.description" data-toggle="tooltip">
                     {{ shortenContent(tag.description) }}
                   </td>
                   <td v-if="store.isAdmin()">
@@ -44,8 +44,8 @@
                 </div>
               </div>
               <div v-if="totalPage > 1">
-                <base-pagination :page-count="totalPage" :per-page="pageSize" :total="total"
-                                 v-model="pageNo"></base-pagination>
+                <base-pagination v-model="pageNo" :page-count="totalPage" :per-page="pageSize"
+                                 :total="total"></base-pagination>
               </div>
             </div>
           </div>
@@ -57,12 +57,12 @@
 
 <script>
 import axios from 'axios'
-import {store} from "@/store";
+import { store } from '@/store'
 
 export default {
   name: 'tags',
   components: {},
-  data() {
+  data () {
     return {
       store,
       tags: [],
@@ -75,7 +75,7 @@ export default {
       total: 0
     }
   },
-  async created() {
+  async created () {
     await axios.get(`http://localhost:8080/quiz/api/tags?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
         .then(res => {
           this.tags = res.data.data.items
@@ -87,14 +87,14 @@ export default {
         })
   },
   methods: {
-    shortenContent(content) {
+    shortenContent (content) {
       if (!content) return ''
       if (content.length > 20) {
         return content.substring(0, 20) + '...'
       }
       return content
     },
-    deleteTag(id) {
+    deleteTag (id) {
       if (confirm('Bạn có chắc chắn muốn xóa tag này?')) {
         axios.delete(`http://localhost:8080/quiz/api/tags/${id}`)
             .then(res => {
