@@ -80,24 +80,6 @@ export default new Router({
       }
     },
     {
-      path: '/questions/create',
-      name: 'questions.create',
-      components: {
-        header: AppHeader,
-        default: () => import('@/views/questions/create.vue'),
-        footer: AppFooter
-      }
-    },
-    {
-      path: '/questions/:id/edit',
-      name: 'questions.edit',
-      components: {
-        header: AppHeader,
-        default: () => import('@/views/questions/edit.vue'),
-        footer: AppFooter
-      }
-    },
-    {
       path: '/tags',
       name: 'tags',
       components: {

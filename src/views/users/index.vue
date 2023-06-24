@@ -51,7 +51,7 @@
             </div>
           </div>
         </section>
-        <Modal :show="createModal.show" @close="createModal.show = false" @submit="createUser">
+        <Modal :show="createModal.show" @close="createModal.show = false">
           <template v-slot:header>
             <h4>Tạo người dùng</h4>
           </template>
@@ -115,7 +115,7 @@
             <button class="btn btn-success" type="button" @click="createUser">Tạo</button>
           </template>
         </Modal>
-        <Modal :show="updateModal.show" @close="updateModal.show = false" @submit="updateUser">
+        <Modal :show="updateModal.show" @close="updateModal.show = false">
           <template v-slot:header>
             <h4>Cập nhật người dùng</h4>
           </template>
@@ -253,9 +253,13 @@ export default {
       return 'Người dùng'
     },
     async searchUsers (tagId, keyword) {
+      this.keyword = keyword
+      this.getUsers()
+    },
+    async getUsers() {
       let url = `http://localhost:8080/quiz/api/users?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
-      if (keyword) {
-        url += `&content=${keyword}`
+      if (this.keyword) {
+        url += `&content=${this.keyword}`
       }
       await axios.get(url, {
         headers: {
@@ -325,7 +329,7 @@ export default {
       }).then(res => {
         this.createModal.show = false
         this.resetCreateModal()
-        this.searchUsers('', '')
+        this.getUsers()
         store.displaySuccess('Tạo người dùng thành công')
       }).catch(err => {
         if (err.response.status === 400) {
@@ -391,7 +395,7 @@ export default {
         }
       }).then(res => {
         this.updateModal.show = false
-        this.searchUsers('', '')
+        this.getUsers()
         store.displaySuccess('Cập nhật người dùng thành công')
       }).catch(err => {
         if (err.response.status === 400) {
