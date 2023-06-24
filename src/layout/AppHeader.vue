@@ -70,7 +70,7 @@
             <div v-else style="height: 68px"></div>
           </div>
           <div class="col-3 _col-3 position-r">
-            <div class="position-a vertical-center" style="right: 60px;">
+            <div class="d-flex justify-content-end align-items-center" style="gap: 10px">
               <div class="menu-user-name">
                 <span v-if="store.isLoggedIn()" class="text-user-name" style="color: #FFCB08">
                   {{ store.user.name }}
@@ -82,8 +82,7 @@
               <div class="menu-avatar"
                    style="background: url(https://learn.mochidemy.com/image/0c0722e80c76ce7315418a18480e28d8.png); background-size: cover;">
               </div>
-              <div class="position-a"
-                   :class="showDropDown ? 'icon-menu-dropdown-open' : 'icon-menu-dropdown-close'"
+              <div :class="showDropDown ? 'icon-menu-dropdown-open' : 'icon-menu-dropdown-close'"
                    @click="showDropDown = !showDropDown"
               >
                 <img src="https://learn.mochidemy.com/svg/dropdown_menu.svg">
@@ -92,12 +91,20 @@
           </div>
           <div v-show="showDropDown" class="position-a menu-dropdown text-center">
             <template v-if="store.isLoggedIn()">
-              <router-link to="/profile" class="btn-setting">
+              <router-link to="/users/profile" class="btn-setting">
                 <div class="btn-top text-start btn-active menu-dropdown-item">
                   <span class="text-white p-dropdown vertical-center">
                     Thông tin tài khoản
                   </span>
                   <img src="https://learn.mochidemy.com/image/98713df50c21cbe016386923bf65dc97.png" alt="">
+                </div>
+              </router-link>
+              <router-link to="/statistics/my-results" class="btn-setting">
+                <div class="btn-top text-start btn-active menu-dropdown-item">
+                  <span class="text-white p-dropdown vertical-center">
+                    Lịch sử làm bài
+                  </span>
+                  <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
                 </div>
               </router-link>
               <a href="javascript:" class="btn-setting"
@@ -106,7 +113,7 @@
                   <span class="text-white p-dropdown vertical-center">
                     Đăng xuất
                   </span>
-                  <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
+                  <img src="https://cdn-icons-png.flaticon.com/512/1053/1053210.png" alt="">
                 </div>
               </a>
             </template>
@@ -117,7 +124,7 @@
                 <span class="text-white p-dropdown vertical-center">
                   Đăng nhập
                 </span>
-                  <img src="https://learn.mochidemy.com/image/c40f2d0a61141a0fd73106c254f8d7aa.png" alt="">
+                  <img src="https://cdn.icon-icons.com/icons2/2248/PNG/512/login_icon_137429.png" alt="">
                 </div>
               </a>
             </template>

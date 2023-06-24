@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="search__left">
-      <div class="search__select" :class="isOpen ? 'search__select--open' : ''" @click="isOpen = !isOpen">
+      <div v-if= "tags && tags.length" class="search__select" :class="isOpen ? 'search__select--open' : ''" @click="isOpen = !isOpen">
         <p v-if="!selectedTagId" class="select__name">Danh sách tag</p>
         <p v-else class="select__name">{{ tags.find(tag => tag.id === selectedTagId).name }}</p>
         <ul class="search__dropdown">

@@ -57,6 +57,10 @@ export default {
     }
   },
   async created() {
+    if (!store.user) {
+      this.$router.push('/login')
+      return
+    }
     await axios.get(`http://localhost:8080/quiz/api/results/user/${this.store.user.id}`, {
       headers: {
         Authorization: `Bearer ${store.token}`

@@ -142,8 +142,17 @@ export default new Router({
       }
     },
     {
-      path: '/profile',
-      name: 'profile',
+      path: '/users',
+      name: 'users',
+      components: {
+        header: AppHeader,
+        default: () => import('@/views/users/index.vue'),
+        footer: AppFooter
+      }
+    },
+    {
+      path: '/users/profile',
+      name: 'user-profile',
       components: {
         header: AppHeader,
         default: Profile,

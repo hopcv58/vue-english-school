@@ -12,8 +12,7 @@
                 <div class="register-box__input">
                   <div class="input__group">
                     <label>Tên đăng nhập</label>
-                    <div class="form-control">{{ username }}</div>
-                    <p class="input__message__error"><small>{{ usernameError }}</small></p>
+                    <div class="">{{ username }}</div>
                   </div>
                   <div class="input__group">
                     <label>Tên hiển thị</label>
@@ -26,25 +25,8 @@
                            class="form-control" name="email">
                     <p class="input__message__error"><small>{{ emailError }}</small></p>
                   </div>
-                  <div class="input__group">
-                    <label>Mật khẩu</label>
-                    <div style="position: relative;">
-                      <input
-                          v-model="password"
-                          :type="showPassword ? 'text' : 'password'"
-                          placeholder="Mật khẩu của bạn"
-                          class="form-control"
-                          name="password">
-                      <span style="position: absolute; top:0.7em;right:1em;cursor: pointer;"
-                            @click="showPassword = !showPassword">
-                        <i v-if="showPassword" class="fa fa-eye-slash"></i>
-                        <i v-else class="fa fa-eye"></i>
-                      </span>
-                    </div>
-                    <p class="input__message__error"><small>{{ passwordError }}</small></p>
-                  </div>
                 </div>
-                <div class="register__action">
+                <div class="register__action mt-5">
                   <div v-if="!isFormValid"
                        class="button__action button__action--inactive d-flex justify-content-center align-items-center">
                     <p>Cập nhật tài khoản</p>
@@ -77,15 +59,9 @@ export default {
       username: '',
       email: '',
       name: '',
-      password: '',
-      showPassword: false
     }
   },
   computed: {
-    usernameError() {
-      if (!this.username) return ''
-      return this.username.length >= 3 && this.username.length <= 20 ? '' : 'Tên đăng nhập phải có từ 3 đến 20 ký tự'
-    },
     emailError() {
       if (!this.email) return ''
       if (this.email.length > 50) return 'Email quá dài'
@@ -96,34 +72,51 @@ export default {
       if (!this.name) return ''
       return this.name.length >= 6 && this.name.length <= 50 ? '' : 'Tên phải có từ 6 đến 50 ký tự'
     },
-    passwordError() {
-      if (!this.password) return ''
-      return this.password.length >= 6 && this.password.length <= 20 ? '' : 'Mật khẩu phải có từ 6 đến 20 ký tự'
-    },
     isFormValid() {
-      return this.username && this.email && this.name && this.password
-          && !this.usernameError && !this.emailError && !this.nameError && !this.passwordError
+      return this.username && this.email && this.name
+          && !this.emailError && !this.nameError
     }
   },
   created() {
     this.username = this.store.user.username
     this.name = this.store.user.name
     this.email = this.store.user.email
-    this.password = this.store.user.password
   },
   methods: {
     updateUser() {
-      axios.post(`http://localhost:8080/quiz/api/users/${this.store.user.id}`, {
-        username: this.username,
+      axios.put(`http://localhost:8080/quiz/api/users/${this.store.user.id}`, {
         email: this.email,
         name: this.name,
-        password: this.password
+        active: 1
       }, {
         headers: {
           'Authorization': `Bearer ${this.store.token}`
         }
       }).then(res => {
         store.displaySuccess('Câp nhật thông tin thành công')
+        this.refreshUserInfo()
+      }).catch(err => {
+        if (err.response.data.error)
+          store.displayError(err.response.data.error)
+        else
+          store.displayError('Đã có lỗi xảy ra. Vui lòng thử lại')
+      })
+    },
+    refreshUserInfo() {
+      axios.get(`http://localhost:8080/quiz/api/users/${this.store.user.id}`, {
+        headers: {
+          'Authorization': `Bearer ${this.store.token}`
+        }
+      }).then(res => {
+        const roles = store.user.roles
+        const id = store.user.id
+        store.user = res.data.data
+        store.user.roles = roles
+        store.user.id = id
+        this.username = this.store.user.username
+        this.name = this.store.user.name
+        this.email = this.store.user.email
+        localStorage.setItem('user', JSON.stringify(store.user))
       }).catch(err => {
         if (err.response.data.error)
           store.displayError(err.response.data.error)
