@@ -76,6 +76,7 @@ export default {
   name: 'Register',
   data () {
     return {
+      store,
       username: '',
       email: '',
       name: '',
@@ -105,6 +106,11 @@ export default {
     isFormValid () {
       return this.username && this.email && this.name && this.password
           && !this.usernameError && !this.emailError && !this.nameError && !this.passwordError
+    }
+  },
+  created () {
+    if (store.user) {
+      this.$router.push('/tests')
     }
   },
   methods: {

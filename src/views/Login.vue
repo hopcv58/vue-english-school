@@ -73,6 +73,12 @@ export default {
     return {
       username: '',
       password: '',
+      store
+    }
+  },
+  created () {
+    if (store.user) {
+      this.$router.push('/tests')
     }
   },
   methods: {

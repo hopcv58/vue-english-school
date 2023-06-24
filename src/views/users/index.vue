@@ -237,9 +237,6 @@ export default {
     }
   },
   async created () {
-    if (!store.isAdmin()) {
-      this.$router.push('/login')
-    }
     await this.searchUsers('', '')
   },
   methods: {

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AppHeader from './layout/AppHeader'
-import AppFooter from './layout/AppFooter'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
-import Profile from './views/Profile.vue'
 import TestIndex from './views/tests/index.vue'
 import EmptyHeader from '@/layout/empty/EmptyHeader.vue'
 import EmptyFooter from '@/layout/empty/EmptyFooter.vue'
-import Password from '@/views/users/Password.vue'
+import AdminHeader from '@/layout/admin/AdminHeader.vue'
+import AdminFooter from '@/layout/admin/AdminFooter.vue'
+import UserHeader from '@/layout/user/UserHeader.vue'
+import UserFooter from '@/layout/user/UserFooter.vue'
 
 Vue.use(Router)
 
@@ -29,81 +29,63 @@ export default new Router({
       path: '/tests',
       name: 'tests',
       components: {
-        header: AppHeader,
+        header: UserHeader,
         default: TestIndex,
-        footer: AppFooter
+        footer: UserFooter
       }
     },
     {
       path: '/tests/create',
       name: 'tests.create',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/tests/create.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/tests/:id/edit',
       name: 'tests.edit',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/tests/edit.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/tests/:id',
       name: 'tests.detail',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/tests/detail.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/tests/:id/start',
       name: 'tests.start',
       components: {
-        header: AppHeader,
+        header: UserHeader,
         default: () => import('@/views/tests/start.vue'),
-        footer: AppFooter
+        footer: UserFooter
       }
     },
     {
       path: '/questions',
       name: 'questions',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/questions/index.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/tags',
       name: 'tags',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/tags/index.vue'),
-        footer: AppFooter
-      }
-    },
-    {
-      path: '/tags/create',
-      name: 'tags.create',
-      components: {
-        header: AppHeader,
-        default: () => import('@/views/tags/create.vue'),
-        footer: AppFooter
-      }
-    },
-    {
-      path: '/tags/:id/edit',
-      name: 'tags.edit',
-      components: {
-        header: AppHeader,
-        default: () => import('@/views/tags/edit.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
@@ -128,63 +110,63 @@ export default new Router({
       path: '/users',
       name: 'users',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/users/index.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/users/profile',
       name: 'user-profile',
       components: {
-        header: AppHeader,
-        default: Profile,
-        footer: AppFooter
+        header: UserHeader,
+        default: () => import('@/views/users/Profile.vue'),
+        footer: UserFooter
       }
     },
     {
       path: '/users/profile/change-password',
       name: 'user-password',
       components: {
-        header: AppHeader,
+        header: UserHeader,
         default: () => import('@/views/users/Password.vue'),
-        footer: AppFooter
+        footer: UserFooter
       }
     },
     {
       path: '/statistics',
       name: 'statistics',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/statistics/index.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/statistics/my-results',
       name: 'statistics.my-results',
       components: {
-        header: AppHeader,
+        header: UserHeader,
         default: () => import('@/views/statistics/my-results.vue'),
-        footer: AppFooter
+        footer: UserFooter
       }
     },
     {
       path: '/statistics/quiz/:id',
       name: 'statistics.test',
       components: {
-        header: AppHeader,
+        header: AdminHeader,
         default: () => import('@/views/statistics/quiz.vue'),
-        footer: AppFooter
+        footer: AdminFooter
       }
     },
     {
       path: '/statistics/:id',
       name: 'statistics-detail',
       components: {
-        header: AppHeader,
+        header: UserHeader,
         default: () => import('@/views/statistics/detail.vue'),
-        footer: AppFooter
+        footer: UserFooter
       }
     },
   ],

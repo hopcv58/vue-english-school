@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="col-6 _col-2">
-            <div v-if="store.isAdmin()" class="row menu">
+            <div class="row menu">
               <div class="col p-0 text-center menu-item" :class="{active: $route.path.includes('tests')}">
                 <router-link to="/tests">
                   <div class="menu-item-box text-center w-100">
@@ -67,16 +67,12 @@
                 </router-link>
               </div>
             </div>
-            <div v-else style="height: 68px"></div>
           </div>
           <div class="col-3 _col-3 position-r">
             <div class="d-flex justify-content-end align-items-center" style="gap: 10px">
               <div class="menu-user-name">
-                <span v-if="store.isLoggedIn()" class="text-user-name" style="color: #FFCB08">
+                <span class="text-user-name" style="color: #FFCB08">
                   {{ store.user.name }}
-                </span>
-                <span class="text-user-name" style="color: #FFCB08" v-else>
-                  Guest
                 </span>
               </div>
               <div class="menu-avatar"
@@ -90,7 +86,7 @@
             </div>
           </div>
           <div v-show="showDropDown" class="position-a menu-dropdown text-center">
-            <template v-if="store.isLoggedIn()">
+            <template>
               <router-link to="/users/profile" class="btn-setting">
                 <div class="btn-top text-start btn-active menu-dropdown-item" @click="showDropDown = false">
                   <span class="p-dropdown vertical-center">
@@ -122,17 +118,6 @@
                     Đăng xuất
                   </span>
                   <img src="https://cdn-icons-png.flaticon.com/512/3580/3580154.png" alt="">
-                </div>
-              </a>
-            </template>
-            <template v-else>
-              <a href="javascript:" class="btn-setting"
-                 style="margin-bottom: 30px">
-                <div class="btn-top-setting text-start btn-active menu-dropdown-item" @click="login">
-                <span class="text-white p-dropdown vertical-center">
-                  Đăng nhập
-                </span>
-                  <img src="https://cdn.icon-icons.com/icons2/2248/PNG/512/login_icon_137429.png" alt="">
                 </div>
               </a>
             </template>
@@ -208,9 +193,12 @@ export default {
     } else if (localStorage.getItem('user')) {
       store.user = JSON.parse(localStorage.getItem('user'));
       store.token = localStorage.getItem('token');
+
+      if (!store.isAdmin()) {
+        this.$router.push('/');
+      }
     } else {
-      store.user = null;
-      store.token = null;
+      this.$router.push('/login');
     }
   },
 };
