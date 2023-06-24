@@ -249,7 +249,7 @@
             <button v-else class="btn btn-dark" disabled type="button">Lưu</button>
           </template>
         </modal>
-        <modal :show="deleteModal.show">
+        <modal :show="deleteModal.show" @close="deleteModal.show = false">
           <template v-slot:header>
             <h4>Xoá câu hỏi</h4>
           </template>

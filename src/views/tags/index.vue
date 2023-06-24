@@ -8,7 +8,7 @@
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
             <div v-if="store.isAdmin()" class="row mb-3" style="justify-content: end">
-              <router-link class="btn btn-success" to="/tags/create">Thêm tag</router-link>
+              <button class="btn btn-success" @click="showCreateModal">Thêm tag</button>
             </div>
             <div class="row justify-content-center bg-white">
               <table v-if="tags.length" class="table table-striped">
@@ -29,10 +29,10 @@
                     {{ shortenContent(tag.description) }}
                   </td>
                   <td v-if="store.isAdmin()">
-                    <router-link :to="{ name: 'tags.edit', params: { id: tag.id } }" class="btn btn-sm btn-primary">
+                    <button class="btn btn-sm btn-primary" @click="showEditModal(tag)">
                       Sửa
-                    </router-link>
-                    <button class="btn btn-sm btn-danger" @click="deleteTag(tag.id)">Xóa</button>
+                    </button>
+                    <button class="btn btn-sm btn-danger" @click="showDeleteTagModal(tag.id)">Xóa</button>
                   </td>
                 </tr>
                 </tbody>
@@ -50,6 +50,68 @@
             </div>
           </div>
         </section>
+        <modal :show="createModal.show" @close="createModal.show = false">
+          <template v-slot:header>
+            <h4>Thêm tag</h4>
+          </template>
+          <template>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="content">Nội dung tag</label>
+                  <textarea v-model="createModal.name" class="form-control" required rows="5"></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="content">Mô tả (tuỳ chọn)</label>
+                  <textarea v-model="createModal.description" class="form-control" rows="5"></textarea>
+                </div>
+              </div>
+            </form>
+          </template>
+          <template v-slot:footer>
+            <button class="btn btn-secondary" type="button" @click="createModal.show = false">Đóng</button>
+            <button class="btn btn-success" type="button" @click="createTag">Thêm</button>
+          </template>
+        </modal>
+        <modal :show="editModal.show" @close="editModal.show = false">
+          <template v-slot:header>
+            <h4>Sửa tag</h4>
+          </template>
+          <template>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="content">Nội dung tag</label>
+                  <textarea v-model="editModal.name" class="form-control" required rows="5"></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="content">Mô tả (tuỳ chọn)</label>
+                  <textarea v-model="editModal.description" class="form-control" rows="5"></textarea>
+                </div>
+              </div>
+            </form>
+          </template>
+          <template v-slot:footer>
+            <button class="btn btn-secondary" type="button" @click="editModal.show = false">Đóng</button>
+            <button class="btn btn-primary" type="button" @click="editTag">Sửa</button>
+          </template>
+        </modal>
+        <modal :show="deleteModal.show" @close="deleteModal.show = false">
+          <template v-slot:header>
+            <h4>Xóa tag</h4>
+          </template>
+          <template>
+            <p>Bạn có chắc chắn muốn xóa tag này?</p>
+          </template>
+          <template v-slot:footer>
+            <button class="btn btn-secondary" type="button" @click="deleteModal.show = false">Đóng</button>
+            <button class="btn btn-danger" type="button" @click="deleteTag">Xóa</button>
+          </template>
+        </modal>
       </div>
     </div>
   </div>
@@ -58,10 +120,11 @@
 <script>
 import axios from 'axios'
 import { store } from '@/store'
+import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'tags',
-  components: {},
+  components: { Modal },
   data () {
     return {
       store,
@@ -70,21 +133,27 @@ export default {
       pageSize: this.$route.query.size || 10000,
       sortDir: this.$route.query.sortDir || 'DESC',
       sortName: this.$route.query.sortName || 'id',
-      keyword: this.$route.query.keyword || '',
       totalPage: 0,
-      total: 0
+      total: 0,
+      deleteModal: {
+        show: false,
+        id: '',
+      },
+      createModal: {
+        show: false,
+        name: '',
+        description: '',
+      },
+      editModal: {
+        show: false,
+        id: '',
+        name: '',
+        description: '',
+      },
     }
   },
   async created () {
-    await axios.get(`http://localhost:8080/quiz/api/tags?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
-        .then(res => {
-          this.tags = res.data.data.items
-          this.totalPage = res.data.data.totalPage
-          this.total = res.data.data.totalElements
-        })
-        .catch(err => {
-          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-        })
+    this.getTags()
   },
   methods: {
     shortenContent (content) {
@@ -94,18 +163,79 @@ export default {
       }
       return content
     },
-    deleteTag (id) {
-      if (confirm('Bạn có chắc chắn muốn xóa tag này?')) {
-        axios.delete(`http://localhost:8080/quiz/api/tags/${id}`)
-            .then(res => {
-              store.displaySuccess('Xóa tag thành công!')
-              this.tags = this.tags.filter(tag => tag.id !== id)
-            })
-            .catch(err => {
-              store.displayError('Xóa tag thất bại!')
-              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-            })
-      }
+    showDeleteTagModal (id) {
+      this.deleteModal.show = true
+      this.deleteModal.id = id
+    },
+    getTags () {
+      axios.get(`http://localhost:8080/quiz/api/tags?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
+          .then(res => {
+            this.tags = res.data.data.items
+            this.totalPage = res.data.data.totalPage
+            this.total = res.data.data.totalElements
+          })
+          .catch(err => {
+            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+          })
+    },
+    resetCreateModal () {
+      this.createModal.show = false
+      this.createModal.name = ''
+      this.createModal.description = ''
+    },
+    showCreateModal () {
+      this.createModal.show = true
+    },
+    async createTag () {
+      await axios.post('http://localhost:8080/quiz/api/tags', {
+        name: this.createModal.name,
+        description: this.createModal.description
+      }, {
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
+      }).then(res => {
+        this.getTags()
+        this.resetCreateModal()
+        store.displaySuccess('Thêm tag thành công')
+      }).catch(err => {
+        store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+      })
+    },
+    showEditModal (tag) {
+      this.editModal.show = true
+      this.editModal.id = tag.id
+      this.editModal.name = tag.name
+      this.editModal.description = tag.description
+    },
+    async editTag () {
+      await axios.put(`http://localhost:8080/quiz/api/tags/${this.editModal.id}`, {
+        name: this.editModal.name,
+        description: this.editModal.description
+      }, {
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
+      }).then(res => {
+        this.getTags()
+        this.editModal.show = false
+        store.displaySuccess('Sửa tag thành công')
+      }).catch(err => {
+        store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+      })
+    },
+    deleteTag () {
+      axios.delete(`http://localhost:8080/quiz/api/tags/${this.deleteModal.id}`, {
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
+      }).then(res => {
+        store.displaySuccess('Xóa tag thành công!')
+        this.deleteModal.show = false
+        this.getTags()
+      }).catch(err => {
+        store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+      })
     }
   }
 }

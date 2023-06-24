@@ -115,28 +115,6 @@ export default {
             store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
           })
     },
-    deleteTest (id) {
-      if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {
-        axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
-            .then(res => {
-              if (res.status === 200) {
-                store.displayError('Xóa bài kiểm tra thành công!')
-                this.tests = this.tests.filter(test => test.id !== id)
-              }
-            })
-            .catch(err => {
-              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-            })
-      }
-    }
   }
 }
 </script>
-<style>
-.badge-secondary {
-  background-color: #5e72e4 !important;
-  color: #fff !important;
-  height: 24px !important;
-  align-items: center !important;
-}
-</style>

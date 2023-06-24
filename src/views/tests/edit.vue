@@ -285,11 +285,3 @@ export default {
   }
 }
 </script>
-<style>
-.badge-secondary {
-  background-color: #5e72e4 !important;
-  color: #fff !important;
-  height: 24px !important;
-  align-items: center !important;
-}
-</style>

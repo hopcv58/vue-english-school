@@ -54,7 +54,7 @@
                             :to="{ name: 'tests.edit', params: { id: test.id } }"
                             class="btn btn-sm btn-primary">Sửa
                         </router-link>
-                        <button class="btn btn-sm btn-danger" @click="deleteTest(test.id)">Xóa</button>
+                        <button class="btn btn-sm btn-danger" @click="showDeleteModal(test)">Xóa</button>
                       </template>
                     </template>
                   </td>
@@ -69,6 +69,18 @@
             </div>
           </div>
         </section>
+        <modal :show="deleteModal.show" @close="deleteModal.show = false">
+          <template v-slot:header>
+            Xóa bài kiểm tra
+          </template>
+          <template>
+            <p>Bạn có chắc chắn muốn xóa bài kiểm tra này?</p>
+          </template>
+          <template v-slot:footer>
+            <button class="btn btn-secondary" @click="deleteModal.show = false">Hủy</button>
+            <button class="btn btn-danger" @click="deleteTest">Xóa</button>
+          </template>
+        </modal>
       </div>
     </div>
   </div>
@@ -79,10 +91,11 @@ import axios from 'axios'
 import { store } from '@/store'
 import ButtonSubmitSuccess from '@/components/ButtonSubmitSuccess.vue'
 import SearchCustom from '@/components/SearchCustom.vue'
+import Modal from '@/components/Modal.vue'
 
 export default {
   name: 'tests',
-  components: { SearchCustom, ButtonSubmitSuccess },
+  components: { Modal, SearchCustom, ButtonSubmitSuccess },
   data () {
     return {
       store,
@@ -92,22 +105,19 @@ export default {
       sortDir: this.$route.query.sortDir || 'DESC',
       sortName: this.$route.query.sortName || 'id',
       keyword: this.$route.query.keyword || '',
+      tagId: this.$route.query.tagId || '',
       totalPage: 0,
       total: 0,
       selectedTagId: '',
+      deleteModal: {
+        show: false,
+        id: null,
+      },
       tagList: [],
     }
   },
   async created () {
-    await axios.get(`http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`)
-        .then(res => {
-          this.tests = res.data.data.items
-          this.totalPage = res.data.data.totalPage
-          this.total = res.data.data.totalElements
-        })
-        .catch(err => {
-          store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-        })
+    this.getTests()
     await axios.get('http://localhost:8080/quiz/api/tags?pageSize=100000&pageNo=0')
         .then(res => {
           this.tagList = res.data.data.items
@@ -123,37 +133,45 @@ export default {
       }
       return content
     },
-    async searchByTag (tagId, keyword) {
+    async getTests () {
       let url = `http://localhost:8080/quiz/api/tests?pageNo=${this.pageNo - 1}&pageSize=${this.pageSize}&sortDir=${this.sortDir}&sortName=${this.sortName}`
-      if (tagId) {
-        url += `&tagId=${tagId}`
+      if (this.tagId) {
+        url += `&tagId=${this.tagId}`
       }
-      if (keyword) {
-        url += `&name=${keyword}`
+      if (this.keyword) {
+        url += `&name=${this.keyword}`
       }
-      await axios.get(url)
-          .then(res => {
-            this.tests = res.data.data.items
-            this.totalPage = res.data.data.totalPage
-            this.total = res.data.data.totalElements
-          })
-          .catch(err => {
-            store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-          })
+      await axios.get(url).then(res => {
+        this.tests = res.data.data.items
+        this.totalPage = res.data.data.totalPage
+        this.total = res.data.data.totalElements
+      }).catch(err => {
+        store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+      })
     },
-    deleteTest (id) {
-      if (confirm('Bạn có chắc chắn muốn xóa bài kiểm tra này?')) {
-        axios.delete(`http://localhost:8080/quiz/api/tests/${id}`)
-            .then(res => {
-              if (res.status === 200) {
-                store.displayError('Xóa bài kiểm tra thành công!')
-                this.tests = this.tests.filter(test => test.id !== id)
-              }
-            })
-            .catch(err => {
-              store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
-            })
-      }
+    async searchByTag (tagId, keyword) {
+      this.tagId = tagId
+      this.keyword = keyword
+      await this.getTests()
+    },
+    showDeleteModal (test) {
+      this.deleteModal.show = true
+      this.deleteModal.id = test.id
+    },
+    deleteTest () {
+      axios.delete(`http://localhost:8080/quiz/api/tests/${id}`, {
+        headers: {
+          Authorization: `Bearer ${store.token}`
+        }
+      }).then(res => {
+        if (res.status === 200) {
+          this.getTests()
+          this.deleteModal.show = false
+          store.displayError('Xóa bài kiểm tra thành công!')
+        }
+      }).catch(err => {
+        store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
+      })
     }
   }
 }
