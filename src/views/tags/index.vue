@@ -14,7 +14,7 @@
               <table v-if="tags.length" class="table table-striped">
                 <thead>
                 <tr>
-                  <th scope="col">Tag</th>
+                  <th scope="col">Tên</th>
                   <th scope="col">Mô tả</th>
                   <th v-if="store.isAdmin()" scope="col"
                       style="width: 170px"></th>
@@ -58,8 +58,8 @@
             <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="content">Nội dung tag</label>
-                  <textarea v-model="createModal.name" class="form-control" required rows="5"></textarea>
+                  <label for="content">Tên tag</label>
+                  <input v-model="createModal.name" class="form-control" required rows="5">
                 </div>
               </div>
               <div class="form-row">
@@ -83,8 +83,8 @@
             <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="content">Nội dung tag</label>
-                  <textarea v-model="editModal.name" class="form-control" required rows="5"></textarea>
+                  <label for="content">Tên tag</label>
+                  <input v-model="editModal.name" class="form-control" required rows="5">
                 </div>
               </div>
               <div class="form-row">

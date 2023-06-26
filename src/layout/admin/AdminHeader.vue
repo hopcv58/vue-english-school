@@ -90,7 +90,7 @@
               <router-link to="/users/profile" class="btn-setting">
                 <div class="btn-top text-start btn-active menu-dropdown-item" @click="showDropDown = false">
                   <span class="p-dropdown vertical-center">
-                    Thông tin tài khoản
+                    Cài đặt tài khoản
                   </span>
                   <img src="https://learn.mochidemy.com/image/98713df50c21cbe016386923bf65dc97.png" alt="">
                 </div>

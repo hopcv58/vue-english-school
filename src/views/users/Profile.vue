@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <Title>
-          Thông tin tài khoản
+          Cài đặt tài khoản
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="py-5 bg-secondary">

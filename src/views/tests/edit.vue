@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <Title>
-          Thêm bài kiểm tra
+          Thêm quiz
         </Title>
         <modal :show.sync="addQuestionModal.show">
           <h6 id="modal-title-default" slot="header" class="modal-title">Thêm câu hỏi vào đề thi</h6>
