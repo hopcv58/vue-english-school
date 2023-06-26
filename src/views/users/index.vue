@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <Title>
-          Danh sách câu hỏi
+          Danh sách người dùng
         </Title>
         <section class="section section-lg pt-lg-0 w-100" style="margin-top: 200px">
           <div class="container">
@@ -11,14 +11,14 @@
               <SearchCustom :tags="[]" @submit="searchUsers"></SearchCustom>
             </div>
             <div class="row mb-3" style="justify-content: end">
-              <button class="btn btn-success" @click="createModal.show=true">Thêm users</button>
+              <button class="btn btn-success" @click="createModal.show=true">Thêm user</button>
             </div>
             <div class="row justify-content-center bg-white">
               <table v-if="users.length" class="table table-striped">
                 <thead>
                 <tr>
-                  <th scope="col">Tên đăng nhập</th>
-                  <th scope="col">Tên hiển thị</th>
+                  <th scope="col">Username</th>
+                  <th scope="col">Tên người dùng</th>
                   <th scope="col">Email</th>
                   <th scope="col">Vai trò</th>
                   <th scope="col">Trạng thái</th>

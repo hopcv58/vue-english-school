@@ -8,7 +8,7 @@
         <table v-if="tests.length" class="table table-striped">
           <thead>
           <tr>
-            <th scope="col">Tên bài kiểm tra</th>
+            <th scope="col">Tên quiz</th>
             <th scope="col">Mô tả</th>
             <th scope="col">Thời lượng</th>
             <th scope="col">Tags</th>

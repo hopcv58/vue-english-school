@@ -52,7 +52,7 @@
             <form>
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="content">Tên bài kiểm tra</label>
+                  <label for="content">Tên quiz</label>
                   <input v-model="name" class="form-control" required/>
                 </div>
               </div>
