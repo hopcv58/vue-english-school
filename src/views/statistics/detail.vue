@@ -99,7 +99,7 @@
                  style="width: 100%">
           </div>
           <div v-if="result" class="result-questions">
-            <h2 class="result-box-header result-box-title">Question List</h2>
+            <h2 class="result-box-header result-box-title">Danh sách câu hỏi</h2>
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(resultDetail, index) in result.resultDetails" :key="index"

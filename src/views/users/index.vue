@@ -195,7 +195,7 @@ export default {
       store,
       users: [],
       pageNo: this.$route.query.page || 1,
-      pageSize: this.$route.query.size || 10000,
+      pageSize: this.$route.query.size || 5,
       sortDir: this.$route.query.sortDir || 'DESC',
       sortName: this.$route.query.sortName || 'id',
       keyword: this.$route.query.keyword || '',
@@ -413,6 +413,11 @@ export default {
         }
       })
     }
-  }
+  },
+  watch: {
+    pageNo (val) {
+      this.getUsers()
+    },
+  },
 }
 </script>

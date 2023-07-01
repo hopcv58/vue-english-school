@@ -130,7 +130,7 @@ export default {
       store,
       tags: [],
       pageNo: this.$route.query.page || 1,
-      pageSize: this.$route.query.size || 10000,
+      pageSize: this.$route.query.size || 5,
       sortDir: this.$route.query.sortDir || 'DESC',
       sortName: this.$route.query.sortName || 'id',
       totalPage: 0,
@@ -237,6 +237,11 @@ export default {
         store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
       })
     }
+  },
+  watch: {
+    pageNo() {
+      this.getTags()
+    },
   }
 }
 </script>

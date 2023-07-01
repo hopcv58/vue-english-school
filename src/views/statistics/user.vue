@@ -25,10 +25,10 @@
               {{ calcTimeUsed(detail.startedAt, detail.submittedAt) }}
             </td>
             <td :title="detail.corrected" data-toggle="tooltip">
-              {{ detail.corrected }}
+              {{ detail.corrected }} / {{ detail.totalQuestion }}
             </td>
             <td :title="detail.corrected" data-toggle="tooltip">
-              {{ detail.corrected }}
+              {{ Math.round(detail.corrected / detail.totalQuestion * 100) }}%
             </td>
             <td>
               <router-link :to="`/statistics/${detail.resultId}`">
@@ -46,17 +46,17 @@
 
 <script>
 import axios from 'axios'
-import { store } from '@/store'
+import {store} from '@/store'
 
 export default {
   name: 'user-statistics',
-  data () {
+  data() {
     return {
       store,
       result: {}
     }
   },
-  async created () {
+  async created() {
     await axios.get(`http://localhost:8080/quiz/api/results/user/${this.store.user.id}`, {
       headers: {
         Authorization: `Bearer ${store.token}`
@@ -68,7 +68,7 @@ export default {
     })
   },
   methods: {
-    calcTimeUsed (started, submitted) {
+    calcTimeUsed(started, submitted) {
       const start = new Date(started)
       const submit = new Date(submitted)
       const diff = submit.getTime() - start.getTime()

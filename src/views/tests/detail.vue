@@ -77,7 +77,7 @@
                  style="width: 100%">
           </div>
           <div class="result-questions">
-            <h2 class="result-box-header result-box-title">Question List</h2>
+            <h2 class="result-box-header result-box-title">Danh sách câu hỏi</h2>
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(question, index) in questions" :key="index"

@@ -8,7 +8,7 @@
                  style="width: 100%">
           </div>
           <div v-if="availableTime" class="result-questions" style="position: absolute; right: 15px">
-            <h2 class="result-box-header result-box-title">Time remaining</h2>
+            <h2 class="result-box-header result-box-title">Thời gian còn lại</h2>
             <div class="result-box-body">
               <h3 class="text-center">
                 {{ formattedRemainingTime }}
@@ -111,7 +111,7 @@
                  style="width: 100%">
           </div>
           <div class="result-questions">
-            <h2 class="result-box-header result-box-title">Question List</h2>
+            <h2 class="result-box-header result-box-title">Danh sách câu hỏi</h2>
             <div class="result-box-body">
               <div class="row g-0 result-box-list">
                 <div v-for="(question, index) in questions" :key="index"
@@ -191,7 +191,7 @@ export default {
       this.store.confirmModal = {
         show: true,
         title: 'Bạn chưa hoàn thành bài thi',
-        content: 'Bạn có chắc chắn muốn quay lại? Các câu trả lời sẽ không được lưu lại.',
+        content: 'Bạn có chắc chắn muốn thoát? Các câu trả lời sẽ không được lưu lại.',
         onConfirm: () => {
           this.$router.push('/tests')
         },

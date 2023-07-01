@@ -155,9 +155,9 @@
 
           <p>{{store.confirmModal.content}}</p>
 
-          <template slot="footer">
+          <template slot="footer" style="flex-direction: row-reverse; justify-content: flex-start">
             <base-button type="success" @click="confirmAndClose">Confirm</base-button>
-            <base-button type="link" class="ml-auto" @click="store.confirmModal.show = false">
+            <base-button type="link" @click="store.confirmModal.show = false">
               Cancel
             </base-button>
           </template>

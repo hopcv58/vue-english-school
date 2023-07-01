@@ -56,9 +56,9 @@ export default new Router({
       path: '/tests/:id',
       name: 'tests.detail',
       components: {
-        header: AdminHeader,
+        header: UserHeader,
         default: () => import('@/views/tests/detail.vue'),
-        footer: AdminFooter
+        footer: UserFooter
       }
     },
     {

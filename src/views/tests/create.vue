@@ -220,6 +220,12 @@ export default {
         store.displayError('Vui lòng nhập đầy đủ thông tin')
         return
       }
+
+      if (this.availableTime < 1) {
+        store.displayError('Thời gian làm bài không hợp lệ')
+        return
+      }
+
       if (!this.addQuestionModal.selectedQuestionIds.length) {
         store.displayError('Vui lòng chọn it nhất 1 câu hỏi')
         return
@@ -256,11 +262,11 @@ export default {
           })
     },
     async getQuestionsForModal () {
+      let url = 'http://localhost:8080/quiz/api/questions?pageSize=100000&pageNo=0'
       if (!this.addQuestionModal.selectingTagId) {
-        this.addQuestionModal.questions = []
-        return
+        url += '&tagId=' + this.addQuestionModal.selectingTagId
       }
-      await axios.get('http://localhost:8080/quiz/api/questions?pageSize=100000&pageNo=0&tagId=' + this.addQuestionModal.selectingTagId)
+      await axios.get( url)
           .then(res => {
             this.addQuestionModal.questions = res.data.data.items
           })

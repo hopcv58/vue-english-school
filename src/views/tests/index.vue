@@ -41,7 +41,7 @@
                   <td style="display: flex; justify-content: center">
                     <router-link
                         :to="{ name: 'tests.detail', params: { id: test.id } }"
-                        class="btn btn-sm btn-primary">Xem
+                        class="btn btn-sm btn-neutral">Xem
                     </router-link>
                     <template v-if="store.isLoggedIn()">
                       <router-link
@@ -101,7 +101,7 @@ export default {
       store,
       tests: [],
       pageNo: this.$route.query.page || 1,
-      pageSize: this.$route.query.size || 10000,
+      pageSize: this.$route.query.size || 5,
       sortDir: this.$route.query.sortDir || 'DESC',
       sortName: this.$route.query.sortName || 'id',
       keyword: this.$route.query.keyword || '',
@@ -173,6 +173,11 @@ export default {
         store.displayError('Có lỗi xảy ra. Vui lòng thử lại')
       })
     }
+  },
+  watch: {
+    pageNo() {
+      this.getTests()
+    },
   }
 }
 </script>

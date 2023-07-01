@@ -218,6 +218,11 @@ export default {
         return
       }
 
+      if (this.availableTime < 1) {
+        store.displayError('Thời gian làm bài không hợp lệ')
+        return
+      }
+
       const questionIds = []
       for (let questionId of this.addQuestionModal.selectedQuestionIds) {
         questionIds.push({ id: questionId })
