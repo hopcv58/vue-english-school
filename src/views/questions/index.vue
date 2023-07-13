@@ -41,6 +41,10 @@
                   <td>
                     <template v-if="store.isAdmin()">
                       <button
+                          class="btn btn-sm btn-success"
+                          @click="showCopyQuestionModal(question)">COPY
+                      </button>
+                      <button
                           class="btn btn-sm btn-primary"
                           @click="showEditQuestionModal(question)">Sửa
                       </button>
@@ -156,7 +160,7 @@
             <button v-else class="btn btn-dark" disabled type="button">Lưu</button>
           </template>
         </modal>
-        <modal :show="updateModal.show" modal-classes="modal-xl" @close="updateModal.show = false">
+        <modal :show="updateModal.show" modal-classes="modal-xl" @close="updateModal.show = false" >
           <template v-slot:header>
             <h4>Thêm câu hỏi</h4>
           </template>
@@ -469,6 +473,17 @@ export default {
       this.updateModal.correctAnswer = question.correctAnswer
       this.updateModal.selectedTags = question.tagList.map(tag => tag.name)
       this.updateModal.show = true
+    },
+    showCopyQuestionModal (question) {
+      this.createModal.content = question.content
+      this.createModal.question = question.question
+      this.createModal.answer1 = question.answer1
+      this.createModal.answer2 = question.answer2
+      this.createModal.answer3 = question.answer3
+      this.createModal.answer4 = question.answer4
+      this.createModal.correctAnswer = question.correctAnswer
+      this.createModal.selectedTags = question.tagList.map(tag => tag.name)
+      this.createModal.show = true
     },
     async updateQuestion () {
       if (!this.updateFormValid) {

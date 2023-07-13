@@ -122,7 +122,7 @@
                 <tbody>
                 <template v-for="question in questions">
                   <tr v-if="addQuestionModal.selectedQuestionIds.includes(question.id)">
-                    <td>{{ question.content }}</td>
+                    <td v-html="question.content"></td>
                     <td>
                       <span v-for="tag in question.tagList" :key="tag.id" class="badge badge-primary mr-1">{{
                           tag.name
